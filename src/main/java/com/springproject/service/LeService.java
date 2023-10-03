@@ -32,4 +32,24 @@ public class LeService {
         return null;
     }
 
+    public String getUserEmail(String userId) {
+        Optional<User> findUser = leRepository.findByUserId(userId);
+        return findUser.map(User::getUserEmail).orElse(null);
+    }
+
+    public boolean getUserEmailChecked(String userId) {
+        Optional<User> findUser = leRepository.findByUserId(userId);
+        return findUser.filter(user -> user.getUserEmailChecked() == 1).isPresent();
+    }
+
+    public boolean setUserEmailChecked(String userId) {
+        Optional<User> findUser = leRepository.findByUserId(userId);
+        if(findUser.isPresent()) {
+            if(findUser.get().getUserEmailChecked() == 0) {
+                findUser.get().setUserEmailChecked(1);
+                return true;
+            }
+        }
+        return false;
+    }
 }
