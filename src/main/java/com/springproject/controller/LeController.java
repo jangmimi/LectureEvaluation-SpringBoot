@@ -1,7 +1,7 @@
 package com.springproject.controller;
 
 import com.springproject.model.User;
-import com.springproject.service.LeService;
+import com.springproject.service.UserService;
 import com.springproject.util.SHA256;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,19 +19,25 @@ import javax.servlet.http.HttpSession;
 public class LeController {
 
     @Autowired
-    private LeService leService;
+    private UserService userService;
 
     @RequestMapping("/")
     public String index(Model model, HttpSession session) {
         User loginUser = (User) session.getAttribute("loginUser");
-
         if (loginUser != null) {
-            String userEmail = leService.getUserEmail(loginUser.getUserId());
-            model.addAttribute("loginUser", session.getAttribute("loginUser"));
-            return "index";
-        }
+            String userEmail = userService.getUserEmail(loginUser.getUserId());
 
-        return "emailSendConfirm";
+            boolean emailChecked = userService.getUserEmailChecked(loginUser.getUserId());
+            if(!emailChecked){
+                return "emailSendConfirm";
+            }
+            model.addAttribute("loginUser", session.getAttribute("loginUser"));
+//            model.addAttribute("lectureEvaluationList",lectureEvaluationList);
+        } else {
+            String alertScript = "<script>alert('로그인을 해주세요.'); location.href='/login';</script>";
+            model.addAttribute("alertScript", alertScript);
+        }
+        return "index";
     }
 
     @RequestMapping("/join")
@@ -46,7 +52,7 @@ public class LeController {
 
     @PostMapping("/loginAction")
     public String loginAction(@RequestParam String userId, @RequestParam String userPw, HttpSession session) {
-        User user = leService.login(userId, userPw);
+        User user = userService.login(userId, userPw);
         if(user != null) {
             session.setAttribute("loginUser", user);
             return "redirect:/";
@@ -57,7 +63,7 @@ public class LeController {
 
     @PostMapping("/joinAction")
     public String joinAction(@ModelAttribute User user, HttpSession session) {
-        Long userNumber = leService.join(user);
+        Long userNumber = userService.join(user);
         session.setAttribute("loginUser", user);
 
         return "emailSend";
@@ -73,10 +79,10 @@ public class LeController {
     public String emailSendAction(HttpSession session, Model model, HttpServletResponse response) {
         User loginUser = (User) session.getAttribute("loginUser");
 
-        if(leService.getUserEmailChecked(loginUser.getUserId())) {
+        if(userService.getUserEmailChecked(loginUser.getUserId())) {
             model.addAttribute("msg","이미 인증된 회원입니다.");
         } else {
-            leService.sendEmail(loginUser.getUserId());
+            userService.sendEmail(loginUser.getUserId());
         }
         return "redirect:/";
     }
@@ -86,7 +92,7 @@ public class LeController {
         User loginUser = (User) session.getAttribute("loginUser");
         boolean isRight = SHA256.getSHA256(loginUser.getUserEmail()).equals(code);
         if(isRight) {
-            leService.setUserEmailChecked(loginUser.getUserId());
+            userService.setUserEmailChecked(loginUser.getUserId());
         }
 
         return "redirect:/";
