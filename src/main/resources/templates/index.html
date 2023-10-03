@@ -65,35 +65,43 @@
                     <a class="btn btn-danger mx-1 mt-2" data-bs-toggle="modal" data-bs-target="#reportModal" style="width: 90px;">신고</a>
                 </div>
             </form>
-
-            <div class="card bg-light mt-3">
-                <div class="card-header bg-light">
-                    <div class="row">
-                        <div class="col-8 text-left">&nbsp;<small></small></div>
-                        <div class="col-4 text-right">
-                            종합<span style="color: red;"></span>
+            <th:block th:each="list : ${evaluationList}">
+                <div class="card bg-light mt-3">
+                    <div class="card-header bg-light">
+                        <div class="row">
+                            <div class="col-8 text-left" th:text="${list.lectureName + ' (' + list.professorName + ')'}">
+                            </div>
+                            <div class="col-4 text-right">
+                                종합 <span style="color: red;" th:text="${list.totalScore}"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="cart-title" th:text="${list.evaluationTitle + ' (' + list.lectureYear + ' ' + list.semesterDivide + ')'}">
+                            <small th:text="${list.lectureYear + ' ' + list.semesterDivide + }"></small>
+                        </h5>
+                        <p class="cart-text"></p>
+                        <div class="row">
+                            <div class="col-9 text-left">
+                                성적 <span style="color: red;" th:text="${list.creditScore}"></span>
+                                널널 <span style="color: red;" th:text="${list.comportableScore}"></span>
+                                강의 <span style="color: red;" th:text="${list.lectureScore}"></span>
+                                <span style="color: green;" th:text="${'(추천 : ' + list.likeCount + ')'}"></span>
+                            </div>
+                            <div class="col-3 text-right">
+                                <form th:action="@{/likeyAction/__${id}__}" method="POST" onsubmit="return likeyCheck()">
+                                    <input type="hidden" th:name="id" th:value="${list.evaluationID}">
+                                    <input type="submit" class="btn btn-outline-secondary" value="추천" />
+                                </form>
+                                <form th:action="@{/deleteAction/__${id}__}" method="POST" onsubmit="return deleteCheck()">
+                                    <input type="hidden" th:name="id" th:value="${list.evaluationID}">
+                                    <input type="submit" class="btn btn-outline-secondary" value="삭제" />
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <h5 class="cart-title">
-                        <%= evaluation.getEvaluationTitle() %>&nbsp;<small></small>
-                    </h5>
-                    <p class="cart-text"></p>
-                    <div class="row">
-                        <div class="col-9 text-left">
-                            성적 <span style="color: red;"></span>
-                            널널 <span style="color: red;"></span>
-                            강의 <span style="color: red;"></span>
-                            <span style="color: green;">(추천 : )</span>
-                        </div>
-                        <div class="col-3 text-right">
-                            <a onclick="return confirm('추천하시겠습니까?')" href="./likeAction.jsp?evaluationID=<%= evaluation.getEvaluationID() %>">추천</a>
-                            <a onclick="return confirm('삭제하시겠습니까?')" href="./deleteAction.jsp?evaluationID=<%= String.valueOf(evaluation.getEvaluationID()) %>">삭제</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </th:block>
         </section>
         <!-- 평가 등록 -->
         <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hiiden="true">
@@ -106,7 +114,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action="./evaluationRegisterAction.jsp" method="post">
+                        <form th:action="@{/evaluationRegisterAction}" method="post">
                             <div class="form-row mb-3" style="display: flex;">
                                 <div class="form-group col-sm-6">
                                     <label>강의명</label>

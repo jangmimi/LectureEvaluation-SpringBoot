@@ -1,6 +1,8 @@
 package com.springproject.controller;
 
+import com.springproject.model.Evaluation;
 import com.springproject.model.User;
+import com.springproject.service.EvaluationService;
 import com.springproject.service.UserService;
 import com.springproject.util.SHA256;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @SessionAttributes("loginUser")
 @Slf4j
@@ -20,6 +23,9 @@ public class LeController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private EvaluationService evaluationService;
 
     @RequestMapping("/")
     public String index(Model model, HttpSession session) {
@@ -31,8 +37,9 @@ public class LeController {
             if(!emailChecked){
                 return "emailSendConfirm";
             }
+            List<Evaluation> evaluationList = evaluationService.getList();
             model.addAttribute("loginUser", session.getAttribute("loginUser"));
-//            model.addAttribute("lectureEvaluationList",lectureEvaluationList);
+            model.addAttribute("evaluationList",evaluationList);
         } else {
             String alertScript = "<script>alert('로그인을 해주세요.'); location.href='/login';</script>";
             model.addAttribute("alertScript", alertScript);
@@ -75,7 +82,7 @@ public class LeController {
         return "redirect:/";
     }
 
-    @RequestMapping("emailSendAction")
+    @RequestMapping("/emailSendAction")
     public String emailSendAction(HttpSession session, Model model, HttpServletResponse response) {
         User loginUser = (User) session.getAttribute("loginUser");
 
@@ -87,7 +94,7 @@ public class LeController {
         return "redirect:/";
     }
 
-    @RequestMapping("emailCheckAction")
+    @RequestMapping("/emailCheckAction")
     public String emailCheckAction(HttpSession session, Model model, @RequestParam(required = false) String code) {
         User loginUser = (User) session.getAttribute("loginUser");
         boolean isRight = SHA256.getSHA256(loginUser.getUserEmail()).equals(code);
@@ -97,4 +104,5 @@ public class LeController {
 
         return "redirect:/";
     }
+
 }
