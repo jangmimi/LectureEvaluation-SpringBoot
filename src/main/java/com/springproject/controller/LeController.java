@@ -16,7 +16,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.PrintWriter;
 import java.util.Properties;
 
 @SessionAttributes("loginUser")
@@ -70,9 +69,8 @@ public class LeController {
     }
 
     @RequestMapping("/logout")
-    public String logout(SessionStatus sessionStatus, HttpSession session) {
+    public String logout(SessionStatus sessionStatus) {
         sessionStatus.setComplete();;
-        session.invalidate();
         return "redirect:/";
     }
 
@@ -84,34 +82,21 @@ public class LeController {
             model.addAttribute("msg.","이미 인증된 회원입니다.");
             return "redirect:/";
         } else {
-            String host = "http://localhost:8080/LectureEvaluationSpring/";
-            String from = "alwkd920101@naver.com";
-            String to = leService.getUserEmail(loginUser.getUserId());
-            String subject = "강의평가를 위한 이메일 인증 메일입니다.";
-            String content = "다음 링크에 접속하여 이메일 인증을 진행하세요. " +
-                    "<a href='" + host + "emailCheckAction.jsp?code=" + new SHA256().getSHA256(to) + "'>이메일 인증하기</a>";
+            leService.sendEmail(loginUser.getUserId());
+        }
 
-            Properties p = new Properties();
-            p.put("mail.smtp.starttls.enable", "true");     // gmail은 true 고정
-            p.put("mail.smtp.host", "smtp.naver.com");      // smtp 서버 주소
-            p.put("mail.smtp.auth","true");                 // gmail은 true 고정
-            p.put("mail.smtp.port", "587");                 // 네이버 포트
+        return "redirect:/";
+    }
 
-            try {
-                Authenticator auth = new Nmail();
-                Session ses = Session.getInstance(p, auth);
-                ses.setDebug(true);
-                MimeMessage msg = new MimeMessage(ses);
-                msg.setSubject(subject);
-                Address fromAddr = new InternetAddress(from);
-                msg.setFrom(fromAddr);
-                Address toAddr = new InternetAddress(to);
-                msg.addRecipient(Message.RecipientType.TO, toAddr);
-                msg.setContent(content,"text/html;charset=UTF-8");
-                Transport.send(msg);
-            } catch(Exception e) {
-                e.printStackTrace();
-            }
+    @RequestMapping("emailCheckAction")
+    public String emailCheckAction(HttpSession session, Model model, @RequestParam(required = false) String code) {
+        User loginUser = (User) session.getAttribute("loginUser");
+        boolean isRight = SHA256.getSHA256(loginUser.getUserEmail()).equals(code);
+        if(isRight) {
+            leService.setUserEmailChecked(loginUser.getUserId());
+            log.info("인증완료");
+        } else {
+            log.info("인증안됐음");
         }
 
         return "redirect:/";

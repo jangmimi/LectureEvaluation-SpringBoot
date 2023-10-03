@@ -2,12 +2,18 @@ package com.springproject.service;
 
 import com.springproject.model.User;
 import com.springproject.repository.LeRepository;
+import com.springproject.util.Nmail;
+import com.springproject.util.SHA256;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.util.Optional;
+import java.util.Properties;
 
 @Slf4j
 @Service
@@ -19,6 +25,7 @@ public class LeService {
     @Transactional
     public Long join(User user) {
         leRepository.save(user);
+        sendEmail(user.getUserId());
         return user.getUserNumber();
     }
 
@@ -51,5 +58,36 @@ public class LeService {
             }
         }
         return false;
+    }
+
+    public void sendEmail(String userId) {
+        String host = "http://localhost:8080/";
+        String from = "alwkd920101@naver.com";
+        String to = getUserEmail(userId);
+        String subject = "강의평가를 위한 이메일 인증 메일입니다.";
+        String content = "다음 링크에 접속하여 이메일 인증을 진행하세요. " +
+                "<a href='" + host + "emailCheckAction?code=" + SHA256.getSHA256(to) + "'>이메일 인증하기</a>";
+
+        Properties p = new Properties();
+        p.put("mail.smtp.starttls.enable", "true");     // gmail은 true 고정
+        p.put("mail.smtp.host", "smtp.naver.com");      // smtp 서버 주소
+        p.put("mail.smtp.auth","true");                 // gmail은 true 고정
+        p.put("mail.smtp.port", "587");                 // 네이버 포트
+
+        try {
+            Authenticator auth = new Nmail();
+            Session ses = Session.getInstance(p, auth);
+            ses.setDebug(true);
+            MimeMessage msg = new MimeMessage(ses);
+            msg.setSubject(subject);
+            Address fromAddr = new InternetAddress(from);
+            msg.setFrom(fromAddr);
+            Address toAddr = new InternetAddress(to);
+            msg.addRecipient(Message.RecipientType.TO, toAddr);
+            msg.setContent(content,"text/html;charset=UTF-8");
+            Transport.send(msg);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 }
