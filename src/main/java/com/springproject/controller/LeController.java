@@ -2,7 +2,6 @@ package com.springproject.controller;
 
 import com.springproject.model.User;
 import com.springproject.service.LeService;
-import com.springproject.util.Nmail;
 import com.springproject.util.SHA256;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.Properties;
 
 @SessionAttributes("loginUser")
 @Slf4j
@@ -65,7 +60,7 @@ public class LeController {
         Long userNumber = leService.join(user);
         session.setAttribute("loginUser", user);
 
-        return "redirect:/";
+        return "emailSend";
     }
 
     @RequestMapping("/logout")
@@ -79,12 +74,10 @@ public class LeController {
         User loginUser = (User) session.getAttribute("loginUser");
 
         if(leService.getUserEmailChecked(loginUser.getUserId())) {
-            model.addAttribute("msg.","이미 인증된 회원입니다.");
-            return "redirect:/";
+            model.addAttribute("msg","이미 인증된 회원입니다.");
         } else {
             leService.sendEmail(loginUser.getUserId());
         }
-
         return "redirect:/";
     }
 
@@ -94,9 +87,6 @@ public class LeController {
         boolean isRight = SHA256.getSHA256(loginUser.getUserEmail()).equals(code);
         if(isRight) {
             leService.setUserEmailChecked(loginUser.getUserId());
-            log.info("인증완료");
-        } else {
-            log.info("인증안됐음");
         }
 
         return "redirect:/";

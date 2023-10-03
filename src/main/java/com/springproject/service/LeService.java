@@ -24,6 +24,7 @@ public class LeService {
 
     @Transactional
     public Long join(User user) {
+        user.setUserEmailHash(SHA256.getSHA256(user.getUserEmail()));
         leRepository.save(user);
         sendEmail(user.getUserId());
         return user.getUserNumber();
@@ -49,13 +50,13 @@ public class LeService {
         return findUser.filter(user -> user.getUserEmailChecked() == 1).isPresent();
     }
 
+    @Transactional
     public boolean setUserEmailChecked(String userId) {
         Optional<User> findUser = leRepository.findByUserId(userId);
         if(findUser.isPresent()) {
-            if(findUser.get().getUserEmailChecked() == 0) {
-                findUser.get().setUserEmailChecked(1);
-                return true;
-            }
+            findUser.get().setUserEmailChecked(1);
+            log.info(String.valueOf(findUser.get().getUserEmailChecked()));
+            return true;
         }
         return false;
     }
