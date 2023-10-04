@@ -128,6 +128,7 @@ public class LeController {
         Long userNumber = ((User) session.getAttribute("loginUser")).getUserNumber();
         userService.leave(userNumber);
         userService.logout(sessionStatus);
+
         return "redirect:/";
     }
 }
