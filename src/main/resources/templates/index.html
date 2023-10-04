@@ -31,7 +31,11 @@
                                     <li><a class="dropdown-item" th:href="@{/join}">회원가입</a></li>
                                 </th:block>
                                 <th:block th:if="${loginUser != null}">
+                                    <li><a class="dropdown-item" th:href="@{/update}">회원정보수정</a></li>
                                     <li><a class="dropdown-item" th:href="@{/logout}">로그아웃</a></li>
+                                    <form th:action="@{'/leave/' + *{userNumber}}" method="post">
+                                        <li><input type="submit" class="dropdown-item" value="회원탈퇴"></li>
+                                    </form>
                                 </th:block>
                             </ul>
                         </li>

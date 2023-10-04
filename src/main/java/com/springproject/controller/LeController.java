@@ -88,7 +88,7 @@ public class LeController {
 
     @RequestMapping("/logout")
     public String logout(SessionStatus sessionStatus) {
-        sessionStatus.setComplete();;
+        userService.logout(sessionStatus);
         return "redirect:/";
     }
 
@@ -120,6 +120,14 @@ public class LeController {
         String userId = (String) ((User) session.getAttribute("loginUser")).getUserId();
         userService.reportAction(reportTitle, reportContent, userId);
 
+        return "redirect:/";
+    }
+
+    @PostMapping("/leave/{userNumber}")
+    public String leave(HttpSession session, SessionStatus sessionStatus) {
+        Long userNumber = ((User) session.getAttribute("loginUser")).getUserNumber();
+        userService.leave(userNumber);
+        userService.logout(sessionStatus);
         return "redirect:/";
     }
 }

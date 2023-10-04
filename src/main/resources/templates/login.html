@@ -29,7 +29,9 @@
                                 <li><a class="dropdown-item" th:href="@{/join}">회원가입</a></li>
                             </th:block>
                             <th:block th:if="${loginUser != null}">
+                                <li><a class="dropdown-item" th:href="@{/update}">회원정보수정</a></li>
                                 <li><a class="dropdown-item" th:href="@{/logout}">로그아웃</a></li>
+                                <li><a class="dropdown-item" th:href="@{/leave}">회원탈퇴</a></li>
                             </th:block>
                         </ul>
                     </li>

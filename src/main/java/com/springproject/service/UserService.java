@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.support.SessionStatus;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -39,6 +40,10 @@ public class UserService {
             }
         }
         return null;
+    }
+
+    public void logout(SessionStatus sessionStatus) {
+        sessionStatus.setComplete();;
     }
 
     public String getUserEmail(String userId) {
@@ -123,6 +128,11 @@ public class UserService {
         } catch(Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Transactional
+    public void leave(Long userNumber) {
+        userRepository.deleteByUserNumber(userNumber);
     }
 
 }
