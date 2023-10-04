@@ -32,7 +32,7 @@ public class LeController {
                         @RequestParam(required = false) String lectureDivide,
                         @RequestParam(required = false) String searchType,
                         @RequestParam(required = false) String search,
-                        @RequestParam(required = false) Integer pageNumber) {
+                        @RequestParam(defaultValue = "0") Integer pageNumber) {
         User loginUser = (User) session.getAttribute("loginUser");
 
         if (loginUser != null) {
@@ -42,14 +42,14 @@ public class LeController {
             if(!emailChecked){
                 return "emailSendConfirm";
             }
-            List<Evaluation> evaluationList = evaluationService.getList(lectureDivide, searchType, search, pageNumber);
+            int pageSize = 6; // 페이지 당 항목 수
+            List<Evaluation> evaluationList = evaluationService.getList(lectureDivide, searchType, search, pageNumber, pageSize);
+            int totalPages = (int) Math.ceil((double) evaluationList.size() / pageSize);
+
             model.addAttribute("loginUser", session.getAttribute("loginUser"));
             model.addAttribute("evaluationList",evaluationList);
             model.addAttribute("evaluationListSize",evaluationList.size());
-            model.addAttribute("pageNumber",pageNumber);
-            model.addAttribute("lectureDivide",lectureDivide);
-            model.addAttribute("searchType",searchType);
-            model.addAttribute("search",search);
+            model.addAttribute("pageNumber", pageNumber);
         } else {
             String alertScript = "<script>alert('로그인을 해주세요.'); location.href='/login';</script>";
             model.addAttribute("alertScript", alertScript);
@@ -131,4 +131,40 @@ public class LeController {
 
         return "redirect:/";
     }
+
+    @RequestMapping("/update")
+    public String update() {
+        return "update";
+    }
+
+    @RequestMapping("/search")
+    public String search(Model model, HttpSession session,
+                        @RequestParam(required = false) String lectureDivide,
+                        @RequestParam(required = false) String searchType,
+                        @RequestParam(required = false) String search,
+                        @RequestParam(defaultValue = "0") Integer pageNumber) {
+        User loginUser = (User) session.getAttribute("loginUser");
+
+        if (loginUser != null) {
+            String userEmail = userService.getUserEmail(loginUser.getUserId());
+
+            boolean emailChecked = userService.getUserEmailChecked(loginUser.getUserId());
+            if(!emailChecked){
+                return "emailSendConfirm";
+            }
+            int pageSize = 6; // 페이지 당 항목 수
+            List<Evaluation> evaluationList = evaluationService.getList(lectureDivide, searchType, search, pageNumber, pageSize);
+            int totalPages = (int) Math.ceil((double) evaluationList.size() / pageSize);
+
+            model.addAttribute("loginUser", session.getAttribute("loginUser"));
+            model.addAttribute("evaluationList",evaluationList);
+            model.addAttribute("evaluationListSize",evaluationList.size());
+            model.addAttribute("pageNumber", pageNumber);
+        } else {
+            String alertScript = "<script>alert('로그인을 해주세요.'); location.href='/login';</script>";
+            model.addAttribute("alertScript", alertScript);
+        }
+        return "index";
+    }
+
 }

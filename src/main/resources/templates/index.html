@@ -43,8 +43,8 @@
                             <a class="nav-link" id="my-infobox" th:text="*{userId + ' 님'}"></a>
                         </li>
                     </ul>
-                    <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="검색어를 입력하세요." aria-label="Search">
+                    <form method="get" th:action="@{/search}" class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" name="search" placeholder="검색어를 입력하세요." aria-label="Search">
                         <button class="btn btn-outline-success" type="submit">Search</button>
                     </form>
                 </div>
@@ -110,9 +110,11 @@
         </section>
         <!-- 페이지네이션 -->
         <ul class="pagination justify-content-center mt-3">
-            <li class="page-item">
-                <a th:if="${pageNumber <= 0}" class="page-link disabled">이전</a>
-                <a th:if="${evaluationListSize < 6}" class="page-link disabled">다음</a>
+            <li class="page-item" th:if="${pageNumber > 0}">
+                <a class="page-link" th:href="@{/(lectureDivide=${lectureDivide}, searchType=${searchType}, search=${search}, pageNumber=${pageNumber - 1})}">이전</a>
+            </li>
+            <li class="page-item" th:if="${evaluationListSize >= 6}">
+                <a class="page-link" th:href="@{/your-path(lectureDivide=${lectureDivide}, searchType=${searchType}, search=${search}, pageNumber=${pageNumber + 1})}">다음</a>
             </li>
         </ul>
         <!-- 평가 등록 -->
