@@ -42,7 +42,6 @@ public class EvaluationController {
                               HttpSession session, HttpServletRequest request) {
         User user = (User) session.getAttribute("loginUser");
         String userId = user.getUserId();
-        log.info(String.valueOf(evaluationID));
         likeyService.like(evaluationID, userId, request);
         evaluationService.likeyCountUpdate(evaluationID);
 

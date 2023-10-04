@@ -28,8 +28,13 @@ public class LeController {
     private EvaluationService evaluationService;
 
     @RequestMapping("/")
-    public String index(Model model, HttpSession session) {
+    public String index(Model model, HttpSession session,
+                        @RequestParam(required = false) String lectureDivide,
+                        @RequestParam(required = false) String searchType,
+                        @RequestParam(required = false) String search,
+                        @RequestParam(required = false) Integer pageNumber) {
         User loginUser = (User) session.getAttribute("loginUser");
+
         if (loginUser != null) {
             String userEmail = userService.getUserEmail(loginUser.getUserId());
 
@@ -37,9 +42,14 @@ public class LeController {
             if(!emailChecked){
                 return "emailSendConfirm";
             }
-            List<Evaluation> evaluationList = evaluationService.getList();
+            List<Evaluation> evaluationList = evaluationService.getList(lectureDivide, searchType, search, pageNumber);
             model.addAttribute("loginUser", session.getAttribute("loginUser"));
             model.addAttribute("evaluationList",evaluationList);
+            model.addAttribute("evaluationListSize",evaluationList.size());
+            model.addAttribute("pageNumber",pageNumber);
+            model.addAttribute("lectureDivide",lectureDivide);
+            model.addAttribute("searchType",searchType);
+            model.addAttribute("search",search);
         } else {
             String alertScript = "<script>alert('로그인을 해주세요.'); location.href='/login';</script>";
             model.addAttribute("alertScript", alertScript);
@@ -105,4 +115,11 @@ public class LeController {
         return "redirect:/";
     }
 
+    @PostMapping("/reportAction")
+    public String reportAction(@RequestParam(required = false) String reportTitle, @RequestParam(required = false) String reportContent, HttpSession session) {
+        String userId = (String) ((User) session.getAttribute("loginUser")).getUserId();
+        userService.reportAction(reportTitle, reportContent, userId);
+
+        return "redirect:/";
+    }
 }

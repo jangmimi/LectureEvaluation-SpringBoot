@@ -21,13 +21,22 @@ public class EvaluationService {
         return evaluationRepository.save(evaluation);
     }
 
-    public List<Evaluation> getList() {
-        return evaluationRepository.findAll();
+    public List<Evaluation> getList(String lectureDivide, String searchType, String search, Integer pageNumber) {
+        System.out.println(lectureDivide + ", " + searchType);
+//        if(lectureDivide.equals("전체")) {
+//            lectureDivide = "";
+//        }
+//        if(searchType.equals("최신순")) {
+//            return evaluationRepository.findAllByOrderByEvaluationIDDesc();
+//        } else if(searchType.equals("추천순")) {
+//            return evaluationRepository.findAllByOrderByLikeCountDesc();
+//        }
+
+        return evaluationRepository.findAllByOrderByEvaluationIDDesc();
     }
 
     @Transactional
     public void delete(Integer id) {
-        System.out.println(id + " 번 글 삭제 실행");
         evaluationRepository.deleteByEvaluationID(id);
     }
 
@@ -37,7 +46,6 @@ public class EvaluationService {
         if(findEvalution.isPresent()) {
             Evaluation find = findEvalution.get();
             int count = find.getLikeCount() + 1;
-            System.out.println(count);
             find.setLikeCount(count);
             evaluationRepository.save(find);
             return true;

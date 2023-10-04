@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.io.PrintWriter;
 import java.util.Optional;
 import java.util.Properties;
 
@@ -91,4 +92,37 @@ public class UserService {
             e.printStackTrace();
         }
     }
+
+    public void reportAction(String reportTitle, String reportContent, String userId) {
+        String host = "http://localhost:8080/";
+        String from = "alwkd920101@naver.com";
+        String to = "alwkd920101@naver.com";
+        String subject = "강의평가 사이트에서 접수된 신고 메일입니다.";
+        String content = "신고자 : " + userId +
+                "<br>제목: " + reportTitle +
+                "<br>내용: " + reportContent;
+
+        Properties p = new Properties();
+        p.put("mail.smtp.starttls.enable", "true");     // gmail은 true 고정
+        p.put("mail.smtp.host", "smtp.naver.com");      // smtp 서버 주소
+        p.put("mail.smtp.auth","true");                 // gmail은 true 고정
+        p.put("mail.smtp.port", "587");                 // 네이버 포트
+
+        try {
+            Authenticator auth = new Nmail();
+            Session ses = Session.getInstance(p, auth);
+            ses.setDebug(true);
+            MimeMessage msg = new MimeMessage(ses);
+            msg.setSubject(subject);
+            Address fromAddr = new InternetAddress(from);
+            msg.setFrom(fromAddr);
+            Address toAddr = new InternetAddress(to);
+            msg.addRecipient(Message.RecipientType.TO, toAddr);
+            msg.setContent(content,"text/html;charset=UTF-8");
+            Transport.send(msg);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

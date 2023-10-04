@@ -47,17 +47,17 @@
             </div>
         </nav>
         <section class="container">
-            <form method="get" action="./index.jsp" class="form-inline mt-3">
+            <form method="get" th:action="@{/}" class="form-inline mt-3">
                 <div style="display: flex;">
                     <select name="lectureDivide" class="form-select mx-1 mt-2" style="width: 100px;">
-                        <option value="전체">전체</option>
-                        <option value="전공">전공</option>
-                        <option value="교양">교양</option>
-                        <option value="기타">기타</option>
+                        <option value="전체" name="lectureDivide">전체</option>
+                        <option value="전공" name="lectureDivide" th:seleted="${lectureDivide == '전공'}">전공</option>
+                        <option value="교양" name="lectureDivide" th:seleted="${lectureDivide == '교양'}">교양</option>
+                        <option value="기타" name="lectureDivide" th:seleted="${lectureDivide == '기타'}">기타</option>
                     </select>
                     <select name="searchType" class="form-select mx-1 mt-2" style="width: 100px;">
-                        <option value="최신순">최신순</option>
-                        <option value="추천순">추천순</option>
+                        <option value="최신순" name="searchType">최신순</option>
+                        <option value="추천순" name="searchType" th:seleted="${searchType == '추천순'}">추천순</option>
                     </select>
                     <input type="text" name="search" class="form-control mx-1 mt-2" placeholder="내용을 입력하세요.">
                     <button type="submit" class="btn btn-primary mx-1 mt-2" style="width: 90px;">검색</button>
@@ -65,6 +65,7 @@
                     <a class="btn btn-danger mx-1 mt-2" data-bs-toggle="modal" data-bs-target="#reportModal" style="width: 90px;">신고</a>
                 </div>
             </form>
+            <div class="mt-3"><b th:text="${'총 강의평가 수 ' + evaluationListSize + '개'}"></b></div>
             <th:block th:each="list : ${evaluationList}">
                 <div class="card bg-light mt-3 mb-3">
                     <div class="card-header bg-light">
@@ -103,6 +104,13 @@
                 </div>
             </th:block>
         </section>
+        <!-- 페이지네이션 -->
+        <ul class="pagination justify-content-center mt-3">
+            <li class="page-item">
+                <a th:if="${pageNumber <= 0}" class="page-link disabled">이전</a>
+                <a th:if="${evaluationListSize < 6}" class="page-link disabled">다음</a>
+            </li>
+        </ul>
         <!-- 평가 등록 -->
         <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hiiden="true">
             <div class="modal-dialog">
@@ -232,7 +240,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action="./reportAction.jsp" method="post">
+                        <form th:action="@{/reportAction}" method="post">
                             <div class="form-group">
                                 <label>신고 제목</label>
                                 <input type="text" name="reportTitle" class="form-control" maxlength="30">
