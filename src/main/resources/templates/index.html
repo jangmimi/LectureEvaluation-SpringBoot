@@ -51,7 +51,7 @@
             </div>
         </nav>
         <section class="container">
-            <form method="get" th:action="@{/}" class="form-inline mt-3">
+            <form method="get" th:action="@{/searchByType}" class="form-inline mt-3">
                 <div style="display: flex;">
                     <select name="lectureDivide" class="form-select mx-1 mt-2" style="width: 100px;">
                         <option value="전체" name="lectureDivide">전체</option>
@@ -70,7 +70,7 @@
                 </div>
             </form>
             <div class="mt-3"><b th:text="${'총 강의평가 수 ' + evaluationListSize + '개'}"></b></div>
-            <th:block th:each="list : ${evaluationList}">
+            <th:block th:each="list : ${evaluationList.content}">
                 <div class="card bg-light mt-3 mb-3">
                     <div class="card-header bg-light">
                         <div class="row">
@@ -111,11 +111,15 @@
         <!-- 페이지네이션 -->
         <nav aria-label="Page navigation example" class="mt-3 mb-3 m-auto">
             <ul class="pagination">
-                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                <li class="page-item" th:classappend="${1 == evaluationList.pageable.pageNumber + 1} ? 'disabled'">
+                    <a class="page-link" th:href="@{/(page=${evaluationList.pageable.pageNumber - 1})}">Previous</a>
+                </li>
+                <li class="page-item" th:classappend="${i == evaluationList.pageable.pageNumber + 1} ? 'disabled'" th:each="i : ${#numbers.sequence(startPage, endPage)}">
+                    <a class="page-link" th:href="@{/(page=${i - 1})}" th:text="${i}"></a>  <!-- index 넘기는 것에 주의 -->
+                </li>
+                <li class="page-item" th:classappend="${evaluationList.totalPages == evaluationList.pageable.pageNumber + 1} ? 'disabled'">
+                    <a class="page-link" th:href="@{/(page=${evaluationList.pageable.pageNumber + 1})}">Next</a>
+                </li>
             </ul>
         </nav>
 

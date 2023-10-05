@@ -24,7 +24,7 @@ public interface EvaluationRepository extends JpaRepository<Evaluation, Integer>
 
     void deleteByEvaluationID(Integer evaluationID);
 
-    Page<Evaluation> findAll(Specification<Evaluation> spec, Pageable pageable);
+//    Page<Evaluation> findAll(Specification<Evaluation> spec, Pageable pageable);
 
     @Query("SELECT e FROM Evaluation e " +
             "WHERE (:lectureDivide IS NULL OR e.lectureDivide = :lectureDivide) " +
@@ -40,4 +40,17 @@ public interface EvaluationRepository extends JpaRepository<Evaluation, Integer>
                                             @Param("searchType") String searchType,
                                             @Param("search") String search,
                                             Pageable pageable);
+
+
+    long count(Specification<Evaluation> spec);
+
+    @Query("SELECT COUNT(e) FROM Evaluation e " +
+            "WHERE (:lectureDivide IS NULL OR e.lectureDivide = :lectureDivide) " +
+            "AND ((:searchType IS NULL) OR " +
+            "    (:searchType = '최신순' AND e.lectureName LIKE %:search%) " +
+            "    OR (:searchType = '추천순' AND e.likeCount > 0))")
+    long countWithFilters(@Param("lectureDivide") String lectureDivide,
+                          @Param("searchType") String searchType,
+                          @Param("search") String search);
+
 }
