@@ -109,14 +109,16 @@
             </th:block>
         </section>
         <!-- 페이지네이션 -->
-        <ul class="pagination justify-content-center mt-3">
-            <li class="page-item" th:if="${pageNumber > 0}">
-                <a class="page-link" th:href="@{/(lectureDivide=${lectureDivide}, searchType=${searchType}, search=${search}, pageNumber=${pageNumber - 1})}">이전</a>
-            </li>
-            <li class="page-item" th:if="${evaluationListSize >= 6}">
-                <a class="page-link" th:href="@{/your-path(lectureDivide=${lectureDivide}, searchType=${searchType}, search=${search}, pageNumber=${pageNumber + 1})}">다음</a>
-            </li>
-        </ul>
+        <nav aria-label="Page navigation example" class="mt-3 mb-3 m-auto">
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            </ul>
+        </nav>
+
         <!-- 평가 등록 -->
         <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hiiden="true">
             <div class="modal-dialog">
