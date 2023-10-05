@@ -10,6 +10,7 @@
 <body class="d-flex flex-column min-vh-100">
     <th:block th:utext="${alertScript}"></th:block>
     <th:block th:object="${loginUser}">
+        <!-- 강의평가 네비게이션 -->
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
                 <a class="navbar-brand" th:href="@{/}">강의평가 웹 사이트</a>
@@ -44,7 +45,7 @@
                         </li>
                     </ul>
                     <form method="get" th:action="@{/search}" class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" name="search" placeholder="검색어를 입력하세요." aria-label="Search">
+                        <input class="form-control me-2" type="search" name="searchText" th:value="${param.searchText}" placeholder="검색어를 입력하세요." aria-label="Search">
                         <button class="btn btn-outline-success" type="submit">Search</button>
                     </form>
                 </div>
@@ -63,7 +64,7 @@
                         <option value="최신순" name="searchType">최신순</option>
                         <option value="추천순" name="searchType" th:seleted="${searchType == '추천순'}">추천순</option>
                     </select>
-                    <input type="text" name="search" class="form-control mx-1 mt-2" placeholder="내용을 입력하세요.">
+                    <input type="text" name="searchText" class="form-control mx-1 mt-2" placeholder="내용을 입력하세요.">
                     <button type="submit" class="btn btn-primary mx-1 mt-2" style="width: 90px;">검색</button>
                     <a class="btn btn-primary mx-1 mt-2" data-bs-toggle="modal" data-bs-target="#registerModal" style="width: 130px;">등록하기</a>
                     <a class="btn btn-danger mx-1 mt-2" data-bs-toggle="modal" data-bs-target="#reportModal" style="width: 90px;">신고</a>
@@ -112,17 +113,16 @@
         <nav aria-label="Page navigation example" class="mt-3 mb-3 m-auto">
             <ul class="pagination">
                 <li class="page-item" th:classappend="${1 == evaluationList.pageable.pageNumber + 1} ? 'disabled'">
-                    <a class="page-link" th:href="@{/(page=${evaluationList.pageable.pageNumber - 1})}">Previous</a>
+                    <a class="page-link" th:href="@{/(page=${evaluationList.pageable.pageNumber - 1}, searchText=${param.searchText})}">Previous</a>
                 </li>
                 <li class="page-item" th:classappend="${i == evaluationList.pageable.pageNumber + 1} ? 'disabled'" th:each="i : ${#numbers.sequence(startPage, endPage)}">
-                    <a class="page-link" th:href="@{/(page=${i - 1})}" th:text="${i}"></a>  <!-- index 넘기는 것에 주의 -->
+                    <a class="page-link" th:href="@{/(page=${i - 1}, searchText=${param.searchText})}" th:text="${i}"></a>  <!-- index 넘기는 것에 주의 -->
                 </li>
                 <li class="page-item" th:classappend="${evaluationList.totalPages == evaluationList.pageable.pageNumber + 1} ? 'disabled'">
-                    <a class="page-link" th:href="@{/(page=${evaluationList.pageable.pageNumber + 1})}">Next</a>
+                    <a class="page-link" th:href="@{/(page=${evaluationList.pageable.pageNumber + 1}, searchText=${param.searchText})}">Next</a>
                 </li>
             </ul>
         </nav>
-
         <!-- 평가 등록 -->
         <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hiiden="true">
             <div class="modal-dialog">

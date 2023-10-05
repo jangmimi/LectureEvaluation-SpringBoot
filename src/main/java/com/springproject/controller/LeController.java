@@ -35,7 +35,8 @@ public class LeController {
                         @RequestParam(required = false) String lectureDivide,
                         @RequestParam(required = false) String searchType,
                         @RequestParam(required = false) String search,
-                        @PageableDefault(size = 3) Pageable pageable) {
+                        @PageableDefault(size = 3) Pageable pageable,
+                        @RequestParam(required = false, defaultValue = "") String searchText) {
         User loginUser = (User) session.getAttribute("loginUser");
 
         if (loginUser != null) {
@@ -46,19 +47,13 @@ public class LeController {
                 return "emailSendConfirm";
             }
 
-            Page<Evaluation> evaluationList = evaluationService.getListPaging(pageable);
+            Page<Evaluation> evaluationList = evaluationService.getListPaging(pageable, searchText);
             int startPage = Math.max(1, evaluationList.getPageable().getPageNumber() - 4);
             int endPage = Math.min(evaluationList.getTotalPages(), evaluationList.getPageable().getPageNumber() + 4);
 
-//            int currentPage = evaluationList.getNumber() + 1; // 현재 페이지 번호
-//            int totalPages = evaluationList.getTotalPages(); // 총 페이지 수
             long totalItems = evaluationList.getTotalElements(); // 총 항목 수
 
             int pageSize = 5; // 페이지 당 항목 수
-
-//            Page<Evaluation> evaluationList = evaluationService.getList(lectureDivide, searchType, search, pageNumber, pageSize);
-//            int totalItems = evaluationService.getTotalItems(lectureDivide, searchType, search);
-//            int totalPages = (int) Math.ceil((double) totalItems / pageSize);
 
             model.addAttribute("loginUser", session.getAttribute("loginUser"));
             model.addAttribute("evaluationList",evaluationList);
@@ -156,36 +151,40 @@ public class LeController {
         return "update";
     }
 
-//    @RequestMapping("/search")
-//    public String search(Model model, HttpSession session,
-//                        @RequestParam(required = false) String lectureDivide,
-//                        @RequestParam(required = false) String searchType,
-//                        @RequestParam(required = false) String search,
-//                        @RequestParam(defaultValue = "0") Integer pageNumber) {
-//        User loginUser = (User) session.getAttribute("loginUser");
-//
-//        if (loginUser != null) {
-//            String userEmail = userService.getUserEmail(loginUser.getUserId());
-//
-//            boolean emailChecked = userService.getUserEmailChecked(loginUser.getUserId());
-//            if(!emailChecked){
-//                return "emailSendConfirm";
-//            }
-//            int pageSize = 6; // 페이지 당 항목 수
-//
-//            Page<Evaluation> evaluationList = evaluationService.getList(lectureDivide, searchType, search, pageNumber, pageSize);
-//            int totalPages = (int) Math.ceil((double) evaluationList.getContent().size() / pageSize);
-//
-//            model.addAttribute("loginUser", session.getAttribute("loginUser"));
-//            model.addAttribute("evaluationList",evaluationList.getContent());
-//            model.addAttribute("evaluationListSize",evaluationList.getContent().size());
-//            model.addAttribute("pageNumber", pageNumber);
-//        } else {
-//            String alertScript = "<script>alert('로그인을 해주세요.'); location.href='/login';</script>";
-//            model.addAttribute("alertScript", alertScript);
-//        }
-//        return "index";
-//    }
+    @RequestMapping("/search")
+    public String search(Model model, HttpSession session,
+                         @RequestParam(required = false, defaultValue = "") String searchText,
+                         @PageableDefault(size = 3) Pageable pageable) {
+        User loginUser = (User) session.getAttribute("loginUser");
+
+        if (loginUser != null) {
+            String userEmail = userService.getUserEmail(loginUser.getUserId());
+
+            boolean emailChecked = userService.getUserEmailChecked(loginUser.getUserId());
+            if(!emailChecked){
+                return "emailSendConfirm";
+            }
+
+            Page<Evaluation> evaluationList = evaluationService.getListPaging(pageable, searchText);
+            int startPage = Math.max(1, evaluationList.getPageable().getPageNumber() - 4);
+            int endPage = Math.min(evaluationList.getTotalPages(), evaluationList.getPageable().getPageNumber() + 4);
+
+            long totalItems = evaluationList.getTotalElements(); // 총 항목 수
+
+            int pageSize = 5; // 페이지 당 항목 수
+
+            model.addAttribute("loginUser", session.getAttribute("loginUser"));
+            model.addAttribute("evaluationList",evaluationList);
+            model.addAttribute("evaluationListSize",totalItems);
+
+            model.addAttribute("startPage", startPage);
+            model.addAttribute("endPage", endPage);
+        } else {
+            String alertScript = "<script>alert('로그인을 해주세요.'); location.href='/login';</script>";
+            model.addAttribute("alertScript", alertScript);
+        }
+        return "index";
+    }
 //
 //    @RequestMapping("/searchByType")
 //    public String searchByType(Model model, HttpSession session,

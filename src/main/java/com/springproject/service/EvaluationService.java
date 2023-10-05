@@ -22,8 +22,9 @@ public class EvaluationService {
         return evaluationRepository.save(evaluation);
     }
 
-    public Page<Evaluation> getListPaging(Pageable pageable) {
-        return evaluationRepository.findAll(pageable);
+    public Page<Evaluation> getListPaging(Pageable pageable, String searchText) {
+//        return evaluationRepository.findAll(pageable);
+        return evaluationRepository.findByEvaluationTitleContainingOrEvaluationContentContaining(searchText, searchText, pageable);
     }
 
 //    public Page<Evaluation> getList(String lectureDivide, String searchType, String search, Integer pageNumber, int pageSize) {
@@ -59,24 +60,24 @@ public class EvaluationService {
 //        return evaluationRepository.findAll(spec, pageable);
 //    }
 
-    public int getTotalItems(String lectureDivide, String searchType, String search) {
-        Specification<Evaluation> spec = Specification.where(null);
-
-        if (lectureDivide != null && !lectureDivide.equals("전체")) {
-            spec = spec.and((root, query, builder) -> builder.equal(root.get("lectureDivide"), lectureDivide));
-        }
-
-        if (search != null && !search.isEmpty()) {
-            // 검색어가 입력된 경우, 필드를 OR로 검색하도록 조건 추가
-            spec = spec.and((root, query, builder) -> builder.or(
-                    builder.like(root.get("lectureName"), "%" + search + "%"),
-                    builder.like(root.get("professorName"), "%" + search + "%"),
-                    builder.like(root.get("evaluationTitle"), "%" + search + "%"),
-                    builder.like(root.get("evaluationContent"), "%" + search + "%")
-            ));
-        }
-        return (int) evaluationRepository.count(spec);
-    }
+//    public int getTotalItems(String lectureDivide, String searchType, String search) {
+//        Specification<Evaluation> spec = Specification.where(null);
+//
+//        if (lectureDivide != null && !lectureDivide.equals("전체")) {
+//            spec = spec.and((root, query, builder) -> builder.equal(root.get("lectureDivide"), lectureDivide));
+//        }
+//
+//        if (search != null && !search.isEmpty()) {
+//            // 검색어가 입력된 경우, 필드를 OR로 검색하도록 조건 추가
+//            spec = spec.and((root, query, builder) -> builder.or(
+//                    builder.like(root.get("lectureName"), "%" + search + "%"),
+//                    builder.like(root.get("professorName"), "%" + search + "%"),
+//                    builder.like(root.get("evaluationTitle"), "%" + search + "%"),
+//                    builder.like(root.get("evaluationContent"), "%" + search + "%")
+//            ));
+//        }
+//        return (int) evaluationRepository.count(spec);
+//    }
 
     @Transactional
     public void delete(Integer id) {
