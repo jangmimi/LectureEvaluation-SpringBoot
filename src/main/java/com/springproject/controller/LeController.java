@@ -138,8 +138,9 @@ public class LeController {
     }
 
     @PostMapping("/leave/{userNumber}")
-    public String leave(HttpSession session, SessionStatus sessionStatus) {
-        Long userNumber = ((User) session.getAttribute("loginUser")).getUserNumber();
+    public String leave(@RequestParam(required = false) Long userNumber, HttpSession session, SessionStatus sessionStatus) {
+        userNumber = ((User) session.getAttribute("loginUser")).getUserNumber();
+        log.info(userNumber.toString());
         userService.leave(userNumber);
         userService.logout(sessionStatus);
 
