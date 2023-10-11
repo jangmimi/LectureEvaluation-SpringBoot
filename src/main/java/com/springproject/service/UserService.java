@@ -30,14 +30,18 @@ public class UserService {
     @Transactional
     public Long join(User user) {
         user.setUserEmailHash(SHA256.getSHA256(user.getUserEmail()));
+
+        validateDuplicateUser(user);    // 중복 회원 검증
         userRepository.save(user);
         sendEmail(user.getUserId());
+
         return user.getUserNumber();
     }
+
     /**
      * 중복회원검증
      */
-    private void validateDuplicateUser(User user) {
+    public void validateDuplicateUser(User user) {
         userRepository.findByUserId(user.getUserId())
                 .ifPresent(m -> {
                     throw new IllegalStateException("이미 존재하는 회원입니다.");
