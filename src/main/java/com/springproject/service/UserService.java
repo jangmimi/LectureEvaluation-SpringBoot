@@ -24,6 +24,9 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * 회원가입
+     */
     @Transactional
     public Long join(User user) {
         user.setUserEmailHash(SHA256.getSHA256(user.getUserEmail()));
@@ -31,7 +34,19 @@ public class UserService {
         sendEmail(user.getUserId());
         return user.getUserNumber();
     }
+    /**
+     * 중복회원검증
+     */
+    private void validateDuplicateUser(User user) {
+        userRepository.findByUserId(user.getUserId())
+                .ifPresent(m -> {
+                    throw new IllegalStateException("이미 존재하는 회원입니다.");
+                });
+    }
 
+    /**
+     * 로그인
+     */
     public User login(String uesrId, String userPw) {
         Optional<User> findUser = userRepository.findByUserId(uesrId);
         if(findUser.isPresent()) {

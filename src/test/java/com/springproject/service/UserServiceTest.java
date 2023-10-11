@@ -33,6 +33,27 @@ class UserServiceTest {
     }
 
     @Test
+    void 중복회원검증() {
+        // given
+        User user1 = new User();
+        user1.setUserId("springboot");
+
+        User user2 = new User();
+        user2.setUserId("springboot");
+
+        // when
+        userService.join(user1);
+
+        // then
+        try {
+            userService.join(user2);
+        } catch (IllegalStateException e) {
+            assertThat(e.getMessage()).isEqualTo("이미 존재하는 회원입니다.");
+        }
+
+    }
+
+    @Test
     void login() {
     }
 }
