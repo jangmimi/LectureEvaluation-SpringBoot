@@ -46,6 +46,10 @@ public class UserService {
         sessionStatus.setComplete();;
     }
 
+    public Optional<User> findUser(Long userNumber) {
+        return userRepository.findByUserUserNumber(userNumber);
+    }
+
     public String getUserEmail(String userId) {
         Optional<User> findUser = userRepository.findByUserId(userId);
         return findUser.map(User::getUserEmail).orElse(null);
