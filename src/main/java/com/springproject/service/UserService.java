@@ -31,7 +31,8 @@ public class UserService {
     public Long join(User user) {
         user.setUserEmailHash(SHA256.getSHA256(user.getUserEmail()));
 
-        validateDuplicateUser(user);    // 중복 회원 검증
+        // 중복 회원 검증
+        validateDuplicateUser(user);
         userRepository.save(user);
         sendEmail(user.getUserId());
 
@@ -42,10 +43,13 @@ public class UserService {
      * 중복회원검증
      */
     public void validateDuplicateUser(User user) {
-        userRepository.findByUserId(user.getUserId())
-                .ifPresent(m -> {
-                    throw new IllegalStateException("이미 존재하는 회원입니다.");
-                });
+//        userRepository.findByUserId(user.getUserId())
+//                .ifPresent(m -> {
+//                    throw new IllegalStateException("이미 존재하는 회원입니다.");
+//                });
+        if (userRepository.findByUserId(user.getUserId()).isPresent()) {
+                throw new IllegalStateException("이미 존재하는 회원입니다.");
+        }
     }
 
     /**
