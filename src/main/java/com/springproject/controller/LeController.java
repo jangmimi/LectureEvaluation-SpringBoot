@@ -40,7 +40,7 @@ public class LeController {
         User loginUser = (User) session.getAttribute("loginUser");
 
         if (loginUser != null) {
-            String userEmail = userService.getUserEmail(loginUser.getUserId());
+            String userEmail = userService.getUserEmail(loginUser.getUserNumber());
 
             boolean emailChecked = userService.getUserEmailChecked(loginUser.getUserId());
             if(!emailChecked){
@@ -71,69 +71,6 @@ public class LeController {
         return "index";
     }
 
-    @RequestMapping("/join")
-    public String join() {
-        return "join";
-    }
-
-    @RequestMapping("/login")
-    public String login() {
-        return "login";
-    }
-
-    @PostMapping("/loginAction")
-    public String loginAction(@RequestParam String userId, @RequestParam String userPw, HttpSession session) {
-        User user = userService.login(userId, userPw);
-        if(user != null) {
-            session.setAttribute("loginUser", user);
-            return "redirect:/";
-        } else {
-            return "login";
-        }
-    }
-
-    @PostMapping("/joinAction")
-    public String joinAction(@ModelAttribute User user, HttpSession session) {
-        Long userNumber = userService.join(user);
-        session.setAttribute("loginUser", user);
-
-        return "emailSend";
-    }
-
-    @RequestMapping("/logout")
-    public String logout(SessionStatus sessionStatus) {
-        userService.logout(sessionStatus);
-        return "redirect:/";
-    }
-
-    @RequestMapping("/update")
-    public String update() {
-        return "update";
-    }
-
-    @PostMapping("/update/{userNumber}")
-    public String update(@RequestParam(required = false) Long userNumber,
-                         String userId, String userPw,
-                         HttpSession session) {
-        userService.update(userNumber, userId, userPw);
-
-        User updated = userService.findUser(userNumber);
-        session.setAttribute("loginUser", updated);
-        return "redirect:/";
-    }
-
-    @RequestMapping("/emailSendAction")
-    public String emailSendAction(HttpSession session, Model model, HttpServletResponse response) {
-        User loginUser = (User) session.getAttribute("loginUser");
-
-        if(userService.getUserEmailChecked(loginUser.getUserId())) {
-            model.addAttribute("msg","이미 인증된 회원입니다.");
-        } else {
-            userService.sendEmail(loginUser.getUserId());
-        }
-        return "redirect:/";
-    }
-
     @RequestMapping("/emailCheckAction")
     public String emailCheckAction(HttpSession session, Model model, @RequestParam(required = false) String code) {
         User loginUser = (User) session.getAttribute("loginUser");
@@ -153,16 +90,6 @@ public class LeController {
         return "redirect:/";
     }
 
-    @PostMapping("/leave/{userNumber}")
-    public String leave(@RequestParam(required = false) Long userNumber, HttpSession session, SessionStatus sessionStatus) {
-        userNumber = ((User) session.getAttribute("loginUser")).getUserNumber();
-        log.info(userNumber.toString());
-        userService.leave(userNumber);
-        userService.logout(sessionStatus);
-
-        return "redirect:/";
-    }
-
     @RequestMapping("/search")
     public String search(Model model, HttpSession session,
                          @RequestParam(required = false, defaultValue = "") String searchText,
@@ -170,7 +97,7 @@ public class LeController {
         User loginUser = (User) session.getAttribute("loginUser");
 
         if (loginUser != null) {
-            String userEmail = userService.getUserEmail(loginUser.getUserId());
+            String userEmail = userService.getUserEmail(loginUser.getUserNumber());
 
             boolean emailChecked = userService.getUserEmailChecked(loginUser.getUserId());
             if(!emailChecked){
