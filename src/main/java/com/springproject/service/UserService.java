@@ -34,7 +34,7 @@ public class UserService {
         // 중복 회원 검증
         validateDuplicateUser(user);
         userRepository.save(user);
-        sendEmail(user.getUserId());
+        sendEmail(user.getUserNumber());
 
         return user.getUserNumber();
     }
@@ -74,8 +74,8 @@ public class UserService {
         return find.orElse(null);
     }
 
-    public String getUserEmail(String userId) {
-        Optional<User> findUser = userRepository.findByUserId(userId);
+    public String getUserEmail(Long userNumber) {
+        Optional<User> findUser = userRepository.findByUserNumber(userNumber);
         return findUser.map(User::getUserEmail).orElse(null);
     }
 
@@ -95,10 +95,10 @@ public class UserService {
         return false;
     }
 
-    public void sendEmail(String userId) {
+    public void sendEmail(Long userNumber) {
         String host = "http://localhost:8080/";
         String from = "alwkd920101@naver.com";
-        String to = getUserEmail(userId);
+        String to = getUserEmail(userNumber);
         String subject = "강의평가를 위한 이메일 인증 메일입니다.";
         String content = "다음 링크에 접속하여 이메일 인증을 진행하세요. " +
                 "<a href='" + host + "emailCheckAction?code=" + SHA256.getSHA256(to) + "'>이메일 인증하기</a>";
@@ -170,15 +170,16 @@ public class UserService {
      * 회원정보수정
      * */
     @Transactional
-    public void update(Long userNumber, String userId, String userPw) {
+    public User update(Long userNumber, String userId, String userPw) {
         Optional<User> find = userRepository.findByUserNumber(userNumber);
         if (find.isPresent()) {
             User updated = find.get();
             find.get().setUserId(userId);
             find.get().setUserPw(userPw);
             userRepository.save(updated);
-            log.info("updated : " + updated);
+            return updated;
         }
+        return null;
     }
 
 }

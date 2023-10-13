@@ -41,8 +41,9 @@ public class EvaluationController {
     public String likeyAction(@RequestParam(required = false) Integer evaluationID,
                               HttpSession session, HttpServletRequest request) {
         User user = (User) session.getAttribute("loginUser");
-        String userId = user.getUserId();
-        likeyService.like(evaluationID, userId, request);
+        Long userNumber = user.getUserNumber();
+        log.info("userNumber : " + userNumber);
+        likeyService.like(evaluationID, userNumber, request);
         evaluationService.likeyCountUpdate(evaluationID);
 
         return "redirect:/";
