@@ -1,9 +1,6 @@
 package com.springproject.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -13,14 +10,19 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
+@ToString
 public class Likey {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 자동 증가
     private Long id;
-    @Column(length = 20)
-    private String userId;
+
+    @Column
+    private Long userNumber;
+
     @Column
     private int evaluationId;
+
     @Column(length = 50)
     private String userIp;
+
 }

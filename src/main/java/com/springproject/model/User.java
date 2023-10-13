@@ -17,14 +17,20 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 자동 증가
     private Long userNumber;
+
     @Column
     private String userId;
+
     @Column
     private String userPw;
+
     @Column
     private String userEmail;
+
     @Column
     private String userEmailHash;
+
     @Column
     private int userEmailChecked = 0;
+
 }

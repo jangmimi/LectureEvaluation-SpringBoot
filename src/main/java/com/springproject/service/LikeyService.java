@@ -4,6 +4,7 @@ import com.springproject.model.Likey;
 import com.springproject.repository.LikeyRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.relational.core.sql.Like;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,11 +16,12 @@ public class LikeyService {
     @Autowired
     private LikeyRepository likeyRepository;
 
-    public Likey like(Integer evaluationID, String userId, HttpServletRequest request) {
-        Likey likey = new Likey(null, userId, evaluationID, getClientIP(request));
-//        likey.setUserId(userId);
-//        likey.setUserIp(getClientIP(request));
-//        log.info(getClientIP(request));
+    public Likey like(Integer evaluationID, Long userNumber, HttpServletRequest request) {
+        Likey likey = new Likey();
+        likey.setUserNumber(userNumber);
+        likey.setEvaluationId(evaluationID);
+        likey.setUserIp(getClientIP(request));
+        log.info(likey.toString());
         return likeyRepository.save(likey);
     }
 
@@ -38,5 +40,10 @@ public class LikeyService {
             ip = ip.split(",")[0].trim();
         }
         return ip;
+    }
+
+    public boolean checkLiked(Long id) {
+        Likey likey = likeyRepository.findById(id).orElse(null);
+        return false;
     }
 }
