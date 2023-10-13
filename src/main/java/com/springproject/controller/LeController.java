@@ -106,6 +106,22 @@ public class LeController {
         return "redirect:/";
     }
 
+    @RequestMapping("/update")
+    public String update() {
+        return "update";
+    }
+
+    @PostMapping("/update/{userNumber}")
+    public String update(@RequestParam(required = false) Long userNumber,
+                         String userId, String userPw,
+                         HttpSession session) {
+        userService.update(userNumber, userId, userPw);
+
+        User updated = userService.findUser(userNumber);
+        session.setAttribute("loginUser", updated);
+        return "redirect:/";
+    }
+
     @RequestMapping("/emailSendAction")
     public String emailSendAction(HttpSession session, Model model, HttpServletResponse response) {
         User loginUser = (User) session.getAttribute("loginUser");
@@ -145,11 +161,6 @@ public class LeController {
         userService.logout(sessionStatus);
 
         return "redirect:/";
-    }
-
-    @RequestMapping("/update")
-    public String update() {
-        return "update";
     }
 
     @RequestMapping("/search")

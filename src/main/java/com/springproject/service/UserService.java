@@ -69,8 +69,9 @@ public class UserService {
         sessionStatus.setComplete();;
     }
 
-    public Optional<User> findUser(Long userNumber) {
-        return userRepository.findByUserUserNumber(userNumber);
+    public User findUser(Long userNumber) {
+        Optional<User> find = userRepository.findByUserNumber(userNumber);
+        return find.orElse(null);
     }
 
     public String getUserEmail(String userId) {
@@ -157,9 +158,27 @@ public class UserService {
         }
     }
 
+    /**
+     * 회원탈퇴
+     * */
     @Transactional
     public void leave(Long userNumber) {
         userRepository.deleteByUserNumber(userNumber);
+    }
+
+    /**
+     * 회원정보수정
+     * */
+    @Transactional
+    public void update(Long userNumber, String userId, String userPw) {
+        Optional<User> find = userRepository.findByUserNumber(userNumber);
+        if (find.isPresent()) {
+            User updated = find.get();
+            find.get().setUserId(userId);
+            find.get().setUserPw(userPw);
+            userRepository.save(updated);
+            log.info("updated : " + updated);
+        }
     }
 
 }
