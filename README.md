@@ -29,6 +29,5 @@
 
 
 <hr>
+
 ![image](https://github.com/jangmimi/LectureEvaluation-SpringBoot/assets/133731745/4ddbc768-8840-4f8f-ab2e-1e1a26ef0196)
-
-
