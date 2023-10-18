@@ -30,6 +30,7 @@ public class LectureService {
             Lecture lectures = Lecture.builder()
                     .image(content.select("a img").attr("abs:src"))
                     .subject(content.select(".card-content .course_title").text())
+                    .professor(content.select(".card-content .instructor").text())
                     .url(content.select(".card a").attr("abs:href"))
                     .build();
             lectureList.add(lectures);

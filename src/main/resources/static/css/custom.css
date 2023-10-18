@@ -17,3 +17,26 @@ body {
     margin-left: 20px;
     font-weight: 600;
 }
+
+#card-title {
+    font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+}
+
+#card-a:hover {
+    color: gray;
+}
+
+#card-tt {
+    line-height: 1.5em;
+    height: 3rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    white-space: pre-wrap;
+}

@@ -3,20 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <title>강의 목록</title>
+    <!-- 부트스트랩 css -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/custom.css">
 </head>
-<body>
-    <div>
-        <table class= "table">
-            <tr>
-                <th>이미지</th>
-                <th>제목</th>
-            </tr>
-            <tr th:each="lectures : ${lectures} ">
-                <td><a th:href="${lectures.url}"><img th:src="${lectures.image}" style="width: 100px;"></a></td>
-                <td><a th:href="${lectures.url}"><span th:text="${lectures.subject}" style="width: 100px;"></span></a></td>
-            </tr>
-        </table>
-    </div>
+<body class="d-flex flex-column min-vh-100">
+    <!-- 강의평가 네비게이션 -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" th:href="@{/}">강의평가 웹 사이트</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" th:href="@{/}">메인</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" th:href="@{/lectures}">강의 목록</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            회원관리
+                        </a>
+                        <ul class="dropdown-menu">
+                            <th:block th:if="${loginUser == null}">
+                                <li><a class="dropdown-item" th:href="@{/login}">로그인</a></li>
+                                <li><a class="dropdown-item" th:href="@{/join}">회원가입</a></li>
+                            </th:block>
+                            <th:block th:if="${loginUser != null}">
+                                <li><a class="dropdown-item" th:href="@{/update}">회원정보수정</a></li>
+                                <li><a class="dropdown-item" th:href="@{/logout}">로그아웃</a></li>
+                                <form th:action="@{'/leave/' + *{userNumber}}" method="post">
+                                    <li><input type="submit" class="dropdown-item" value="회원탈퇴"></li>
+                                </form>
+                            </th:block>
+                        </ul>
+                    </li>
+                    <li class="nav-item" th:if="${loginUser != null}">
+                        <a class="nav-link" id="my-infobox" th:text="*{userId + ' 님'}"></a>
+                    </li>
+                </ul>
+                <form method="get" th:action="@{/search}" class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" name="searchText" th:value="${param.searchText}" placeholder="검색어를 입력하세요." aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+    <section class="container mt-3 mb-3" style="max-width: 1200px;">
+        <h2 class="mb-3 mt-3" style="text-align: center;">강의 목록</h2>
+        <div class="row row-cols-1 row-cols-md-4 g-4">
+            <div th:each="lectures, iterStat : ${lectures}">
+                <div class="col">
+                    <a th:href="${lectures.url}" style="text-decoration: none;">
+                        <div class="card" style="height: 300px">
+                            <img th:src="${lectures.image}" style="width: 100%;" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title" id="card-tt" th:text="${lectures.subject}" style="font-size: 16px;"></h5>
+                                <h5 class="card-text" th:text="${lectures.professor}" style="font-size: 14px; color: gray;"></h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-dark mt-auto p-5 text-center" style="color: #FFFFFF;">
+        Copyright &copy; 2023 미미 All Rights Reserved
+    </footer>
+    <script th:src="@{js/common.js}"></script>
+    <!-- 부트스트랩 script -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>

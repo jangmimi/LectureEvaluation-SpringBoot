@@ -10,5 +10,6 @@ import lombok.ToString;
 public class Lecture {
     private String image;
     private String subject;
+    private String professor;
     private String url;
 }
