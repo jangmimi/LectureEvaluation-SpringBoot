@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>강의 목록</title>
+    <link rel="stylesheet" href="/css/custom.css">
+</head>
+<body>
+    <div>
+        <table class= "table">
+            <tr>
+                <th>이미지</th>
+                <th>제목</th>
+            </tr>
+            <tr th:each="lectures : ${lectures} ">
+                <td><a th:href="${lectures.url}"><img th:src="${lectures.image}" style="width: 100px;"></a></td>
+                <td><a th:href="${lectures.url}"><span th:text="${lectures.subject}" style="width: 100px;"></span></a></td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
