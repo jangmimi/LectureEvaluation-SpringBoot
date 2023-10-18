@@ -27,3 +27,8 @@
 - 인프런 강의 데이터 크롤링
 - <u>인프런 강의와 강의평가 연결 (~진행중)</u>
 
+
+<hr>
+![image](https://github.com/jangmimi/LectureEvaluation-SpringBoot/assets/133731745/4ddbc768-8840-4f8f-ab2e-1e1a26ef0196)
+
+
