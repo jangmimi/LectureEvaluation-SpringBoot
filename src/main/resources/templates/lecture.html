@@ -70,7 +70,7 @@
         <div class="row row-cols-1 row-cols-md-4 g-4 mt-3">
             <div th:each="lectures, iterStat : ${lectures}">
                 <div class="col">
-                    <a th:href="${lectures.url}" style="text-decoration: none;">
+                    <a th:href="${lectures.url}" target="_blank" style="text-decoration: none;">
                         <div class="card" style="height: 300px">
                             <img th:src="${lectures.image}" style="width: 100%;" class="card-img-top" alt="...">
                             <div class="card-body">
