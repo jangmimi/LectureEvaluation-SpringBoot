@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="/css/custom.css">
 </head>
 <body class="d-flex flex-column min-vh-100">
+<th:block th:utext="${alertScript}"></th:block>
+<th:block th:object="${loginUser}">
     <!-- 강의평가 네비게이션 -->
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
@@ -53,8 +55,19 @@
         </div>
     </nav>
     <section class="container mt-3 mb-3" style="max-width: 1200px;">
-        <h2 class="mb-3 mt-3" style="text-align: center;">강의 목록</h2>
-        <div class="row row-cols-1 row-cols-md-4 g-4">
+        <h2 class="mb-3 mt-3" style="text-align: center;">인프런 강의 목록</h2>
+        <form method="get" th:action="@{/searchByType}" class="form-inline mt-3">
+            <div style="display: flex;">
+                <select name="lectureDivide" class="form-select mx-1 mt-2" style="width: 100px;">
+                    <option value="전체" name="lectureDivide">전체</option>
+                    <option value="전공" name="lectureDivide" th:seleted="${lectureDivide == '강의명'}">강의명</option>
+                    <option value="기타" name="lectureDivide" th:seleted="${lectureDivide == '강사명'}">강사명</option>
+                </select>
+                <input type="text" name="searchText" class="form-control mx-1 mt-2" placeholder="내용을 입력하세요.">
+                <button type="submit" class="btn btn-primary mx-1 mt-2" style="width: 90px;">검색</button>
+            </div>
+        </form>
+        <div class="row row-cols-1 row-cols-md-4 g-4 mt-3">
             <div th:each="lectures, iterStat : ${lectures}">
                 <div class="col">
                     <a th:href="${lectures.url}" style="text-decoration: none;">
@@ -74,6 +87,7 @@
     <footer class="bg-dark mt-auto p-5 text-center" style="color: #FFFFFF;">
         Copyright &copy; 2023 미미 All Rights Reserved
     </footer>
+    </th:block>
     <script th:src="@{js/common.js}"></script>
     <!-- 부트스트랩 script -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

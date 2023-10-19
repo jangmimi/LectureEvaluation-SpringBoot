@@ -39,13 +39,13 @@ public class LeController {
                         @RequestParam(required = false, defaultValue = "") String searchText) {
         User loginUser = (User) session.getAttribute("loginUser");
 
-        if (loginUser != null) {
-            String userEmail = userService.getUserEmail(loginUser.getUserNumber());
-
-            boolean emailChecked = userService.getUserEmailChecked(loginUser.getUserId());
-            if(!emailChecked){
-                return "emailSendConfirm";
-            }
+//        if (loginUser != null) {
+//            String userEmail = userService.getUserEmail(loginUser.getUserNumber());
+//
+//            boolean emailChecked = userService.getUserEmailChecked(loginUser.getUserId());
+//            if(!emailChecked){
+//                return "emailSendConfirm";
+//            }
 
             Page<Evaluation> evaluationList = evaluationService.getListPaging(pageable, searchText);
             int startPage = Math.max(1, evaluationList.getPageable().getPageNumber() - 4);
@@ -62,12 +62,12 @@ public class LeController {
             model.addAttribute("startPage", startPage);
             model.addAttribute("endPage", endPage);
 
-
-        } else {
+//        }
+//        else {
 //            String alertScript = "<script>alert('로그인을 해주세요.'); location.href='/login';</script>";
 //            model.addAttribute("alertScript", alertScript);
-            return "login";
-        }
+//            return "login";
+//        }
         return "index";
     }
 

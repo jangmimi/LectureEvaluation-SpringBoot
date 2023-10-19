@@ -8,279 +8,274 @@
     <link rel="stylesheet" href="/css/custom.css">
 </head>
 <body class="d-flex flex-column min-vh-100">
-    <th:block th:utext="${alertScript}"></th:block>
-    <th:block th:object="${loginUser}">
-        <!-- 강의평가 네비게이션 -->
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
-            <div class="container-fluid">
-                <a class="navbar-brand" th:href="@{/}">강의평가 웹 사이트</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" th:href="@{/}">메인</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" th:href="@{/lectures}">강의 목록</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                회원관리
-                            </a>
-                            <ul class="dropdown-menu">
-                                <th:block th:if="${loginUser == null}">
-                                    <li><a class="dropdown-item" th:href="@{/login}">로그인</a></li>
-                                    <li><a class="dropdown-item" th:href="@{/join}">회원가입</a></li>
-                                </th:block>
-                                <th:block th:if="${loginUser != null}">
-                                    <li><a class="dropdown-item" th:href="@{/update}">회원정보수정</a></li>
-                                    <li><a class="dropdown-item" th:href="@{/logout}">로그아웃</a></li>
-                                    <form th:action="@{'/leave/' + *{userNumber}}" method="post">
-                                        <li><input type="submit" class="dropdown-item" value="회원탈퇴"></li>
-                                    </form>
-                                </th:block>
-                            </ul>
-                        </li>
-                        <li class="nav-item" th:if="${loginUser != null}">
-                            <a class="nav-link" id="my-infobox" th:text="*{userId + ' 님'}"></a>
-                        </li>
-                    </ul>
-                    <form method="get" th:action="@{/search}" class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" name="searchText" th:value="${param.searchText}" placeholder="검색어를 입력하세요." aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
+<th:block th:utext="${alertScript}"></th:block>
+<th:block th:object="${loginUser}">
+    <!-- 강의평가 네비게이션 -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" th:href="@{/}">강의평가 웹 사이트</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" th:href="@{/}">메인</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" th:href="@{/lectures}">강의 목록</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            회원관리
+                        </a>
+                        <ul class="dropdown-menu">
+                            <th:block th:if="${loginUser == null}">
+                                <li><a class="dropdown-item" th:href="@{/login}">로그인</a></li>
+                                <li><a class="dropdown-item" th:href="@{/join}">회원가입</a></li>
+                            </th:block>
+                            <th:block th:if="${loginUser != null}">
+                                <li><a class="dropdown-item" th:href="@{/update}">회원정보수정</a></li>
+                                <li><a class="dropdown-item" th:href="@{/logout}">로그아웃</a></li>
+                                <form th:action="@{'/leave/' + *{userNumber}}" method="post">
+                                    <li><input type="submit" class="dropdown-item" value="회원탈퇴"></li>
+                                </form>
+                            </th:block>
+                        </ul>
+                    </li>
+                    <li class="nav-item" th:if="${loginUser != null}">
+                        <a class="nav-link" id="my-infobox" th:text="*{userId + ' 님'}"></a>
+                    </li>
+                </ul>
+                <form method="get" th:action="@{/search}" class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" name="searchText" th:value="${param.searchText}" placeholder="검색어를 입력하세요." aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+    <section class="container">
+        <form method="get" th:action="@{/searchByType}" class="form-inline mt-3">
+            <div style="display: flex;">
+                <select name="lectureDivide" class="form-select mx-1 mt-2" style="width: 100px;">
+                    <option value="전체" name="lectureDivide">전체</option>
+                    <option value="전공" name="lectureDivide" th:seleted="${lectureDivide == '전공'}">전공</option>
+                    <option value="교양" name="lectureDivide" th:seleted="${lectureDivide == '교양'}">교양</option>
+                    <option value="기타" name="lectureDivide" th:seleted="${lectureDivide == '기타'}">기타</option>
+                </select>
+                <select name="searchType" class="form-select mx-1 mt-2" style="width: 100px;">
+                    <option value="최신순" name="searchType">최신순</option>
+                    <option value="추천순" name="searchType" th:seleted="${searchType == '추천순'}">추천순</option>
+                </select>
+                <input type="text" name="searchText" class="form-control mx-1 mt-2" placeholder="내용을 입력하세요.">
+                <button type="submit" class="btn btn-primary mx-1 mt-2" style="width: 90px;">검색</button>
+                <a class="btn btn-primary mx-1 mt-2" data-bs-toggle="modal" data-bs-target="#registerModal" style="width: 130px;">등록하기</a>
+                <a class="btn btn-danger mx-1 mt-2" data-bs-toggle="modal" data-bs-target="#reportModal" style="width: 90px;">신고</a>
+            </div>
+        </form>
+        <div class="mt-3"><b th:text="${'총 강의평가 수 ' + evaluationListSize + '개'}"></b></div>
+        <th:block th:each="list : ${evaluationList.content}">
+            <div class="card bg-light mt-3 mb-3">
+                <div class="card-header bg-light">
+                    <div class="row">
+                        <div class="col-8 text-left" th:text="${list.lectureName + ' (' + list.professorName + ')'}">
+                        </div>
+                        <div class="col-4 text-right" style="text-align: right;">
+                            종합 <span style="color: red;" th:text="${list.totalScore}"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h5 class="cart-title" th:text="${list.evaluationTitle + ' (' + list.lectureYear + ' ' + list.semesterDivide + ')'}">
+                        <small th:text="${list.lectureYear + ' ' + list.semesterDivide + }"></small>
+                    </h5>
+                    <p class="cart-text" th:text="${list.evaluationContent}"></p>
+                    <div class="row">
+                        <div class="col-9 text-left m-auto">
+                            성적 <span style="color: red;" th:text="${list.creditScore}"></span>
+                            널널 <span style="color: red;" th:text="${list.comportableScore}"></span>
+                            강의 <span style="color: red;" th:text="${list.lectureScore}"></span>
+                            <span style="color: green;" th:text="${'(추천 : ' + list.likeCount + ')'}"></span>
+                        </div>
+                        <div class="col-3 text-right" style="display: flex; justify-content: flex-end;">
+                            <form th:action="@{/likeyAction/__${evaluationID}__}" method="POST" onsubmit="return likeyCheck()">
+                                <input type="hidden" th:name="evaluationID" th:value="${list.evaluationID}">
+                                <input type="submit" class="btn btn-outline-success" value="추천" />
+                            </form>
+                            <form th:action="@{/deleteAction/__${id}__}" method="POST" onsubmit="return deleteCheck()">
+                                <input type="hidden" th:name="id" th:value="${list.evaluationID}">
+                                <input type="submit" class="btn btn-outline-secondary" value="삭제" style="margin-left:5px;"/>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </th:block>
+    </section>
+    <!-- 페이지네이션 -->
+    <nav aria-label="Page navigation example" class="mt-3 mb-3 m-auto">
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${1 == evaluationList.pageable.pageNumber + 1} ? 'disabled'">
+                <a class="page-link" th:href="@{/(page=${evaluationList.pageable.pageNumber - 1}, searchText=${param.searchText})}">Previous</a>
+            </li>
+            <li class="page-item" th:classappend="${i == evaluationList.pageable.pageNumber + 1} ? 'disabled'" th:each="i : ${#numbers.sequence(startPage, endPage)}">
+                <a class="page-link" th:href="@{/(page=${i - 1}, searchText=${param.searchText})}" th:text="${i}"></a>  <!-- index 넘기는 것에 주의 -->
+            </li>
+            <li class="page-item" th:classappend="${evaluationList.totalPages == evaluationList.pageable.pageNumber + 1} ? 'disabled'">
+                <a class="page-link" th:href="@{/(page=${evaluationList.pageable.pageNumber + 1}, searchText=${param.searchText})}">Next</a>
+            </li>
+        </ul>
+    </nav>
+    <!-- 평가 등록 -->
+    <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hiiden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fs-5" id="modal">평가 등록</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{/evaluationRegisterAction}" method="post">
+                        <div class="form-row mb-3" style="display: flex;">
+                            <div class="form-group col-sm-6">
+                                <label>강의명</label>
+                                <input type="text" name="lectureName" class="form-control" maxlength="20">
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label>교수명</label>
+                                <input type="text" name="professorName" class="form-control" maxlength="20">
+                            </div>
+                        </div>
+                        <div class="form-row" style="display: flex;">
+                            <div class="form-group col-sm-4">
+                                <label>수강 연도</label>
+                                <select name="lectureYear" class="form-select">
+                                    <option value="2011">2011</option>
+                                    <option value="2012">2012</option>
+                                    <option value="2013">2013</option>
+                                    <option value="2014">2014</option>
+                                    <option value="2015">2015</option>
+                                    <option value="2016">2016</option>
+                                    <option value="2017">2017</option>
+                                    <option value="2018">2018</option>
+                                    <option value="2019">2019</option>
+                                    <option value="2020">2020</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2023" selected>2023</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label>수강 학기</label>
+                                <select name="semesterDivide" class="form-select">
+                                    <option value="1학기" selected>1학기</option>
+                                    <option value="여름학기">여름학기</option>
+                                    <option value="2학기">2학기</option>
+                                    <option value="겨울학기">겨울학기</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label>강의 구분</label>
+                                <select name="lectureDivide" class="form-select">
+                                    <option value="전공" selected>전공</option>
+                                    <option value="교양">교양</option>
+                                    <option value="기타">기타</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>제목</label>
+                            <input type="text" name="evaluationTitle" class="form-control" maxlength="30">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label>내용</label>
+                            <textarea name="evaluationContent" class="form-control" maxlength="2048" style="height: 180px;"></textarea>
+                        </div>
+                        <div class="form-row" style="display: flex;">
+                            <div class="form-group col-sm-3">
+                                <label>종합</label>
+                                <select name="totalScore" class="form-select">
+                                    <option value="A" selected>A</option>
+                                    <option value="B">B</option>
+                                    <option value="C">C</option>
+                                    <option value="D">D</option>
+                                    <option value="F">F</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-3">
+                                <label>성적</label>
+                                <select name="creditScore" class="form-select">
+                                    <option value="A" selected>A</option>
+                                    <option value="B">B</option>
+                                    <option value="C">C</option>
+                                    <option value="D">D</option>
+                                    <option value="F">F</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-3">
+                                <label>널널</label>
+                                <select name="comportableScore" class="form-select">
+                                    <option value="A" selected>A</option>
+                                    <option value="B">B</option>
+                                    <option value="C">C</option>
+                                    <option value="D">D</option>
+                                    <option value="F">F</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-3 mb-3">
+                                <label>강의</label>
+                                <select name="lectureScore" class="form-select">
+                                    <option value="A" selected>A</option>
+                                    <option value="B">B</option>
+                                    <option value="C">C</option>
+                                    <option value="D">D</option>
+                                    <option value="F">F</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">등록하기</button>
+                        </div>
                     </form>
                 </div>
             </div>
-        </nav>
-        <section class="container">
-            <form method="get" th:action="@{/searchByType}" class="form-inline mt-3">
-                <div style="display: flex;">
-                    <select name="lectureDivide" class="form-select mx-1 mt-2" style="width: 100px;">
-                        <option value="전체" name="lectureDivide">전체</option>
-                        <option value="전공" name="lectureDivide" th:seleted="${lectureDivide == '전공'}">전공</option>
-                        <option value="교양" name="lectureDivide" th:seleted="${lectureDivide == '교양'}">교양</option>
-                        <option value="기타" name="lectureDivide" th:seleted="${lectureDivide == '기타'}">기타</option>
-                    </select>
-                    <select name="searchType" class="form-select mx-1 mt-2" style="width: 100px;">
-                        <option value="최신순" name="searchType">최신순</option>
-                        <option value="추천순" name="searchType" th:seleted="${searchType == '추천순'}">추천순</option>
-                    </select>
-                    <input type="text" name="searchText" class="form-control mx-1 mt-2" placeholder="내용을 입력하세요.">
-                    <button type="submit" class="btn btn-primary mx-1 mt-2" style="width: 90px;">검색</button>
-                    <a class="btn btn-primary mx-1 mt-2" data-bs-toggle="modal" data-bs-target="#registerModal" style="width: 130px;">등록하기</a>
-                    <a class="btn btn-danger mx-1 mt-2" data-bs-toggle="modal" data-bs-target="#reportModal" style="width: 90px;">신고</a>
+        </div>
+    </div>
+    <!-- 신고하기 -->
+    <div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hiiden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fs-5" id="modal">신고하기</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-            </form>
-            <div class="mt-3"><b th:text="${'총 강의평가 수 ' + evaluationListSize + '개'}"></b></div>
-            <th:block th:each="list : ${evaluationList.content}">
-                <div class="card bg-light mt-3 mb-3">
-                    <div class="card-header bg-light">
-                        <div class="row">
-                            <div class="col-8 text-left" th:text="${list.lectureName + ' (' + list.professorName + ')'}">
-                            </div>
-                            <div class="col-4 text-right" style="text-align: right;">
-                                종합 <span style="color: red;" th:text="${list.totalScore}"></span>
-                            </div>
+                <div class="modal-body">
+                    <form th:action="@{/reportAction}" method="post">
+                        <div class="form-group">
+                            <label>신고 제목</label>
+                            <input type="text" name="reportTitle" class="form-control" maxlength="30">
                         </div>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="cart-title" th:text="${list.evaluationTitle + ' (' + list.lectureYear + ' ' + list.semesterDivide + ')'}">
-                            <small th:text="${list.lectureYear + ' ' + list.semesterDivide + }"></small>
-                        </h5>
-                        <p class="cart-text" th:text="${list.evaluationContent}"></p>
-                        <div class="row">
-                            <div class="col-9 text-left m-auto">
-                                성적 <span style="color: red;" th:text="${list.creditScore}"></span>
-                                널널 <span style="color: red;" th:text="${list.comportableScore}"></span>
-                                강의 <span style="color: red;" th:text="${list.lectureScore}"></span>
-                                <span style="color: green;" th:text="${'(추천 : ' + list.likeCount + ')'}"></span>
-                            </div>
-                            <div class="col-3 text-right" style="display: flex; justify-content: flex-end;">
-                                <form th:action="@{/likeyAction/__${evaluationID}__}" method="POST" onsubmit="return likeyCheck()">
-                                    <input type="hidden" th:name="evaluationID" th:value="${list.evaluationID}">
-                                    <input type="submit" class="btn btn-outline-success" value="추천" />
-                                </form>
-                                <form th:action="@{/deleteAction/__${id}__}" method="POST" onsubmit="return deleteCheck()">
-                                    <input type="hidden" th:name="id" th:value="${list.evaluationID}">
-                                    <input type="submit" class="btn btn-outline-secondary" value="삭제" style="margin-left:5px;"/>
-                                </form>
-                            </div>
+                        <div class="form-group mb-3">
+                            <label>신고 내용</label>
+                            <textarea name="reportContent" class="form-control" maxlength="2048" style="height: 180px;"></textarea>
                         </div>
-                    </div>
-                </div>
-            </th:block>
-        </section>
-        <!-- 페이지네이션 -->
-        <nav aria-label="Page navigation example" class="mt-3 mb-3 m-auto">
-            <ul class="pagination">
-                <li class="page-item" th:classappend="${1 == evaluationList.pageable.pageNumber + 1} ? 'disabled'">
-                    <a class="page-link" th:href="@{/(page=${evaluationList.pageable.pageNumber - 1}, searchText=${param.searchText})}">Previous</a>
-                </li>
-                <li class="page-item" th:classappend="${i == evaluationList.pageable.pageNumber + 1} ? 'disabled'" th:each="i : ${#numbers.sequence(startPage, endPage)}">
-                    <a class="page-link" th:href="@{/(page=${i - 1}, searchText=${param.searchText})}" th:text="${i}"></a>  <!-- index 넘기는 것에 주의 -->
-                </li>
-                <li class="page-item" th:classappend="${evaluationList.totalPages == evaluationList.pageable.pageNumber + 1} ? 'disabled'">
-                    <a class="page-link" th:href="@{/(page=${evaluationList.pageable.pageNumber + 1}, searchText=${param.searchText})}">Next</a>
-                </li>
-            </ul>
-        </nav>
-        <!-- 평가 등록 -->
-        <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hiiden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title fs-5" id="modal">평가 등록</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form th:action="@{/evaluationRegisterAction}" method="post">
-                            <div class="form-row mb-3" style="display: flex;">
-                                <div class="form-group col-sm-6">
-                                    <label>강의명</label>
-                                    <input type="text" name="lectureName" class="form-control" maxlength="20">
-                                </div>
-                                <div class="form-group col-sm-6">
-                                    <label>교수명</label>
-                                    <input type="text" name="professorName" class="form-control" maxlength="20">
-                                </div>
-                            </div>
-                            <div class="form-row" style="display: flex;">
-                                <div class="form-group col-sm-4">
-                                    <label>수강 연도</label>
-                                    <select name="lectureYear" class="form-select">
-                                        <option value="2011">2011</option>
-                                        <option value="2012">2012</option>
-                                        <option value="2013">2013</option>
-                                        <option value="2014">2014</option>
-                                        <option value="2015">2015</option>
-                                        <option value="2016">2016</option>
-                                        <option value="2017">2017</option>
-                                        <option value="2018">2018</option>
-                                        <option value="2019">2019</option>
-                                        <option value="2020">2020</option>
-                                        <option value="2021">2021</option>
-                                        <option value="2022">2022</option>
-                                        <option value="2023" selected>2023</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-sm-4">
-                                    <label>수강 학기</label>
-                                    <select name="semesterDivide" class="form-select">
-                                        <option value="1학기" selected>1학기</option>
-                                        <option value="여름학기">여름학기</option>
-                                        <option value="2학기">2학기</option>
-                                        <option value="겨울학기">겨울학기</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-sm-4">
-                                    <label>강의 구분</label>
-                                    <select name="lectureDivide" class="form-select">
-                                        <option value="전공" selected>전공</option>
-                                        <option value="교양">교양</option>
-                                        <option value="기타">기타</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>제목</label>
-                                <input type="text" name="evaluationTitle" class="form-control" maxlength="30">
-                            </div>
-                            <div class="form-group mb-3">
-                                <label>내용</label>
-                                <textarea name="evaluationContent" class="form-control" maxlength="2048" style="height: 180px;"></textarea>
-                            </div>
-                            <div class="form-row" style="display: flex;">
-                                <div class="form-group col-sm-3">
-                                    <label>종합</label>
-                                    <select name="totalScore" class="form-select">
-                                        <option value="A" selected>A</option>
-                                        <option value="B">B</option>
-                                        <option value="C">C</option>
-                                        <option value="D">D</option>
-                                        <option value="F">F</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-sm-3">
-                                    <label>성적</label>
-                                    <select name="creditScore" class="form-select">
-                                        <option value="A" selected>A</option>
-                                        <option value="B">B</option>
-                                        <option value="C">C</option>
-                                        <option value="D">D</option>
-                                        <option value="F">F</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-sm-3">
-                                    <label>널널</label>
-                                    <select name="comportableScore" class="form-select">
-                                        <option value="A" selected>A</option>
-                                        <option value="B">B</option>
-                                        <option value="C">C</option>
-                                        <option value="D">D</option>
-                                        <option value="F">F</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-sm-3 mb-3">
-                                    <label>강의</label>
-                                    <select name="lectureScore" class="form-select">
-                                        <option value="A" selected>A</option>
-                                        <option value="B">B</option>
-                                        <option value="C">C</option>
-                                        <option value="D">D</option>
-                                        <option value="F">F</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">등록하기</button>
-                            </div>
-                        </form>
-                    </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                            <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">신고하기</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-        <!-- 신고하기 -->
-        <div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hiiden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title fs-5" id="modal">신고하기</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form th:action="@{/reportAction}" method="post">
-                            <div class="form-group">
-                                <label>신고 제목</label>
-                                <input type="text" name="reportTitle" class="form-control" maxlength="30">
-                            </div>
-                            <div class="form-group mb-3">
-                                <label>신고 내용</label>
-                                <textarea name="reportContent" class="form-control" maxlength="2048" style="height: 180px;"></textarea>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                                <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">신고하기</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-   <!--     <section class="container mt-3" style="max-width: 560px;">
-            <div class="alert alert-success mt-4" role="alert">
-                <span th:if="${msg != null}" th:text="${msg}"></span>
-            </div>
-        </section>-->
-        <footer class="bg-dark mt-auto p-5 text-center" style="color: #FFFFFF;">
-            Copyright &copy; 2023 미미 All Rights Reserved
-        </footer>
+    </div>
+    <footer class="bg-dark mt-auto p-5 text-center" style="color: #FFFFFF;">
+        Copyright &copy; 2023 미미 All Rights Reserved
+    </footer>
     </th:block>
     <script th:src="@{js/common.js}"></script>
     <!-- 부트스트랩 script -->
