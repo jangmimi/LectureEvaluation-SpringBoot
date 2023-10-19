@@ -67,21 +67,39 @@
                 <button type="submit" class="btn btn-primary mx-1 mt-2" style="width: 90px;">검색</button>
             </div>
         </form>
-        <div class="row row-cols-1 row-cols-md-4 g-4 mt-3">
+        <div class="row row-cols-1 row-cols-md-4 g-4 mt-3 mb-3">
             <div th:each="lectures, iterStat : ${lectures}">
                 <div class="col">
                     <a th:href="${lectures.url}" target="_blank" style="text-decoration: none;">
                         <div class="card" style="height: 300px">
                             <img th:src="${lectures.image}" style="width: 100%;" class="card-img-top" alt="...">
                             <div class="card-body">
+                                <input type="hidden" id="productId" th:value="${lectures.productId}">
                                 <h5 class="card-title" id="card-tt" th:text="${lectures.subject}" style="font-size: 16px;"></h5>
-                                <h5 class="card-text" th:text="${lectures.professor} + ' ' + ${lectures.reviewCnt}" style="font-size: 14px; color: gray;"></h5>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <h5 class="card-text" th:text="${lectures.professor} + ' ' + ${lectures.reviewCnt}" style="font-size: 14px; color: gray;"></h5>
+                                    <button class="btn btn-success w-8" style="font-size: 13px;">평가등록</button>
+                                </div>
                             </div>
                         </div>
                     </a>
                 </div>
             </div>
         </div>
+        <!-- 페이지네이션 -->
+        <nav aria-label="Page navigation" class="mt-5 mb-3 m-auto">
+            <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                    <a class="page-link">이전</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#">다음</a>
+                </li>
+            </ul>
+        </nav>
     </section>
 
     <footer class="bg-dark mt-auto p-5 text-center" style="color: #FFFFFF;">

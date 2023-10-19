@@ -28,6 +28,7 @@ public class LectureService {
 
         for (Element content : contents) {
             Lecture lectures = Lecture.builder()
+                    .productId(content.select(".card").attr("data-productid"))
                     .image(content.select("a img").attr("abs:src"))
                     .subject(content.select(".card-content .course_title").text())
                     .professor(content.select(".card-content .instructor").text())
@@ -36,7 +37,7 @@ public class LectureService {
                     .build();
             lectureList.add(lectures);
         }
-        log.info(lectureList.toString());
+//        log.info(lectureList.toString());
         return lectureList;
     }
 
