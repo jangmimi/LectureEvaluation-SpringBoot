@@ -32,6 +32,7 @@ public class LectureService {
                     .subject(content.select(".card-content .course_title").text())
                     .professor(content.select(".card-content .instructor").text())
                     .url(content.select(".card a").attr("abs:href"))
+                    .reviewCnt(content.select(".card-content .review_cnt").text())
                     .build();
             lectureList.add(lectures);
         }
