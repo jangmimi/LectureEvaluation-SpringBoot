@@ -12,4 +12,5 @@ public class Lecture {
     private String subject;
     private String professor;
     private String url;
+    private String reviewCnt;
 }

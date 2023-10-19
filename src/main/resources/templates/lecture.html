@@ -75,7 +75,7 @@
                             <img th:src="${lectures.image}" style="width: 100%;" class="card-img-top" alt="...">
                             <div class="card-body">
                                 <h5 class="card-title" id="card-tt" th:text="${lectures.subject}" style="font-size: 16px;"></h5>
-                                <h5 class="card-text" th:text="${lectures.professor}" style="font-size: 14px; color: gray;"></h5>
+                                <h5 class="card-text" th:text="${lectures.professor} + ' ' + ${lectures.reviewCnt}" style="font-size: 14px; color: gray;"></h5>
                             </div>
                         </div>
                     </a>
