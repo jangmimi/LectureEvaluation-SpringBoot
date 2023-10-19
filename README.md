@@ -26,14 +26,23 @@
 - 필터, 검색어에 따른 검색 기능
 - 강의평가 신고 시 관리자 이메일 발송
 - 인프런 강의 데이터 크롤링
-- <u>인프런 강의와 강의평가 연결 (~진행중)</u>
+- 인프런 강의와 강의평가 연결 (~진행중)
+  강의목록 페이지에서 평가등록 클릭 시 해당 강의 제목, 강사명 표시 후 제목, 내용 작성
+  
+
 
 
 <hr>
 
 <h2>인프런 강의목록 페이지</h2>
 
-![image](https://github.com/jangmimi/LectureEvaluation-SpringBoot/assets/133731745/4ddbc768-8840-4f8f-ab2e-1e1a26ef0196)
+![image](https://github.com/jangmimi/LectureEvaluation-SpringBoot/assets/133731745/e6d4f281-49f5-4353-8f6b-0dc7b875cafe)
+
+<h2>평가등록 모달창</h2>
+
+![image](https://github.com/jangmimi/LectureEvaluation-SpringBoot/assets/133731745/b6493a07-f5ed-4289-b883-012077b6f8c5)
+
+
 
 <h2>강의평가 페이지</h2>
 
