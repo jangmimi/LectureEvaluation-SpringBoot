@@ -1,6 +1,7 @@
 package com.springproject.controller;
 
 import com.springproject.model.Evaluation;
+import com.springproject.model.Evaluation2;
 import com.springproject.model.Likey;
 import com.springproject.model.User;
 import com.springproject.service.EvaluationService;
@@ -24,10 +25,11 @@ public class EvaluationController {
     private LikeyService likeyService;
 
     @PostMapping("/evaluationRegisterAction")
-    public String evaluationRegisterAction(@ModelAttribute Evaluation evaluation, HttpSession session) {
+    public String evaluationRegisterAction(@RequestParam(required = false) String lectureId,
+                                           @ModelAttribute Evaluation2 evaluation, HttpSession session) {
         User user = (User) session.getAttribute("loginUser");
         String userId = user.getUserId();
-        evaluationService.write(evaluation, userId);
+        evaluationService.write(lectureId, evaluation, userId);
         return "redirect:/";
     }
 

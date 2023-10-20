@@ -1,6 +1,8 @@
 package com.springproject.service;
 
 import com.springproject.model.Evaluation;
+import com.springproject.model.Evaluation2;
+import com.springproject.repository.Evaluation2Repository;
 import com.springproject.repository.EvaluationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,10 +18,14 @@ public class EvaluationService {
     @Autowired
     private EvaluationRepository evaluationRepository;
 
+    @Autowired
+    private Evaluation2Repository evaluationRepository2;
+
     @Transactional
-    public Evaluation write(Evaluation evaluation, String userId) {
+    public Evaluation2 write(String lectureId, Evaluation2 evaluation, String userId) {
         evaluation.setUserId(userId);
-        return evaluationRepository.save(evaluation);
+        evaluation.setLectureId(lectureId);
+        return evaluationRepository2.save(evaluation);
     }
 
     public Page<Evaluation> getListPaging(Pageable pageable, String searchText) {
