@@ -1,6 +1,7 @@
 package com.springproject.controller;
 
 import com.springproject.model.Evaluation;
+import com.springproject.model.Evaluation2;
 import com.springproject.model.User;
 import com.springproject.service.EvaluationService;
 import com.springproject.service.UserService;
@@ -31,45 +32,56 @@ public class LeController {
     private EvaluationService evaluationService;
 
     @RequestMapping("/")
-    public String index(Model model, HttpSession session,
-                        @RequestParam(required = false) String lectureDivide,
-                        @RequestParam(required = false) String searchType,
-                        @RequestParam(required = false) String search,
-                        @PageableDefault(size = 3) Pageable pageable,
-                        @RequestParam(required = false, defaultValue = "") String searchText) {
+    public String index(Model model, HttpSession session) {
         User loginUser = (User) session.getAttribute("loginUser");
+        List<Evaluation2> evaluationList = evaluationService.getListAll();
 
-//        if (loginUser != null) {
-//            String userEmail = userService.getUserEmail(loginUser.getUserNumber());
-//
-//            boolean emailChecked = userService.getUserEmailChecked(loginUser.getUserId());
-//            if(!emailChecked){
-//                return "emailSendConfirm";
-//            }
+        model.addAttribute("loginUser", session.getAttribute("loginUser"));
+        model.addAttribute("evaluationList",evaluationList);
+        model.addAttribute("evaluationListSize",evaluationList.size());
 
-            Page<Evaluation> evaluationList = evaluationService.getListPaging(pageable, searchText);
-            int startPage = Math.max(1, evaluationList.getPageable().getPageNumber() - 4);
-            int endPage = Math.min(evaluationList.getTotalPages(), evaluationList.getPageable().getPageNumber() + 4);
-
-            long totalItems = evaluationList.getTotalElements(); // 총 항목 수
-
-            int pageSize = 5; // 페이지 당 항목 수
-
-            model.addAttribute("loginUser", session.getAttribute("loginUser"));
-            model.addAttribute("evaluationList",evaluationList);
-            model.addAttribute("evaluationListSize",totalItems);
-
-            model.addAttribute("startPage", startPage);
-            model.addAttribute("endPage", endPage);
-
-//        }
-//        else {
-//            String alertScript = "<script>alert('로그인을 해주세요.'); location.href='/login';</script>";
-//            model.addAttribute("alertScript", alertScript);
-//            return "login";
-//        }
-        return "index";
+        return "index2";
     }
+//    @RequestMapping("/")
+//    public String index(Model model, HttpSession session,
+//                        @RequestParam(required = false) String lectureDivide,
+//                        @RequestParam(required = false) String searchType,
+//                        @RequestParam(required = false) String search,
+//                        @PageableDefault(size = 3) Pageable pageable,
+//                        @RequestParam(required = false, defaultValue = "") String searchText) {
+//        User loginUser = (User) session.getAttribute("loginUser");
+//
+////        if (loginUser != null) {
+////            String userEmail = userService.getUserEmail(loginUser.getUserNumber());
+////
+////            boolean emailChecked = userService.getUserEmailChecked(loginUser.getUserId());
+////            if(!emailChecked){
+////                return "emailSendConfirm";
+////            }
+//
+//            Page<Evaluation> evaluationList = evaluationService.getListPaging(pageable, searchText);
+//            int startPage = Math.max(1, evaluationList.getPageable().getPageNumber() - 4);
+//            int endPage = Math.min(evaluationList.getTotalPages(), evaluationList.getPageable().getPageNumber() + 4);
+//
+//            long totalItems = evaluationList.getTotalElements(); // 총 항목 수
+//
+//            int pageSize = 5; // 페이지 당 항목 수
+//
+//            model.addAttribute("loginUser", session.getAttribute("loginUser"));
+//            model.addAttribute("evaluationList",evaluationList);
+//            model.addAttribute("evaluationListSize",totalItems);
+//
+//            model.addAttribute("startPage", startPage);
+//            model.addAttribute("endPage", endPage);
+//
+////        }
+////        else {
+////            String alertScript = "<script>alert('로그인을 해주세요.'); location.href='/login';</script>";
+////            model.addAttribute("alertScript", alertScript);
+////            return "login";
+////        }
+//        return "index";
+//    }
 
     @RequestMapping("/emailCheckAction")
     public String emailCheckAction(HttpSession session, Model model, @RequestParam(required = false) String code) {

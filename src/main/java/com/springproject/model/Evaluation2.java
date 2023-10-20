@@ -1,9 +1,6 @@
 package com.springproject.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -12,6 +9,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 @Entity
 public class Evaluation2 {
     @Id
@@ -21,6 +19,12 @@ public class Evaluation2 {
     private Long userNumber;
     @Column(length = 50)
     private String lectureId;   // 강의번호
+    @Column(length = 2048)
+    private String lectureName;
+    @Column(length = 50)
+    private String lectureProfessor;
+    @Column(length = 2048)
+    private String lectureURL;
     @Column(length = 20)
     private String evaluationTitle;
     @Column(length = 2048)

@@ -11,6 +11,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,9 +23,12 @@ public class EvaluationService {
     private Evaluation2Repository evaluationRepository2;
 
     @Transactional
-    public Evaluation2 write(String lectureId, Evaluation2 evaluation, Long userNumber) {
+    public Evaluation2 write(String lectureId, String lectureName, String professorName, String url, Evaluation2 evaluation, Long userNumber) {
         evaluation.setUserNumber(userNumber);
         evaluation.setLectureId(lectureId);
+        evaluation.setLectureName(lectureName);
+        evaluation.setLectureProfessor(professorName);
+        evaluation.setLectureURL(url);
         return evaluationRepository2.save(evaluation);
     }
 
@@ -101,5 +105,9 @@ public class EvaluationService {
             return true;
         }
         return false;
+    }
+
+    public List<Evaluation2> getListAll() {
+        return evaluationRepository2.findAll();
     }
 }

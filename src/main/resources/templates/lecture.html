@@ -83,7 +83,7 @@
                                 <h5 class="card-text" th:text="${lectures.professor} + ' ' + ${lectures.reviewCnt}" style="font-size: 14px; color: gray;"></h5>
                                 <button class="btn btn-success w-8"
                                         data-bs-toggle="modal" data-bs-target="#registerModal"
-                                        th:attr="data-target=${'#registerModal'+ lectures.productId}, data-lectureId=${lectures.productId}, data-subject=${lectures.subject}, data-professor=${lectures.professor}"
+                                        th:attr="data-target=${'#registerModal'+ lectures.productId}, data-lectureId=${lectures.productId}, data-subject=${lectures.subject}, data-professor=${lectures.professor}, data-url=${lectures.url}"
                                         style="font-size: 13px;" th:value="${lectures.productId}">평가등록</button>
                             </div>
                         </div>
@@ -104,13 +104,14 @@
                     <div class="modal-body">
                         <form th:action="@{/evaluationRegisterAction}" method="post">
                             <input type="hidden" name="lectureId" id="lectureId" class="form-control">
+                            <input type="hidden" name="url" id="url" class="form-control">
                             <div class="form-group">
                                 <label>강의명</label>
-                                <input type="text" name="lectureName" id="lectureName" class="form-control" maxlength="20" disabled>
+                                <input type="text" name="lectureName" id="lectureName" class="form-control" maxlength="20" readonly>
                             </div>
                             <div class="form-group">
                                 <label>강사명</label>
-                                <input type="text" name="professorName" id="professorName" class="form-control" maxlength="20" disabled>
+                                <input type="text" name="professorName" id="professorName" class="form-control" maxlength="20" readonly>
                             </div>
                             <div class="form-group">
                                 <label>제목</label>
@@ -152,6 +153,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const lectureIdInput = document.getElementById('lectureId');
+            const urlInput = document.getElementById('url');
             const lectureNameInput = document.getElementById('lectureName');
             const professorNameInput = document.getElementById('professorName');
             const modalTriggerButtons = document.querySelectorAll('[data-bs-target="#registerModal"]');
@@ -159,9 +161,11 @@
             modalTriggerButtons.forEach(function (button) {
                 button.addEventListener('click', function () {
                     const lectureId = button.getAttribute('data-lectureId');
+                    const url = button.getAttribute('data-url');
                     const subject = button.getAttribute('data-subject');
                     const professor = button.getAttribute('data-professor');
                     lectureIdInput.value = lectureId;
+                    urlInput.value = url;
                     lectureNameInput.value = subject;
                     professorNameInput.value = professor;
                 });

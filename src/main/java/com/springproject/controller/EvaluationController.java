@@ -26,10 +26,17 @@ public class EvaluationController {
 
     @PostMapping("/evaluationRegisterAction")
     public String evaluationRegisterAction(@RequestParam(required = false) String lectureId,
+                                           @RequestParam(required = false) String lectureName,
+                                           @RequestParam(required = false) String professorName,
+                                           @RequestParam(required = false) String url,
                                            @ModelAttribute Evaluation2 evaluation, HttpSession session) {
+        log.info("폼내용 : " + evaluation.toString());
+        log.info(lectureName);
+        log.info(professorName);
+        log.info(url);
         User user = (User) session.getAttribute("loginUser");
         Long userNumber = user.getUserNumber();
-        evaluationService.write(lectureId, evaluation, userNumber);
+        evaluationService.write(lectureId, lectureName, professorName, url, evaluation, userNumber);
         return "redirect:/lectures";
     }
 
