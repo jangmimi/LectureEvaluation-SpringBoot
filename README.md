@@ -41,12 +41,13 @@
 
 <h2>평가등록 모달창</h2>
 
-![image](https://github.com/jangmimi/LectureEvaluation-SpringBoot/assets/133731745/b6493a07-f5ed-4289-b883-012077b6f8c5)
+![image](https://github.com/jangmimi/LectureEvaluation-SpringBoot/assets/133731745/f4373427-d446-4f31-9b92-8d9d3621d062)
 
 
 
 <h2>강의평가 페이지</h2>
 
-![image](https://github.com/jangmimi/LectureEvaluation-SpringBoot/assets/133731745/c7780b0e-8e52-41a1-9fc4-3efb4162fad7)
+![image](https://github.com/jangmimi/LectureEvaluation-SpringBoot/assets/133731745/5d0ab216-7288-414f-83fd-041e07da7267)
+
 
 
