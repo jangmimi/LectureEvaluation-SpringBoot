@@ -22,21 +22,32 @@
 - 이메일 인증
 - 로그인 / 로그아웃
 - 회원정보 수정
-- 강의평가 등록 / 삭제 / 목록조회 / 목록페이징 (+수정 구현 예정)
+- 강의평가 등록 / 삭제 / 목록조회 / 목록페이징 (수정 기능 추가 예정*)
 - 필터, 검색어에 따른 검색 기능
 - 강의평가 신고 시 관리자 이메일 발송
 - 인프런 강의 데이터 크롤링
-- <u>인프런 강의와 강의평가 연결 (~진행중)</u>
+- 인프런 강의와 강의평가 연결 (~진행중)<br>
+  강의목록 페이지<br>
+  1. 평가등록 클릭 시 해당 강의 제목, 강사명 표시<br>
+  2. 평가 저장 기존 로직에서 수정*<br>
+  
 
 
-<hr>
+<br><hr>
 
 <h2>인프런 강의목록 페이지</h2>
 
-![image](https://github.com/jangmimi/LectureEvaluation-SpringBoot/assets/133731745/4ddbc768-8840-4f8f-ab2e-1e1a26ef0196)
+![image](https://github.com/jangmimi/LectureEvaluation-SpringBoot/assets/133731745/e6d4f281-49f5-4353-8f6b-0dc7b875cafe)
+
+<h2>평가등록 모달창</h2>
+
+![image](https://github.com/jangmimi/LectureEvaluation-SpringBoot/assets/133731745/f4373427-d446-4f31-9b92-8d9d3621d062)
+
+
 
 <h2>강의평가 페이지</h2>
 
-![image](https://github.com/jangmimi/LectureEvaluation-SpringBoot/assets/133731745/c7780b0e-8e52-41a1-9fc4-3efb4162fad7)
+![image](https://github.com/jangmimi/LectureEvaluation-SpringBoot/assets/133731745/5d0ab216-7288-414f-83fd-041e07da7267)
+
 
 
