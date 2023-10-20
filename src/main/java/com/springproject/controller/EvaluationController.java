@@ -28,9 +28,9 @@ public class EvaluationController {
     public String evaluationRegisterAction(@RequestParam(required = false) String lectureId,
                                            @ModelAttribute Evaluation2 evaluation, HttpSession session) {
         User user = (User) session.getAttribute("loginUser");
-        String userId = user.getUserId();
-        evaluationService.write(lectureId, evaluation, userId);
-        return "redirect:/";
+        Long userNumber = user.getUserNumber();
+        evaluationService.write(lectureId, evaluation, userNumber);
+        return "redirect:/lectures";
     }
 
     @PostMapping("/deleteAction/{id}")

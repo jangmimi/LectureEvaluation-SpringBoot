@@ -22,8 +22,8 @@ public class EvaluationService {
     private Evaluation2Repository evaluationRepository2;
 
     @Transactional
-    public Evaluation2 write(String lectureId, Evaluation2 evaluation, String userId) {
-        evaluation.setUserId(userId);
+    public Evaluation2 write(String lectureId, Evaluation2 evaluation, Long userNumber) {
+        evaluation.setUserNumber(userNumber);
         evaluation.setLectureId(lectureId);
         return evaluationRepository2.save(evaluation);
     }

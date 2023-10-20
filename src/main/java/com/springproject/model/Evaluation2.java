@@ -18,7 +18,7 @@ public class Evaluation2 {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 자동 증가
     private Long id;
     @Column(length = 20)
-    private String userId;
+    private Long userNumber;
     @Column(length = 50)
     private String lectureId;   // 강의번호
     @Column(length = 20)
