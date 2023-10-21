@@ -32,7 +32,13 @@ public class UserService {
         user.setUserEmailHash(SHA256.getSHA256(user.getUserEmail()));
 
         // 중복 회원 검증
-        validateDuplicateUser(user);
+        String errorMsg = validateDuplicateUser(user);
+
+        if (errorMsg != null) {
+            log.error("중복 아이디");
+            return null;
+        }
+
         userRepository.save(user);
         sendEmail(user.getUserNumber());
 
@@ -42,14 +48,21 @@ public class UserService {
     /**
      * 중복회원검증
      */
-    public void validateDuplicateUser(User user) {
-//        userRepository.findByUserId(user.getUserId())
-//                .ifPresent(m -> {
-//                    throw new IllegalStateException("이미 존재하는 회원입니다.");
-//                });
+//    public void validateDuplicateUser(User user) {
+////        userRepository.findByUserId(user.getUserId())
+////                .ifPresent(m -> {
+////                    throw new IllegalStateException("이미 존재하는 회원입니다.");
+////                });
+//        if (userRepository.findByUserId(user.getUserId()).isPresent()) {
+//                throw new IllegalStateException("이미 존재하는 회원입니다.");
+//        }
+//    }
+
+    public String validateDuplicateUser(User user) {
         if (userRepository.findByUserId(user.getUserId()).isPresent()) {
-                throw new IllegalStateException("이미 존재하는 회원입니다.");
+                return "이미 존재하는 회원입니다.";
         }
+        return null;
     }
 
     /**
