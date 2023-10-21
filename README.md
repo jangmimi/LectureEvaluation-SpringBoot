@@ -22,14 +22,12 @@
 - 이메일 인증
 - 로그인 / 로그아웃
 - 회원정보 수정
-- 강의평가 등록 / 삭제 / 목록조회 / 목록페이징 (수정 기능 추가 예정*)
+- 강의평가 등록 / 삭제 / 목록조회 / 수정
+- 페이징 처리
 - 필터, 검색어에 따른 검색 기능
-- 강의평가 신고 시 관리자 이메일 발송
+- 강의평가 페이지 내 신고 기능 (관리자 이메일 발송)
 - 인프런 강의 데이터 크롤링
-- 인프런 강의와 강의평가 연결 (~진행중)<br>
-  강의목록 페이지<br>
-  1. 평가등록 클릭 시 해당 강의 제목, 강사명 표시<br>
-  2. 평가 저장 기존 로직에서 수정*<br>
+- 강의목록 페이지<br>
   
 
 
@@ -37,17 +35,40 @@
 
 <h2>인프런 강의목록 페이지</h2>
 
-![image](https://github.com/jangmimi/LectureEvaluation-SpringBoot/assets/133731745/e6d4f281-49f5-4353-8f6b-0dc7b875cafe)
+![image](https://github.com/jangmimi/LectureEvaluation-SpringBoot/assets/133731745/79cf70a2-64ef-4109-b8e1-eeac2ba78cf9)
+
+- 인프런 사이트의 강의목록을 데이터 크롤링해서 표시<br>
+- 이미지 또는 제목 클릭 시 해당 강의 페이지로 새 창 이동<br>
+- 로그인 상태에서만 평가등록 가능
 
 <h2>평가등록 모달창</h2>
 
-![image](https://github.com/jangmimi/LectureEvaluation-SpringBoot/assets/133731745/f4373427-d446-4f31-9b92-8d9d3621d062)
+![image](https://github.com/jangmimi/LectureEvaluation-SpringBoot/assets/133731745/d8dbf661-d8ea-4ddb-b419-5c617f8fd5b4)
 
-
+- 선택한 강의의 제목, 강사명을 표시<br>
+- 강의평가 내용 저장
 
 <h2>강의평가 페이지</h2>
 
-![image](https://github.com/jangmimi/LectureEvaluation-SpringBoot/assets/133731745/5d0ab216-7288-414f-83fd-041e07da7267)
+![image](https://github.com/jangmimi/LectureEvaluation-SpringBoot/assets/133731745/c5aa89d2-e378-40de-bbd1-0dfd26bd0d4b)
 
+- 저장된 강의평가 조회 목록<br>
+- 로그인 시에만 추천, 수정, 삭제 버튼 표시<br>
+- 본인이 쓴 강의평가 글에만 수정 삭제 버튼 표시
+- 추천 기능 (중복체크 후 추천취소까지 구현 예정*)
 
+<h2>로그인 페이지</h2>
+
+![image](https://github.com/jangmimi/LectureEvaluation-SpringBoot/assets/133731745/759a969a-382d-4f95-bd2a-1d6fffc0b249)
+
+<h2>회원가입 페이지</h2>
+
+![image](https://github.com/jangmimi/LectureEvaluation-SpringBoot/assets/133731745/400b86aa-6f09-47d3-80fe-2410dd7a6058)
+
+<h2>회원정보수정 페이지</h2>
+
+![image](https://github.com/jangmimi/LectureEvaluation-SpringBoot/assets/133731745/da141e06-8af0-45d4-a6a4-52fe43cdb57c)
+
+- 로그인한 사용자의 정보를 표시<br>
+- 이메일은 수정불가
 
