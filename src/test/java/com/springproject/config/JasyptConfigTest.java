@@ -2,10 +2,14 @@ package com.springproject.config;
 
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class JasyptConfigTest {
+
+    @Value("${jasypt.encryptor.password}")
+    private String password;
 
     @Test
     void encryptTest() {
@@ -19,10 +23,9 @@ class JasyptConfigTest {
     }
 
     public String jasyptEncoding(String value) {
-        String key = "비밀번호";
         StandardPBEStringEncryptor pbeEnc = new StandardPBEStringEncryptor();
         pbeEnc.setAlgorithm("PBEWithMD5AndDES");
-        pbeEnc.setPassword(key);
+        pbeEnc.setPassword(password);
         return pbeEnc.encrypt(value);
     }
 }
