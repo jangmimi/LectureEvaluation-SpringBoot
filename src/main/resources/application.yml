@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/lectureEvaluation2
-    username: root
-    password: 1234
+    url: ENC(zQVsiPgBkSc0hJ2pb/Gjf6D9xTou+FFqEE6Eb6hvWy9fJ3jO6LisA2hjK9LB52cL7LbZCs+EJqk=) #개인 DB
+    username: ENC(yc/9dYuj6thDEZmI5/N5iA==) #DB 정보 암호화
+    password: ENC(8HxW/0iGqW6VJtzhVoX3qw==) #DB 정보 암호화
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   # Thymeleaf 설정
