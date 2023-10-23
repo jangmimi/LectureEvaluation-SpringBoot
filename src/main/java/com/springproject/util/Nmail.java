@@ -6,6 +6,6 @@ import javax.mail.PasswordAuthentication;
 public class Nmail extends Authenticator {
     @Override
     protected PasswordAuthentication getPasswordAuthentication() {
-        return new PasswordAuthentication("alwkd920101@naver.com", "alwkd1127!@");
+        return new PasswordAuthentication("이메일", "비밀번호");
     }
 }
