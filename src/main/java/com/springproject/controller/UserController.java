@@ -4,6 +4,7 @@ import com.springproject.model.User;
 import com.springproject.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,32 +23,51 @@ public class UserController {
 
     @RequestMapping("/join")
     public String join() {
-        return "join";
+        return "user/join";
     }
 
     @RequestMapping("/login")
     public String login() {
-        return "login";
+        return "user/login";
     }
 
     @PostMapping("/loginAction")
-    public String loginAction(@RequestParam String userId, @RequestParam String userPw, HttpSession session) {
+    @ResponseBody
+    public int loginAction(@RequestParam String userId, @RequestParam String userPw, HttpSession session) {
         User user = userService.login(userId, userPw);
-        if(user != null) {
+
+        if (user != null) {
             session.setAttribute("loginUser", user);
-            return "redirect:/";
+            return 1;
         } else {
-            return "login";
+            return 0;
         }
     }
 
     @PostMapping("/joinAction")
-    public String joinAction(@ModelAttribute User user, HttpSession session) {
+    @ResponseBody
+    public int joinAction(@ModelAttribute User user, HttpSession session) {
         Long userNumber = userService.join(user);
-        session.setAttribute("loginUser", user);
 
-        return "emailSend";
+        if (userNumber != null) {
+            session.setAttribute("loginUser", user);
+            return 1;
+        } else {
+            return 0;
+        }
     }
+
+//    @PostMapping("/joinAction")
+//    public String joinAction(@ModelAttribute User user, HttpSession session) {
+//        Long userNumber = userService.join(user);
+//
+//        if (userNumber == null) {
+//            return "redirect:/join";
+//        }
+//        session.setAttribute("loginUser", user);
+//
+//        return "emailSend";
+//    }
 
     @RequestMapping("/logout")
     public String logout(SessionStatus sessionStatus) {
@@ -57,7 +77,7 @@ public class UserController {
 
     @RequestMapping("/update")
     public String update() {
-        return "update";
+        return "user/update";
     }
 
     @PostMapping("/update/{userNumber}")
@@ -83,13 +103,20 @@ public class UserController {
     }
 
     @PostMapping("/leave/{userNumber}")
-    public String leave(@RequestParam(required = false) Long userNumber, HttpSession session, SessionStatus sessionStatus) {
+    public String leave(@RequestParam(required = false) Long userNumber,
+                        HttpSession session, SessionStatus sessionStatus) {
         userNumber = ((User) session.getAttribute("loginUser")).getUserNumber();
         log.info(userNumber.toString());
-        userService.leave(userNumber);
-        userService.logout(sessionStatus);
+        userService.leave(userNumber, sessionStatus);
 
         return "redirect:/";
     }
 
+    // ajax로 아이디 중복 체크
+    @PostMapping("/checkId")
+    @ResponseBody
+    public int validateDuplicateUser(@RequestParam String userId) {
+        boolean checkId = userService.validateDuplicateId(userId);
+        return checkId ? 0 : 1; // 0일 경우 중복 아이디
+    }
 }

@@ -10,7 +10,7 @@
 <div th:replace="~{fragments/header :: headerFragment}"></div>
     <section class="container mt-3" style="max-width: 400px;">
         <h2 class="mb-3 mt-3" style="text-align: center;">회원가입</h2>
-        <form th:action="@{/joinAction}" method="post" onsubmit="return joinCheck()">
+<!--        <form th:action="@{/joinAction}" method="post" onsubmit="return joinCheck()">-->
             <div class="form-group">
                 <label>아이디</label>
                 <input type="text" name="userId" id="userId" class="form-control mb-3 mt-1" placeholder="아이디를 입력해주세요.">
@@ -27,9 +27,9 @@
                 이미 회원이신가요? <a th:href="@{/login}">로그인</a>
             </div>
             <div class="my-btn">
-                <button type="submit" class="btn btn-success w-100 mt-3">회원가입</button>
+                <button type="button" class="btn btn-success w-100 mt-3" th:onclick="joinCheck()">회원가입</button>
             </div>
-        </form>
+<!--        </form>-->
     </section>
 <div th:replace="~{fragments/footer :: footerFragment}"></div>
 <script th:src="@{js/common.js}"></script>
