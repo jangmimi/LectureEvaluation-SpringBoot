@@ -104,29 +104,7 @@
     </section>
 <div th:replace="~{fragments/footer :: footerFragment}"></div>
 </th:block>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const lectureIdInput = document.getElementById('lectureId');
-        const urlInput = document.getElementById('url');
-        const lectureNameInput = document.getElementById('lectureName');
-        const professorNameInput = document.getElementById('professorName');
-        const modalTriggerButtons = document.querySelectorAll('[data-bs-target="#registerModal"]');
-
-        modalTriggerButtons.forEach(function (button) {
-            button.addEventListener('click', function () {
-                const lectureId = button.getAttribute('data-lectureId');
-                const url = button.getAttribute('data-url');
-                const subject = button.getAttribute('data-subject');
-                const professor = button.getAttribute('data-professor');
-                lectureIdInput.value = lectureId;
-                urlInput.value = url;
-                lectureNameInput.value = subject;
-                professorNameInput.value = professor;
-            });
-        });
-    });
-
-</script>
 <script th:src="@{js/common.js}"></script>
+<script th:src="@{js/lecture.js}"></script>
 </body>
 </html>
