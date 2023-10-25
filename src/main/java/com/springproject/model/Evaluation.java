@@ -1,46 +1,34 @@
 package com.springproject.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Table(name="evaluation") // DB 테이블 이름 지정
+@Table(name="evaluation_inflearn") // DB 테이블 이름 지정
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 @Entity
 public class Evaluation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 자동 증가
-    private int evaluationID;
+    private Long id;
     @Column(length = 20)
-    private String userId;
+    private Long userNumber;
     @Column(length = 50)
+    private String lectureId;   // 강의번호
+    @Column(length = 2048)
     private String lectureName;
-    @Column(length = 20)
-    private String professorName;
-    @Column
-    private int lectureYear;
-    @Column(length = 20)
-    private String semesterDivide;
-    @Column(length = 10)
-    private String lectureDivide;
+    @Column(length = 50)
+    private String lectureProfessor;
+    @Column(length = 2048)
+    private String lectureURL;
     @Column(length = 50)
     private String evaluationTitle;
     @Column(length = 2048)
     private String evaluationContent;
-    @Column(length = 5)
-    private String totalScore;
-    @Column(length = 5)
-    private String creditScore;
-    @Column(length = 5)
-    private String comportableScore;
-    @Column(length = 5)
-    private String lectureScore;
     @Column
     private int likeCount;
 }
