@@ -1,41 +1,45 @@
 package com.springproject.service;
 
 import com.springproject.model.Evaluation;
-import com.springproject.model.Evaluation2;
-import com.springproject.repository.Evaluation2Repository;
 import com.springproject.repository.EvaluationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EvaluationService {
+
     @Autowired
     private EvaluationRepository evaluationRepository;
 
-    @Autowired
-    private Evaluation2Repository evaluationRepository2;
+    @Transactional
+    public Evaluation write(Evaluation evaluation, Long userNumber) {
+        evaluation.setUserNumber(userNumber);
+        return evaluationRepository.save(evaluation);
+    }
+
+    public List<Evaluation> getListAll() {
+        return evaluationRepository.findAll();
+    }
+
+    public Page<Evaluation> getListAllByPage(Pageable pageable) {
+        return evaluationRepository.findAllByOrderByIdDesc(pageable);
+    }
 
     @Transactional
-    public Evaluation2 write(String lectureId, String lectureName, String professorName, String url, Evaluation2 evaluation, Long userNumber) {
-        evaluation.setUserNumber(userNumber);
-        evaluation.setLectureId(lectureId);
-        evaluation.setLectureName(lectureName);
-        evaluation.setLectureProfessor(professorName);
-        evaluation.setLectureURL(url);
-        return evaluationRepository2.save(evaluation);
+    public void delete(Long id) {
+        evaluationRepository.deleteById(id);
     }
 
-    public Page<Evaluation> getListPaging(Pageable pageable, String searchText) {
-//        return evaluationRepository.findAll(pageable);
-        return evaluationRepository.findByEvaluationTitleContainingOrEvaluationContentContaining(searchText, searchText, pageable);
-    }
+
+//    public Page<xEvaluation> getListPaging(Pageable pageable, String searchText) {
+////        return evaluationRepository.findAll(pageable);
+//        return evaluationRepository.findByEvaluationTitleContainingOrEvaluationContentContaining(searchText, searchText, pageable);
+//    }
 
 //    public Page<Evaluation> getList(String lectureDivide, String searchType, String search, Integer pageNumber, int pageSize) {
 //        Sort.Order order = new Sort.Order(Sort.Direction.DESC, "evaluationID");
@@ -89,25 +93,18 @@ public class EvaluationService {
 //        return (int) evaluationRepository.count(spec);
 //    }
 
-    @Transactional
-    public void delete(Integer id) {
-        evaluationRepository.deleteByEvaluationID(id);
-    }
+//    @Transactional
+//    public boolean likeyCountUpdate(Integer evaluationID) {
+//        Optional<xEvaluation> findEvalution = evaluationRepository.findByEvaluationID(evaluationID);
+//        if(findEvalution.isPresent()) {
+//            xEvaluation find = findEvalution.get();
+//            int count = find.getLikeCount() + 1;
+//            find.setLikeCount(count);
+//            evaluationRepository.save(find);
+//            return true;
+//        }
+//        return false;
+//    }
 
-    @Transactional
-    public boolean likeyCountUpdate(Integer evaluationID) {
-        Optional<Evaluation> findEvalution = evaluationRepository.findByEvaluationID(evaluationID);
-        if(findEvalution.isPresent()) {
-            Evaluation find = findEvalution.get();
-            int count = find.getLikeCount() + 1;
-            find.setLikeCount(count);
-            evaluationRepository.save(find);
-            return true;
-        }
-        return false;
-    }
 
-    public List<Evaluation2> getListAll() {
-        return evaluationRepository2.findAll();
-    }
 }
