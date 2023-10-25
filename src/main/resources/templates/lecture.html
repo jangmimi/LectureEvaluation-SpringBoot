@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>강의 목록</title>
@@ -59,30 +58,28 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form th:action="@{/evaluationRegisterAction}" method="post">
-                            <input type="hidden" name="lectureId" id="lectureId" class="form-control">
-                            <input type="hidden" name="url" id="url" class="form-control">
-                            <div class="form-group">
-                                <label>강의명</label>
-                                <input type="text" name="lectureName" id="lectureName" class="form-control" maxlength="20" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label>강사명</label>
-                                <input type="text" name="professorName" id="professorName" class="form-control" maxlength="20" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label>제목</label>
-                                <input type="text" name="evaluationTitle" class="form-control" maxlength="30">
-                            </div>
-                            <div class="form-group mb-3">
-                                <label>내용</label>
-                                <textarea name="evaluationContent" class="form-control" maxlength="2048" style="height: 180px;"></textarea>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">등록하기</button>
-                            </div>
-                        </form>
+                        <input type="hidden" name="lectureId" id="lectureId" class="form-control">
+                        <input type="hidden" name="url" id="url" class="form-control">
+                        <div class="form-group">
+                            <label>강의명</label>
+                            <input type="text" name="lectureName" id="lectureName" class="form-control" maxlength="20" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>강사명</label>
+                            <input type="text" name="professorName" id="professorName" class="form-control" maxlength="20" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>제목</label>
+                            <input type="text" name="evaluationTitle" id="evaluationTitle" class="form-control" maxlength="30">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label>내용</label>
+                            <textarea name="evaluationContent" id="evaluationContent" class="form-control" maxlength="2048" style="height: 180px;"></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="registerCheck()">등록하기</button>
+                        </div>
                     </div>
                 </div>
             </div>
