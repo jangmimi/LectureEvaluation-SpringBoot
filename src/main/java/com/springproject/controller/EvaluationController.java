@@ -39,13 +39,14 @@ public class EvaluationController {
     }
 
     @PostMapping("/likeyAction/{evaluationID}")
-    public String likeyAction(@RequestParam(required = false) Integer evaluationID,
+    public String likeyAction(@RequestParam(required = false) Long evaluationID,
                               HttpSession session, HttpServletRequest request) {
         User user = (User) session.getAttribute("loginUser");
         Long userNumber = user.getUserNumber();
         log.info("userNumber : " + userNumber);
+
         likeyService.like(evaluationID, userNumber, request);
-//        evaluationService.likeyCountUpdate(evaluationID);
+        evaluationService.likeyCountUpdate(evaluationID);
 
         return "redirect:/";
     }

@@ -16,7 +16,7 @@ public class LikeyService {
     @Autowired
     private LikeyRepository likeyRepository;
 
-    public Likey like(Integer evaluationID, Long userNumber, HttpServletRequest request) {
+    public Likey like(Long evaluationID, Long userNumber, HttpServletRequest request) {
         Likey likey = new Likey();
         likey.setUserNumber(userNumber);
         likey.setEvaluationId(evaluationID);
@@ -26,20 +26,17 @@ public class LikeyService {
     }
 
     public static String getClientIP(HttpServletRequest request) {
-        String ip = request.getHeader("X-Forwarded-For");
-        if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("Proxy-Client-IP");
+        String[] headerNames = {"X-Forwarded-For", "Proxy-Client-IP", "WL-Proxy-Client-IP"};
+
+        for (String headerName : headerNames) {
+            String ip = request.getHeader(headerName);
+            if (ip != null && !ip.isEmpty() && !"unknown".equalsIgnoreCase(ip)) {
+                return ip.split(",")[0].trim();
+            }
         }
-        if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("WL-Proxy-Client-IP");
-        }
-        if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getRemoteAddr();
-        }
-        if (ip != null && ip.contains(",")) {
-            ip = ip.split(",")[0].trim();
-        }
-        return ip;
+
+        // 모든 헤더에서 IP를 찾지 못한 경우, 기본적으로 RemoteAddr을 사용
+        return request.getRemoteAddr();
     }
 
     public boolean checkLiked(Long id) {

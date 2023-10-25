@@ -20,7 +20,7 @@ public class Likey {
     private Long userNumber;
 
     @Column
-    private int evaluationId;
+    private Long evaluationId;
 
     @Column(length = 50)
     private String userIp;

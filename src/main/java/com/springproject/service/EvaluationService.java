@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EvaluationService {
@@ -35,6 +36,20 @@ public class EvaluationService {
         evaluationRepository.deleteById(id);
     }
 
+
+    @Transactional
+    public boolean likeyCountUpdate(Long evaluationID) {
+        Optional<Evaluation> find = evaluationRepository.findById(evaluationID);
+
+        if(find.isPresent()) {
+            Evaluation evaluation = find.get();
+            int count = evaluation.getLikeCount() + 1;
+            evaluation.setLikeCount(count);
+            evaluationRepository.save(evaluation);
+            return true;
+        }
+        return false;
+    }
 
 //    public Page<xEvaluation> getListPaging(Pageable pageable, String searchText) {
 ////        return evaluationRepository.findAll(pageable);
@@ -93,18 +108,6 @@ public class EvaluationService {
 //        return (int) evaluationRepository.count(spec);
 //    }
 
-//    @Transactional
-//    public boolean likeyCountUpdate(Integer evaluationID) {
-//        Optional<xEvaluation> findEvalution = evaluationRepository.findByEvaluationID(evaluationID);
-//        if(findEvalution.isPresent()) {
-//            xEvaluation find = findEvalution.get();
-//            int count = find.getLikeCount() + 1;
-//            find.setLikeCount(count);
-//            evaluationRepository.save(find);
-//            return true;
-//        }
-//        return false;
-//    }
 
 
 }
