@@ -27,7 +27,12 @@
                                 <th:block th:if="${loginUser != null}">
                                     <li><a class="dropdown-item" th:href="@{/update}">회원정보수정</a></li>
                                     <li><a class="dropdown-item" th:href="@{/logout}">로그아웃</a></li>
-                                    <li><a class="dropdown-item" th:href="@{/leave}">회원탈퇴</a></li>
+                                    <li>
+                                        <form th:action="@{/leave/__${id}__}" method="POST" onsubmit="return oDeleteCheck()">
+                                            <input type="hidden" name="userNumber" th:value="*{userNumber}" />
+                                            <input type="submit" class="dropdown-item" value="회원탈퇴" />
+                                        </form>
+                                    </li>
                                 </th:block>
                             </ul>
                         </li>
