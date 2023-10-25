@@ -1,4 +1,15 @@
 spring:
+  # mail 설정
+  mail:
+    username: ENC(JPoQv1YWj6d8qhMCdilfc3jAkuNmncl2x/uVFezs0mg=)
+    password: ENC(dvWQNC4j7JhQ9HBi1Tx6eqcImUrVRnns)
+    host: smtp.naver.com
+    port: 587
+    protocol: smtp
+    properties.mail.smtp.auth: true
+    properties.mail.smtp.starttls.enable: true
+    from: ENC(JPoQv1YWj6d8qhMCdilfc3jAkuNmncl2x/uVFezs0mg=)
+  # Database 설정
   datasource:
     url: ENC(zQVsiPgBkSc0hJ2pb/Gjf6D9xTou+FFqEE6Eb6hvWy9fJ3jO6LisA2hjK9LB52cL7LbZCs+EJqk=) #개인 DB
     username: ENC(yc/9dYuj6thDEZmI5/N5iA==) #DB 정보 암호화
