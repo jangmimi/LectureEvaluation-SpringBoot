@@ -1,4 +1,4 @@
-package com.springproject.util;
+package com.springproject.config;
 
 import java.security.MessageDigest;
 
