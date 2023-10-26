@@ -47,3 +47,19 @@ body {
 #lectureName, #professorName{
     text-overflow: ellipsis;
 }
+
+#my-col-8 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-link {
+    text-align: center;
+    font-size: 13px;
+}
+
+.user-link a {
+    text-decoration: none;
+    color: green;
+}

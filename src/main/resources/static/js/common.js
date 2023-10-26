@@ -41,8 +41,8 @@ function loginCheck() {
 // 회원가입 submit 전 체크
 function joinCheck() {
     let userId = $('#userId').val().trim();
-    let userPw = $('#userPw').val().trim();;
-    let userEmail = $('#userEmail').val().trim();;
+    let userPw = $('#userPw').val().trim();
+    let userEmail = $('#userEmail').val().trim()
     let errorMessage = '';
 
     if(userId === '') {
@@ -96,7 +96,7 @@ function joinCheck() {
 // 정보수정 submit 전 체크
 function updateCheck() {
     var userId = $('#userId').val().trim();
-    var userPw = $('#userPw').val().trim();;
+    var userPw = $('#userPw').val().trim();
     var errorMessage = '';
 
     if(userId === '') {
@@ -122,4 +122,3 @@ function deleteCheck() {
     var confirmed = confirm('삭제하시겠습니까?');
     return confirmed;
 }
-

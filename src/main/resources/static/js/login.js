@@ -4,6 +4,4 @@ $(document).ready(function () {
     var lectureNameInput = $('#lectureName');
     var professorNameInput = $('#professorName');
     var modalTriggerButtons = $('[data-bs-target="#registerModal"]');
-
-
 });
