@@ -9,6 +9,7 @@ spring:
     properties.mail.smtp.auth: true
     properties.mail.smtp.starttls.enable: true
     from: ENC(JPoQv1YWj6d8qhMCdilfc3jAkuNmncl2x/uVFezs0mg=)
+
   # Database 설정
   datasource:
     url: ENC(zQVsiPgBkSc0hJ2pb/Gjf6D9xTou+FFqEE6Eb6hvWy9fJ3jO6LisA2hjK9LB52cL7LbZCs+EJqk=) #개인 DB
@@ -41,3 +42,6 @@ spring:
                   BasicBinder: TRACE
         show_sql: true
     defer-datasource-initialization: true
+
+admin:
+  email: ENC(JPoQv1YWj6d8qhMCdilfc3jAkuNmncl2x/uVFezs0mg=)
