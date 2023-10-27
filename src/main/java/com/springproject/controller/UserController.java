@@ -57,18 +57,6 @@ public class UserController {
         }
     }
 
-//    @PostMapping("/joinAction")
-//    public String joinAction(@ModelAttribute User user, HttpSession session) {
-//        Long userNumber = userService.join(user);
-//
-//        if (userNumber == null) {
-//            return "redirect:/join";
-//        }
-//        session.setAttribute("loginUser", user);
-//
-//        return "emailSend";
-//    }
-
     @RequestMapping("/logout")
     public String logout(SessionStatus sessionStatus) {
         userService.logout(sessionStatus);
@@ -82,8 +70,7 @@ public class UserController {
 
     @PostMapping("/update/{userNumber}")
     public String update(@RequestParam(required = false) Long userNumber,
-                         String userId, String userPw,
-                         Model model) {
+                         String userId, String userPw, Model model) {
         User updated = userService.update(userNumber, userId, userPw);
 
         model.addAttribute("loginUser", updated);
@@ -105,8 +92,6 @@ public class UserController {
     @PostMapping("/leave/{userNumber}")
     public String leave(@RequestParam(required = false) Long userNumber,
                         HttpSession session, SessionStatus sessionStatus) {
-        userNumber = ((User) session.getAttribute("loginUser")).getUserNumber();
-        log.info(userNumber.toString());
         userService.leave(userNumber, sessionStatus);
 
         return "redirect:/";
@@ -117,6 +102,7 @@ public class UserController {
     @ResponseBody
     public int validateDuplicateUser(@RequestParam String userId) {
         boolean checkId = userService.validateDuplicateId(userId);
+
         return checkId ? 0 : 1; // 0일 경우 중복 아이디
     }
 }

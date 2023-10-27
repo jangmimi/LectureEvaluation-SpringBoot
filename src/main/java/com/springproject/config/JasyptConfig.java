@@ -15,7 +15,6 @@ public class JasyptConfig {
 
     @Bean(name = "jasyptStringEncryptor")
     public StringEncryptor stringEncryptor() {
-//        String password = "비밀번호";    // VM Option으로 전달하는 방식이 더 안전해서 변경 적용 완료
         PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
 
         SimpleStringPBEConfig config = new SimpleStringPBEConfig();
