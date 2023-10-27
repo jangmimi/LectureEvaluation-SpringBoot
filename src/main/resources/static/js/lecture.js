@@ -44,6 +44,8 @@ function registerCheck() {
         success: function(response) {
             if(response) {
                 alert("강의평가가 등록되었습니다.");
+                evaluationTitle = $('#evaluationTitle').val("");
+                evaluationContent = $('#evaluationContent').val("");
             } else {
                 alert('강의평가 등록에 실패하였습니다.');
             }

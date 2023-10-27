@@ -5,6 +5,7 @@ import com.springproject.repository.EvaluationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,15 +28,23 @@ public class EvaluationService {
         return evaluationRepository.findAll();
     }
 
+    public Page<Evaluation> getList(String searchType, String searchText, Pageable pageable) {
+        return evaluationRepository.findWithFiltersOrderBy(searchType, searchText, pageable);
+    }
+
     public Page<Evaluation> getListAllByPage(Pageable pageable) {
         return evaluationRepository.findAllByOrderByIdDesc(pageable);
+    }
+
+    @Transactional
+    public Page<Evaluation> search(String searchText, Pageable pageable) {
+        return evaluationRepository.findByLectureNameContaining(searchText, pageable);
     }
 
     @Transactional
     public void delete(Long id) {
         evaluationRepository.deleteById(id);
     }
-
 
     @Transactional
     public boolean likeyCountUpdate(Long evaluationID) {

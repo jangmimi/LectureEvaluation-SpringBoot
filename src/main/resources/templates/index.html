@@ -17,7 +17,7 @@
                     <option value="최신순" name="searchType">최신순</option>
                     <option value="추천순" name="searchType" th:seleted="${searchType == '추천순'}">추천순</option>
                 </select>
-                <input type="text" name="searchText" class="form-control mx-1 mt-2" placeholder="내용을 입력하세요.">
+                <input type="text" name="searchText" class="form-control mx-1 mt-2" placeholder="검색어를 입력하세요.">
                 <button type="submit" class="btn btn-primary mx-1 mt-2" style="width: 90px;">검색</button>
                 <a class="btn btn-danger mx-1 mt-2" data-bs-toggle="modal" data-bs-target="#reportModal" style="width: 90px;">신고</a>
             </div>
@@ -44,14 +44,16 @@
                                             <input type="hidden" th:name="evaluationID" th:value="${list.id}">
                                             <input type="submit" class="btn btn-outline-success" value="추천" />
                                         </form>
-                                        <form th:action="@{/deleteAction/__${id}__}" method="POST" onsubmit="return deleteCheck()">
-                                            <input type="hidden" th:name="id" th:value="${list.id}">
-                                            <input type="submit" class="btn btn-outline-secondary" value="수정" style="margin-left:5px;"/>
-                                        </form>
-                                        <form th:action="@{/deleteAction/__${id}__}" method="POST" onsubmit="return deleteCheck()">
-                                            <input type="hidden" th:name="id" th:value="${list.id}">
-                                            <input type="submit" class="btn btn-outline-secondary" value="삭제" style="margin-left:5px;"/>
-                                        </form>
+                                        <th:block th:if="${userNumber == list.userNumber}">
+                                            <form th:action="@{/deleteAction/__${id}__}" method="POST" onsubmit="return deleteCheck()">
+                                                <input type="hidden" th:name="id" th:value="${list.id}">
+                                                <input type="submit" class="btn btn-outline-secondary" value="수정" style="margin-left:5px;"/>
+                                            </form>
+                                            <form th:action="@{/deleteAction/__${id}__}" method="POST" onsubmit="return deleteCheck()">
+                                                <input type="hidden" th:name="id" th:value="${list.id}">
+                                                <input type="submit" class="btn btn-outline-secondary" value="삭제" style="margin-left:5px;"/>
+                                            </form>
+                                        </th:block>
                                     </th:block>
                                     <div style="width: 130px;">
                                         <button class="btn btn-success" th:attr="onclick=|window.open('${list.lectureURL}', '_blank')|" style="margin-left:5px;">강의보러가기</button>

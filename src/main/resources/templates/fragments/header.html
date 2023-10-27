@@ -40,8 +40,8 @@
                             <a class="nav-link" id="my-infobox" th:text="*{userId + ' 님'}"></a>
                         </li>
                     </ul>
-                    <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="검색어를 입력하세요." aria-label="Search">
+                    <form class="d-flex" role="search" th:action="@{/search}" method="GET">
+                        <input class="form-control me-2" name="searchTextTop" type="search" placeholder="검색어를 입력하세요." aria-label="Search">
                         <button class="btn btn-outline-success" type="submit">Search</button>
                     </form>
                 </div>
