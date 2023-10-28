@@ -122,3 +122,40 @@ function deleteCheck() {
     var confirmed = confirm('삭제하시겠습니까?');
     return confirmed;
 }
+
+// 강의 평가 수정
+function registerCheck() {
+    let lectureId = $('#lectureId').val();
+    let url = $('#url').val();
+    let lectureName = $('#lectureName').val();
+    let professorName = $('#professorName').val();
+    let evaluationTitle = $('#evaluationTitle').val();
+    let evaluationContent = $('#evaluationContent').val();
+
+    let data = {
+        lectureId: lectureId,
+        lectureURL: url,
+        lectureName: lectureName,
+        lectureProfessor: professorName,
+        evaluationTitle: evaluationTitle,
+        evaluationContent: evaluationContent
+    };
+
+    $.ajax({
+        url: '/evaluationRegisterAction',
+        type: 'POST',
+        data: data,
+        success: function(response) {
+            if(response) {
+                alert("강의평가가 등록되었습니다.");
+                evaluationTitle = $('#evaluationTitle').val("");
+                evaluationContent = $('#evaluationContent').val("");
+            } else {
+                alert('강의평가 등록에 실패하였습니다.');
+            }
+        },
+        error:function() {
+            alert("서버 통신 에러가 발생했습니다.");
+        }
+    });
+}
