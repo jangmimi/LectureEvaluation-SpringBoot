@@ -88,13 +88,22 @@
         <nav aria-label="Page navigation" class="mt-5 mb-3 m-auto">
             <ul class="pagination justify-content-center">
                 <li class="page-item disabled">
-                    <a class="page-link">이전</a>
+                    <a class="page-link"><</a>
                 </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <div class="pagination">
+                     <span th:if="${lectures.number > 0}">
+                        <a th:href="@{'/lectures/' + (lectures.number - 1)}" class="page-link" th:text="${lectures.number}">Previous</a>
+                    </span>
+                            <span th:each="i: ${#numbers.sequence(0, lectures.totalPages - 1)}">
+                        <a th:if="${lectures.number == i}" class="page-link" th:text="${i + 1}" style="text-decoration: underline;"></a>
+                        <a th:unless="${lectures.number == i}" th:href="@{'/lectures/' + i}" class="page-link" th:text="${i + 1}"></a>
+                    </span>
+                            <span th:if="${lectures.number + 1 < lectures.totalPages}">
+                        <a th:href="@{'/lectures/' + (lectures.number + 1)}" class="page-link" th:text="${lectures.number + 2}">Next</a>
+                    </span>
+                </div>
                 <li class="page-item">
-                    <a class="page-link" href="#">다음</a>
+                    <a class="page-link" href="#">></a>
                 </li>
             </ul>
         </nav>

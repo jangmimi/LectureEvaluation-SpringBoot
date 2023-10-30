@@ -71,13 +71,13 @@
     <nav aria-label="Page navigation" class="mt-3 mb-3 m-auto">
         <ul class="pagination">
             <li class="page-item" th:classappend="${1 == evaluationList.pageable.pageNumber + 1} ? 'disabled'">
-                <a class="page-link" th:href="@{/(page=${evaluationList.pageable.pageNumber - 1}, searchText=${param.searchText})}">이전</a>
+                <a class="page-link" th:href="@{/(page=${evaluationList.pageable.pageNumber - 1}, searchText=${param.searchText})}"><</a>
             </li>
             <li class="page-item" th:classappend="${i == evaluationList.pageable.pageNumber + 1} ? 'disabled'" th:each="i : ${#numbers.sequence(startPage, endPage)}">
                 <a class="page-link" th:href="@{/(page=${i - 1}, searchText=${param.searchText})}" th:text="${i}"></a>  <!-- index 넘기는 것에 주의 -->
             </li>
             <li class="page-item" th:classappend="${evaluationList.totalPages == evaluationList.pageable.pageNumber + 1} ? 'disabled'">
-                <a class="page-link" th:href="@{/(page=${evaluationList.pageable.pageNumber + 1}, searchText=${param.searchText})}">다음</a>
+                <a class="page-link" th:href="@{/(page=${evaluationList.pageable.pageNumber + 1}, searchText=${param.searchText})}">></a>
             </li>
         </ul>
     </nav>
