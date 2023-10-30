@@ -4,7 +4,6 @@ import com.springproject.model.Evaluation;
 import com.springproject.model.User;
 import com.springproject.service.EvaluationService;
 import com.springproject.service.UserService;
-import com.springproject.config.SHA256;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,12 +14,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 @SessionAttributes("loginUser")
 @Slf4j
 @Controller
-public class LeController {
+public class MainController {
 
     @Autowired
     private UserService userService;
@@ -50,19 +48,6 @@ public class LeController {
         model.addAttribute("userNumber", userNumber);
 
         return "index";
-    }
-
-    @RequestMapping("/emailCheckAction")
-    public String emailCheckAction(@RequestParam(required = false) String code,
-                                   HttpSession session, Model model) {
-        User loginUser = (User) session.getAttribute("loginUser");
-        boolean isRight = SHA256.getSHA256(loginUser.getUserEmail()).equals(code);
-
-        if(isRight) {
-            userService.setUserEmailChecked(loginUser.getUserId());
-        }
-
-        return "redirect:/";
     }
 
     @PostMapping("/reportAction")
