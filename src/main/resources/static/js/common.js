@@ -160,9 +160,9 @@ function registerCheck() {
     });
 }
 
-// 강의 평가 수정 모달창 데이터
+// 강의 평가 수정 모달창 데이터 전달
 $(document).ready(function () {
-    var lectureIdInput = $('#lectureId');
+    var idInput = $('#id');
     var lectureNameInput = $('#lectureName');
     var professorNameInput = $('#professorName');
     var evaluationTitleInput = $('#evaluationTitle');
@@ -172,13 +172,13 @@ $(document).ready(function () {
     // 모달창에 데이터 가져오기 (HTML에서 data-속성은 대소문자를 구분하며, 소문자로 가져와야함)
     modalTriggerButtons.each(function (index, button) {
         $(button).on('click', function () {
-            var lectureId = $(button).data('lectureid');
+            var id = $(button).data('id');
             var subject = $(button).data('subject');
             var professor = $(button).data('professor');
             var title = $(button).data('title');
             var content = $(button).data('content');
 
-            lectureIdInput.val(lectureId);
+            idInput.val(id);
             lectureNameInput.val(subject);
             professorNameInput.val(professor);
             evaluationTitleInput.val(title);
@@ -186,3 +186,35 @@ $(document).ready(function () {
         });
     });
 });
+
+// 강의 평가 수정
+function updateCheck() {
+    let id = $('#id').val();
+    let evaluationTitle = $('#evaluationTitle').val();
+    let evaluationContent = $('#evaluationContent').val();
+
+    let data = {
+        id: id,
+        evaluationTitle: evaluationTitle,
+        evaluationContent: evaluationContent
+    };
+
+    $.ajax({
+        url: '/updateAction',
+        type: 'POST',
+        data: data,
+        success: function(response) {
+            if(response) {
+                alert("강의평가가 수정되었습니다.");
+                evaluationTitle = $('#evaluationTitle').val("");
+                evaluationContent = $('#evaluationContent').val("");
+                location.reload();
+            } else {
+                alert('강의평가 수정에 실패하였습니다.');
+            }
+        },
+        error:function() {
+            alert("서버 통신 에러가 발생했습니다.");
+        }
+    });
+}

@@ -49,7 +49,7 @@
                                             <input type="button" class="btn btn-outline-success"
                                                    data-bs-toggle="modal" data-bs-target="#registerModal"
                                                    th:attr="data-target=${'#registerModal'+ list.id},
-                                                    data-lectureid=${list.lectureId},
+                                                    data-id=${list.id},
                                                     data-subject=${list.lectureName},
                                                     data-professor=${list.lectureProfessor},
                                                     data-title=${list.evaluationTitle},
@@ -98,8 +98,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" name="lectureId" id="lectureId" class="form-control">
-                    <input type="hidden" name="url" id="url" class="form-control">
+                    <input type="hidden" name="id" id="id" class="form-control">
                     <div class="form-group">
                         <label>강의명</label>
                         <input type="text" name="lectureName" id="lectureName" class="form-control" maxlength="20" readonly>
@@ -118,7 +117,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="registerCheck()">등록하기</button>
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="updateCheck()">수정하기</button>
                     </div>
                 </div>
             </div>

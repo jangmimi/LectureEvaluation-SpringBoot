@@ -47,6 +47,23 @@ public class EvaluationService {
     }
 
     @Transactional
+    public Evaluation update(Long id, Evaluation evaluation) {
+        Optional<Evaluation> find = evaluationRepository.findById(id);
+
+        if (find.isPresent()) {
+           Evaluation updated = find.get();
+
+           updated.setEvaluationTitle(evaluation.getEvaluationTitle());
+           updated.setEvaluationContent(evaluation.getEvaluationContent());
+
+           return evaluationRepository.save(updated);
+
+        } else {
+            return null;
+        }
+    }
+
+    @Transactional
     public boolean likeyCountUpdate(Long evaluationID) {
         Optional<Evaluation> find = evaluationRepository.findById(evaluationID);
 

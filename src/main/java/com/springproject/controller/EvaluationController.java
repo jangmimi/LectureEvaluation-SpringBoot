@@ -38,6 +38,13 @@ public class EvaluationController {
         return "redirect:/";
     }
 
+    @PostMapping("/updateAction")
+    @ResponseBody
+    public boolean updateAction(@RequestParam(required = false) Long id, @ModelAttribute Evaluation evaluation) {
+        Evaluation updated = evaluationService.update(id, evaluation);
+        return updated != null;
+    }
+
     @PostMapping("/likeyAction/{evaluationID}")
     public String likeyAction(@RequestParam(required = false) Long evaluationID,
                               HttpSession session, HttpServletRequest request) {
