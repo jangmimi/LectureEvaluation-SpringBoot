@@ -35,7 +35,6 @@
                         </div>
                         <div class="card-body">
                             <h5 class="cart-title" th:text="${list.evaluationTitle}"></h5>
-<!--                            <p class="cart-text" th:text="${'작성자' + list.userNumber}"></p>-->
                             <p class="cart-text" th:text="${list.evaluationContent}"></p>
                             <div class="row" style="justify-content: flex-end;">
                                 <div class="col-3 text-right" style="display: flex; justify-content: flex-end; width: 100%; align-items: center;">
@@ -48,7 +47,14 @@
                                         </form>
                                         <th:block th:if="${userNumber == list.userNumber}">
                                             <input type="button" class="btn btn-outline-success"
-                                                    data-bs-toggle="modal" data-bs-target="#registerModal" value="수정" style="margin-left:5px;">
+                                                   data-bs-toggle="modal" data-bs-target="#registerModal"
+                                                   th:attr="data-target=${'#registerModal'+ list.id},
+                                                    data-lectureid=${list.lectureId},
+                                                    data-subject=${list.lectureName},
+                                                    data-professor=${list.lectureProfessor},
+                                                    data-title=${list.evaluationTitle},
+                                                    data-content=${list.evaluationContent}"
+                                                   value="수정" style="margin-left:5px;">
                                             <form th:action="@{/deleteAction/__${id}__}" method="POST" onsubmit="return deleteCheck()">
                                                 <input type="hidden" th:name="id" th:value="${list.id}">
                                                 <input type="submit" class="btn btn-outline-secondary" value="삭제" style="margin-left:5px;"/>

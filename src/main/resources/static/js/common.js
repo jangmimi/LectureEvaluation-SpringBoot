@@ -159,3 +159,30 @@ function registerCheck() {
         }
     });
 }
+
+// 강의 평가 수정 모달창 데이터
+$(document).ready(function () {
+    var lectureIdInput = $('#lectureId');
+    var lectureNameInput = $('#lectureName');
+    var professorNameInput = $('#professorName');
+    var evaluationTitleInput = $('#evaluationTitle');
+    var evaluationContentInput = $('#evaluationContent');
+    var modalTriggerButtons = $('[data-bs-target="#registerModal"]');
+
+    // 모달창에 데이터 가져오기 (HTML에서 data-속성은 대소문자를 구분하며, 소문자로 가져와야함)
+    modalTriggerButtons.each(function (index, button) {
+        $(button).on('click', function () {
+            var lectureId = $(button).data('lectureid');
+            var subject = $(button).data('subject');
+            var professor = $(button).data('professor');
+            var title = $(button).data('title');
+            var content = $(button).data('content');
+
+            lectureIdInput.val(lectureId);
+            lectureNameInput.val(subject);
+            professorNameInput.val(professor);
+            evaluationTitleInput.val(title);
+            evaluationContentInput.val(content);
+        });
+    });
+});
