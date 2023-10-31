@@ -21,8 +21,11 @@ public interface EvaluationRepository extends JpaRepository<Evaluation, Long> {
 
     @Query("SELECT e FROM Evaluation e " +
             "WHERE ((:searchType IS NULL) OR " +
-            "    (:searchType = '최신순' AND e.lectureName LIKE %:searchText%) " +
-            "    OR (:searchType = '추천순' AND e.likeCount > 0)) " +
+            "    (:searchType = '최신순' AND e.lectureName LIKE %:searchText% " +
+            "       OR e.lectureProfessor LIKE %:searchText% " +
+            "       OR e.evaluationTitle LIKE %:searchText% " +
+            "       OR e.evaluationContent LIKE %:searchText%) " +
+            "    OR (:searchType = '추천순')) " +
             "ORDER BY CASE " +
             "    WHEN :searchType = '최신순' THEN e.id " +
             "    WHEN :searchType = '추천순' THEN e.likeCount " +
