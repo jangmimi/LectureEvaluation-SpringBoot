@@ -21,14 +21,12 @@ import javax.servlet.http.HttpSession;
 public class MainController {
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
     private EvaluationService evaluationService;
 
     @RequestMapping("/")
     public String index(@PageableDefault(size = 4) Pageable pageable,
-                        @RequestParam(required = false) String searchTextTop, Model model, HttpSession session) {
+//                        @RequestParam(required = false) String searchTextTop,
+                        Model model, HttpSession session) {
         User user = (User) session.getAttribute("loginUser");
         Long userNumber = null;
         if (user != null) {
@@ -48,15 +46,6 @@ public class MainController {
         model.addAttribute("userNumber", userNumber);
 
         return "index";
-    }
-
-    @PostMapping("/reportAction")
-    public String reportAction(@RequestParam(required = false) String reportTitle,
-                               @RequestParam(required = false) String reportContent, HttpSession session) {
-        String userId = ((User) session.getAttribute("loginUser")).getUserId();
-        userService.reportEmail(reportTitle, reportContent, userId);
-
-        return "redirect:/";
     }
 
     @GetMapping("/search")
@@ -105,6 +94,7 @@ public class MainController {
         model.addAttribute("evaluationListSize",totalItems);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
+        model.addAttribute("searchText", searchText);
 
         log.info("타입: " + searchType);
         log.info("검색어: " + searchText);
