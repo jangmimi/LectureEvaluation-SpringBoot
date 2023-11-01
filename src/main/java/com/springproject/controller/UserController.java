@@ -1,5 +1,6 @@
 package com.springproject.controller;
 
+import com.springproject.config.SHA256;
 import com.springproject.model.User;
 import com.springproject.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -86,6 +87,19 @@ public class UserController {
         } else {
             userService.sendEmail(loginUser.getUserNumber());
         }
+        return "redirect:/";
+    }
+
+    @RequestMapping("/emailCheckAction")
+    public String emailCheckAction(@RequestParam(required = false) String code,
+                                   HttpSession session, Model model) {
+        User loginUser = (User) session.getAttribute("loginUser");
+        boolean isRight = SHA256.getSHA256(loginUser.getUserEmail()).equals(code);
+
+        if(isRight) {
+            userService.setUserEmailChecked(loginUser.getUserId());
+        }
+
         return "redirect:/";
     }
 
