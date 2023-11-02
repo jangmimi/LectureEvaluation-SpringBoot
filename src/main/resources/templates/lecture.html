@@ -10,7 +10,7 @@
 <th:block th:object="${loginUser}">
 <div th:replace="~{fragments/header :: headerFragment}"></div>
     <section class="container mt-3 mb-3" style="max-width: 1200px;">
-        <h2 class="mb-3 mt-3" style="text-align: center;">인프런 강의 목록</h2>
+        <h2 class="mb-3 mt-3" style="text-align: center;">강의 목록</h2>
         <form method="get" th:action="@{/searchByType}" class="form-inline mt-3">
             <div style="display: flex;">
                 <select name="lectureDivide" class="form-select mx-1 mt-2" style="width: 100px;">
@@ -34,11 +34,13 @@
                             <a th:href="${lectures.url}" target="_blank" style="text-decoration: none; color: black;">
                                 <h5 class="card-title" id="card-tt" th:text="${lectures.subject}" style="font-size: 16px;"></h5>
                             </a>
+                            <h5 class="card-text" th:text="${lectures.professor} + ' ' + ${lectures.reviewCnt}" style="font-size: 14px; color: gray;"></h5>
                             <div style="display: flex; justify-content: space-between;">
-                                <h5 class="card-text" th:text="${lectures.professor} + ' ' + ${lectures.reviewCnt}" style="font-size: 14px; color: gray;"></h5>
                                 <button class="btn btn-success w-8"
                                         data-bs-toggle="modal" data-bs-target="#registerModal"
-                                        th:attr="data-target=${'#registerModal'+ lectures.productId}, data-lectureId=${lectures.productId}, data-subject=${lectures.subject}, data-professor=${lectures.professor}, data-url=${lectures.url}"
+                                        th:attr="data-target=${'#registerModal'+ lectures.productId},
+                                        data-lectureId=${lectures.productId}, data-subject=${lectures.subject},
+                                        data-professor=${lectures.professor}, data-url=${lectures.url}"
                                         style="font-size: 13px;" th:value="${lectures.productId}"
                                         th:disabled="${loginUser == null}">평가등록</button>
                             </div>
@@ -87,23 +89,23 @@
         <!-- 페이지네이션 -->
         <nav aria-label="Page navigation" class="mt-5 mb-3 m-auto">
             <ul class="pagination justify-content-center">
-                <li class="page-item disabled">
-                    <a class="page-link"><</a>
+                <!-- 이전 페이지로 이동 -->
+                <li th:class="${previous < 0} ? 'page-item disabled' : 'page-item'">
+                    <a th:if="${previous != 0}" th:href="@{/lectures(page=${previous})}" class="page-link"><</a>
+                    <a th:unless="${previous != 0}" class="page-link"><</a>
                 </li>
-                <div class="pagination">
-                     <span th:if="${lectures.number > 0}">
-                        <a th:href="@{'/lectures/' + (lectures.number - 1)}" class="page-link" th:text="${lectures.number}">Previous</a>
-                    </span>
-                            <span th:each="i: ${#numbers.sequence(0, lectures.totalPages - 1)}">
-                        <a th:if="${lectures.number == i}" class="page-link" th:text="${i + 1}" style="text-decoration: underline;"></a>
-                        <a th:unless="${lectures.number == i}" th:href="@{'/lectures/' + i}" class="page-link" th:text="${i + 1}"></a>
-                    </span>
-                            <span th:if="${lectures.number + 1 < lectures.totalPages}">
-                        <a th:href="@{'/lectures/' + (lectures.number + 1)}" class="page-link" th:text="${lectures.number + 2}">Next</a>
-                    </span>
-                </div>
-                <li class="page-item">
-                    <a class="page-link" href="#">></a>
+
+                <!-- 페이지 번호 반복 표시 -->
+                <th:block th:each="pageNumber : ${#numbers.sequence(startPage + 1, endPage + 1)}">
+                    <li th:class="${currentPage == pageNumber - 1} ? 'page-item active' : 'page-item'">
+                        <a th:href="@{/lectures(page=${pageNumber - 1})}" class="page-link" th:text="${pageNumber}" style="text-decoration: underline;"></a>
+                    </li>
+                </th:block>
+
+                <!-- 다음 페이지로 이동 -->
+                <li th:class="${next < 0} ? 'page-item disabled' : 'page-item'">
+                    <a th:if="${next > 0}" th:href="@{/lectures(page=${next})}" class="page-link">></a>
+                    <a th:unless="${next > 0}" class="page-link">></a>
                 </li>
             </ul>
         </nav>
