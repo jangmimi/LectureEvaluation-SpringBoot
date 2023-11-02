@@ -4,6 +4,7 @@ import com.springproject.model.Evaluation;
 import com.springproject.model.User;
 import com.springproject.service.EvaluationService;
 import com.springproject.service.LikeyService;
+import com.springproject.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,9 @@ public class EvaluationController {
 
     @Autowired
     private LikeyService likeyService;
+
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/evaluationRegisterAction")
     @ResponseBody
@@ -50,10 +54,18 @@ public class EvaluationController {
                               HttpSession session, HttpServletRequest request) {
         User user = (User) session.getAttribute("loginUser");
         Long userNumber = user.getUserNumber();
-        log.info("userNumber : " + userNumber);
 
         likeyService.like(evaluationID, userNumber, request);
         evaluationService.likeyCountUpdate(evaluationID);
+
+        return "redirect:/";
+    }
+
+    @PostMapping("/reportAction")
+    public String reportAction(@RequestParam(required = false) String reportTitle,
+                               @RequestParam(required = false) String reportContent, HttpSession session) {
+        String userId = ((User) session.getAttribute("loginUser")).getUserId();
+        userService.reportEmail(reportTitle, reportContent, userId);
 
         return "redirect:/";
     }
