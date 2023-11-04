@@ -70,12 +70,20 @@ public class UserController {
     }
 
     @PostMapping("/update/{userNumber}")
-    public String update(@RequestParam(required = false) Long userNumber,
+    @ResponseBody
+    public boolean update(@RequestParam(required = false) Long userNumber,
                          String userId, String userPw, Model model) {
+        log.info("UserController userNumber : " + userNumber);
         User updated = userService.update(userNumber, userId, userPw);
 
-        model.addAttribute("loginUser", updated);
-        return "redirect:/";
+        if (updated != null) {
+            log.info("updated : " + updated);
+            log.info("updated id : " + updated.getUserId());
+            model.addAttribute("loginUser", updated);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @RequestMapping("/emailSendAction")

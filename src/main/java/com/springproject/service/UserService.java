@@ -173,11 +173,14 @@ public class UserService {
     @Transactional
     public User update(Long userNumber, String userId, String userPw) {
         Optional<User> find = userRepository.findByUserNumber(userNumber);
+
         if (find.isPresent()) {
+            log.info("UserService find : " + find);
             User updated = find.get();
-            find.get().setUserId(userId);
-            find.get().setUserPw(userPw);
+            updated.setUserId(userId);
+            updated.setUserPw(userPw);
             userRepository.save(updated);
+            log.info("UserService updated : " + updated);
             return updated;
         }
         return null;

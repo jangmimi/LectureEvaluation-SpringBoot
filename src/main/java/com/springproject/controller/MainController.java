@@ -24,13 +24,13 @@ public class MainController {
     private EvaluationService evaluationService;
 
     @RequestMapping("/")
-    public String index(@PageableDefault(size = 4) Pageable pageable,
-//                        @RequestParam(required = false) String searchTextTop,
-                        Model model, HttpSession session) {
+    public String index(@PageableDefault(size = 4) Pageable pageable, Model model, HttpSession session) {
         User user = (User) session.getAttribute("loginUser");
         Long userNumber = null;
+        String userId = null;
         if (user != null) {
             userNumber = user.getUserNumber();
+            userId = user.getUserId();
         }
 
         Page<Evaluation> evaluationList = evaluationService.getListAllByPage(pageable);
@@ -43,7 +43,7 @@ public class MainController {
         model.addAttribute("evaluationListSize",totalItems);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
-        model.addAttribute("userNumber", userNumber);
+        model.addAttribute("userId", userId);
 
         return "index";
     }
