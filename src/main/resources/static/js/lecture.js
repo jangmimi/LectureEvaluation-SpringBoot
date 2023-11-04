@@ -1,20 +1,21 @@
 $(document).ready(function () {
     var lectureIdInput = $('#lectureId');
+    var subjectInput = $('#lectureSubject');
+    var infoInput = $('#lectureInfo');
     var urlInput = $('#url');
-    var lectureNameInput = $('#lectureName');
-    var professorNameInput = $('#professorName');
     var modalTriggerButtons = $('[data-bs-target="#registerModal"]');
 
     modalTriggerButtons.each(function (index, button) {
         $(button).on('click', function () {
             var lectureId = $(button).data('lectureid');
-            var url = $(button).data('url');
-            var subject = $(button).data('subject');
-            var professor = $(button).data('professor');
+            var subject = $(button).data('lecturesubject');
+            var info = $(button).data('lectureinfo');
+            var url = $(button).data('lectureurl')
+
             lectureIdInput.val(lectureId);
+            subjectInput.val(subject);
+            infoInput.val(info);
             urlInput.val(url);
-            lectureNameInput.val(subject);
-            professorNameInput.val(professor);
         });
     });
 });
@@ -22,17 +23,17 @@ $(document).ready(function () {
 // 강의 평가 등록
 function registerCheck() {
     let lectureId = $('#lectureId').val();
-    let url = $('#url').val();
-    let lectureName = $('#lectureName').val();
-    let professorName = $('#professorName').val();
+    let lectureSubject = $('#lectureSubject').val();
+    let lectureInfo = $('#lectureInfo').val();
+    let lectureURL = $('#url').val();
     let evaluationTitle = $('#evaluationTitle').val();
     let evaluationContent = $('#evaluationContent').val();
 
     let data = {
         lectureId: lectureId,
-        lectureURL: url,
-        lectureName: lectureName,
-        lectureProfessor: professorName,
+        lectureSubject: lectureSubject,
+        lectureInfo: lectureInfo,
+        lectureURL: lectureURL,
         evaluationTitle: evaluationTitle,
         evaluationContent: evaluationContent
     };
@@ -44,8 +45,8 @@ function registerCheck() {
         success: function(response) {
             if(response) {
                 alert("강의평가가 등록되었습니다.");
-                evaluationTitle = $('#evaluationTitle').val("");
-                evaluationContent = $('#evaluationContent').val("");
+                $('#evaluationTitle').val("");
+                $('#evaluationContent').val("");
             } else {
                 alert('강의평가 등록에 실패하였습니다.');
             }

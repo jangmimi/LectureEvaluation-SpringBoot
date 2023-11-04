@@ -25,27 +25,23 @@ public class LectureController {
     @Autowired
     private LectureService lectureService;
 
-    @RequestMapping("/lectures")
-    public String lectures(@PageableDefault(page = 0, size = 12, direction = Sort.Direction.DESC) Pageable pageable,
-                           @RequestParam(value = "page", defaultValue = "0") int page, Model model) throws Exception {
-        Page<Lecture> lectureList = lectureService.getLectureDataByPage(page, pageable);
+    @GetMapping("/lectures")
+    public String lectures(@PageableDefault(page = 0, size = 12, direction = Sort.Direction.DESC) Pageable pageable, Model model) throws Exception {
+        Page<Lecture> lectureList = lectureService.getLectureDataByPage(pageable.getPageNumber(), pageable);
 
-        int totalPages = lectureList.getTotalPages() - 1;
-        int previousPage = page - 1;
-        int nextPage = page + 1;
-        int startPage = (page - 1) / 10 * 10;
+        int totalPages = lectureList.getTotalPages();
+        int currentPage = pageable.getPageNumber();
+        int startPage = currentPage / 10 * 10;
         int endPage = Math.min(startPage + 9, totalPages - 1);
+        int previous = currentPage - 1;
+        int next = currentPage + 1;
 
         model.addAttribute("lectures", lectureList);
-        model.addAttribute("previous", lectureList.hasPrevious() ? previousPage : -1);
-        model.addAttribute("next", lectureList.hasNext() ? nextPage : totalPages);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
-        model.addAttribute("currentPage", page);
-
-        log.info("현재 페이지 : " + page);
-        log.info("시작 페이지 : " + startPage);
-        log.info("끝 페이지 : " + endPage);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("previous", previous);
+        model.addAttribute("next", next);
 
         return "lecture";
     }

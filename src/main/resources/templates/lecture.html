@@ -15,8 +15,8 @@
             <div style="display: flex;">
                 <select name="lectureDivide" class="form-select mx-1 mt-2" style="width: 100px;">
                     <option value="전체" name="lectureDivide">전체</option>
-                    <option value="전공" name="lectureDivide" th:seleted="${lectureDivide == '강의명'}">강의명</option>
-                    <option value="기타" name="lectureDivide" th:seleted="${lectureDivide == '강사명'}">강사명</option>
+                    <option value="제목" name="lectureDivide" th:seleted="${lectureDivide == '제목'}">제목</option>
+                    <option value="정보" name="lectureDivide" th:seleted="${lectureDivide == '정보'}">정보</option>
                 </select>
                 <input type="text" name="searchText" class="form-control mx-1 mt-2" placeholder="내용을 입력하세요.">
                 <button type="submit" class="btn btn-primary mx-1 mt-2" style="width: 90px;">검색</button>
@@ -29,19 +29,19 @@
                         <a th:href="${lectures.url}" target="_blank">
                             <img th:src="${lectures.image}" style="width: 100%;" class="card-img-top" alt="...">
                         </a>
-                        <div class="card-body">
-                            <input type="hidden" id="productId" name="productId" th:value="${lectures.productId}">
+                        <div class="card-body" style="display: flex; flex-direction: column; height: 100%;">
+                            <input type="hidden" id="lectureId" name="lectureId" th:value="${lectures.lectureId}">
                             <a th:href="${lectures.url}" target="_blank" style="text-decoration: none; color: black;">
-                                <h5 class="card-title" id="card-tt" th:text="${lectures.subject}" style="font-size: 16px;"></h5>
+                                <h5 class="card-title" id="card-tt" th:text="${lectures.lectureSubject}" style="font-size: 16px;"></h5>
                             </a>
-                            <h5 class="card-text" th:text="${lectures.professor} + ' ' + ${lectures.reviewCnt}" style="font-size: 14px; color: gray;"></h5>
-                            <div style="display: flex; justify-content: space-between;">
+                            <h5 class="card-text" th:text="${lectures.lectureInfo}" style="font-size: 14px; color: gray;"></h5>
+                            <div style="display: flex; justify-content: end; margin-top: auto;">
                                 <button class="btn btn-success w-8"
                                         data-bs-toggle="modal" data-bs-target="#registerModal"
-                                        th:attr="data-target=${'#registerModal'+ lectures.productId},
-                                        data-lectureId=${lectures.productId}, data-subject=${lectures.subject},
-                                        data-professor=${lectures.professor}, data-url=${lectures.url}"
-                                        style="font-size: 13px;" th:value="${lectures.productId}"
+                                        th:attr="data-target=${'#registerModal'+ lectures.lectureId},
+                                        data-lectureid=${lectures.lectureId}, data-lecturesubject=${lectures.lectureSubject},
+                                        data-lectureinfo=${lectures.lectureInfo}, data-lectureurl=${lectures.url}"
+                                        style="font-size: 13px;" th:value="${lectures.lectureId}"
                                         th:disabled="${loginUser == null}">평가등록</button>
                             </div>
                         </div>
@@ -63,12 +63,12 @@
                         <input type="hidden" name="lectureId" id="lectureId" class="form-control">
                         <input type="hidden" name="url" id="url" class="form-control">
                         <div class="form-group">
-                            <label>강의명</label>
-                            <input type="text" name="lectureName" id="lectureName" class="form-control" maxlength="20" readonly>
+                            <label>강의제목</label>
+                            <input type="text" name="lectureSubject" id="lectureSubject" class="form-control" maxlength="20" readonly>
                         </div>
                         <div class="form-group">
-                            <label>강사명</label>
-                            <input type="text" name="professorName" id="professorName" class="form-control" maxlength="20" readonly>
+                            <label>강의정보</label>
+                            <input type="text" name="lectureInfo" id="lectureInfo" class="form-control" maxlength="20" readonly>
                         </div>
                         <div class="form-group">
                             <label>제목</label>
@@ -91,21 +91,19 @@
             <ul class="pagination justify-content-center">
                 <!-- 이전 페이지로 이동 -->
                 <li th:class="${previous < 0} ? 'page-item disabled' : 'page-item'">
-                    <a th:if="${previous != 0}" th:href="@{/lectures(page=${previous})}" class="page-link"><</a>
-                    <a th:unless="${previous != 0}" class="page-link"><</a>
+                    <a th:href="@{/lectures(page=${previous})}" class="page-link"><</a>
                 </li>
 
                 <!-- 페이지 번호 반복 표시 -->
                 <th:block th:each="pageNumber : ${#numbers.sequence(startPage + 1, endPage + 1)}">
                     <li th:class="${currentPage == pageNumber - 1} ? 'page-item active' : 'page-item'">
-                        <a th:href="@{/lectures(page=${pageNumber - 1})}" class="page-link" th:text="${pageNumber}" style="text-decoration: underline;"></a>
+                        <a th:href="@{/lectures(page=${pageNumber - 1})}" class="page-link" th:text="${pageNumber}"></a>
                     </li>
                 </th:block>
 
                 <!-- 다음 페이지로 이동 -->
-                <li th:class="${next < 0} ? 'page-item disabled' : 'page-item'">
-                    <a th:if="${next > 0}" th:href="@{/lectures(page=${next})}" class="page-link">></a>
-                    <a th:unless="${next > 0}" class="page-link">></a>
+                <li th:class="${next > endPage} ? 'page-item disabled' : 'page-item'">
+                    <a th:href="@{/lectures(page=${next})}" class="page-link">></a>
                 </li>
             </ul>
         </nav>
