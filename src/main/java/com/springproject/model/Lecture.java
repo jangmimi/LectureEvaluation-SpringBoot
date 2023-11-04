@@ -8,10 +8,9 @@ import lombok.ToString;
 @Builder
 @ToString
 public class Lecture {
-    private String productId;
+    private int lectureId;
     private String image;
-    private String subject;
-    private String professor;
+    private String lectureSubject;
+    private String lectureInfo;
     private String url;
-    private String reviewCnt;
 }

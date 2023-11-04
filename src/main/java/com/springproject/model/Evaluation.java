@@ -4,7 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Table(name="evaluation_inflearn") // DB 테이블 이름 지정
+@Table(name="evaluation") // DB 테이블 이름 지정
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -20,13 +20,13 @@ public class Evaluation {
     private Long userNumber;
 
     @Column(length = 50)
-    private String lectureId;   // 강의번호
+    private int lectureId;
 
     @Column(length = 2048)
-    private String lectureName;
+    private String lectureSubject;
 
     @Column(length = 50)
-    private String lectureProfessor;
+    private String lectureInfo;
 
     @Column(length = 2048)
     private String lectureURL;
