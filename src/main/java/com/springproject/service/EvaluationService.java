@@ -5,11 +5,9 @@ import com.springproject.repository.EvaluationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,10 +22,6 @@ public class EvaluationService {
         return evaluationRepository.save(evaluation);
     }
 
-    public List<Evaluation> getListAll() {
-        return evaluationRepository.findAll();
-    }
-
     public Page<Evaluation> getList(String searchType, String searchText, Pageable pageable) {
         return evaluationRepository.findWithFiltersOrderBy(searchType, searchText, pageable);
     }
@@ -38,7 +32,7 @@ public class EvaluationService {
 
     @Transactional
     public Page<Evaluation> search(String searchText, Pageable pageable) {
-        return evaluationRepository.findByLectureNameContaining(searchText, pageable);
+        return evaluationRepository.findByLectureSubjectContaining(searchText, pageable);
     }
 
     @Transactional

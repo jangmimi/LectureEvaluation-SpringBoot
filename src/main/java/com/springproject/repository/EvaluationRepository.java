@@ -17,17 +17,17 @@ public interface EvaluationRepository extends JpaRepository<Evaluation, Long> {
 
     Page<Evaluation> findAllByOrderByIdDesc(Pageable pageable);
 
-    Page<Evaluation> findByLectureNameContaining(String searchText, Pageable pageable);
+    Page<Evaluation> findByLectureSubjectContaining(String searchText, Pageable pageable);
 
     @Query("SELECT e FROM Evaluation e " +
             "WHERE ((:searchType IS NULL) OR " +
-            "    (:searchType = '최신순' AND e.lectureName LIKE %:searchText% " +
-            "       OR e.lectureProfessor LIKE %:searchText% " +
+            "    (:searchType = '최신순' AND e.lectureSubject LIKE %:searchText% " +
+            "       OR e.lectureInfo LIKE %:searchText% " +
             "       OR e.evaluationTitle LIKE %:searchText% " +
             "       OR e.evaluationContent LIKE %:searchText%) " +
             "     OR (:searchType = '추천순' AND " +
-            "      (e.lectureName LIKE %:searchText% " +
-            "      OR e.lectureProfessor LIKE %:searchText% " +
+            "      (e.lectureSubject LIKE %:searchText% " +
+            "      OR e.lectureInfo LIKE %:searchText% " +
             "      OR e.evaluationTitle LIKE %:searchText% " +
             "      OR e.evaluationContent LIKE %:searchText%))) " +
             "ORDER BY CASE " +

@@ -163,8 +163,8 @@ function registerCheck() {
 // 강의 평가 수정 모달창 데이터 전달
 $(document).ready(function () {
     var idInput = $('#id');
-    var lectureNameInput = $('#lectureName');
-    var professorNameInput = $('#professorName');
+    var lectureSubjectInput = $('#lectureSubject');
+    var lectureInfoInput = $('#lectureInfo');
     var evaluationTitleInput = $('#evaluationTitle');
     var evaluationContentInput = $('#evaluationContent');
     var modalTriggerButtons = $('[data-bs-target="#registerModal"]');
@@ -173,14 +173,14 @@ $(document).ready(function () {
     modalTriggerButtons.each(function (index, button) {
         $(button).on('click', function () {
             var id = $(button).data('id');
-            var subject = $(button).data('subject');
-            var professor = $(button).data('professor');
+            var subject = $(button).data('lecturesubject');
+            var professor = $(button).data('lectureinfo');
             var title = $(button).data('title');
             var content = $(button).data('content');
 
             idInput.val(id);
-            lectureNameInput.val(subject);
-            professorNameInput.val(professor);
+            lectureSubjectInput.val(subject);
+            lectureInfoInput.val(professor);
             evaluationTitleInput.val(title);
             evaluationContentInput.val(content);
         });
