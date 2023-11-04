@@ -1,7 +1,9 @@
 package com.springproject.service;
 
 import com.springproject.model.Evaluation;
+import com.springproject.model.User;
 import com.springproject.repository.EvaluationRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class EvaluationService {
 
@@ -17,8 +20,8 @@ public class EvaluationService {
     private EvaluationRepository evaluationRepository;
 
     @Transactional
-    public Evaluation write(Evaluation evaluation, Long userNumber) {
-        evaluation.setUserNumber(userNumber);
+    public Evaluation write(Evaluation evaluation, User user) {
+        evaluation.setUser(user);
         return evaluationRepository.save(evaluation);
     }
 
@@ -42,7 +45,11 @@ public class EvaluationService {
 
     @Transactional
     public Evaluation update(Long id, Evaluation evaluation) {
+        log.info("id : " + id);
+        log.info("evaluation : " + evaluation.toString());
+
         Optional<Evaluation> find = evaluationRepository.findById(id);
+        log.info("find : " + find);
 
         if (find.isPresent()) {
            Evaluation updated = find.get();

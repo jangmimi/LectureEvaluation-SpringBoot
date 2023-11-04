@@ -9,15 +9,11 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
 @Entity
 public class Evaluation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 자동 증가
     private Long id;
-
-    @Column(length = 20)
-    private Long userNumber;
 
     @Column(length = 50)
     private int lectureId;
@@ -40,7 +36,8 @@ public class Evaluation {
     @Column
     private int likeCount;
 
-//    @ManyToOne (fetch = FetchType.LAZY)
-//    @JoinColumn (name = "userNumber")
-//    private User user;
+    // userNumber를 외래 키로 설정
+    @ManyToOne
+    @JoinColumn(name = "userNumber")
+    private User user;
 }

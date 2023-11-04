@@ -4,6 +4,7 @@ package com.springproject.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Table(name="user") // DB 테이블 이름 지정
 @NoArgsConstructor
@@ -11,7 +12,6 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@ToString
 public class User {
 
     @Id
@@ -33,4 +33,7 @@ public class User {
     @Column
     private int userEmailChecked = 0;
 
+    // Evaluation table과 일대다 관계 매핑
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Evaluation> evaluations;
 }

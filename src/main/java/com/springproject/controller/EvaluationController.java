@@ -32,7 +32,7 @@ public class EvaluationController {
     User user = (User) session.getAttribute("loginUser");
     Long userNumber = user.getUserNumber();
 
-    Evaluation registered = evaluationService.write(evaluation, userNumber);
+    Evaluation registered = evaluationService.write(evaluation, user);
     return registered != null;
 }
 
