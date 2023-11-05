@@ -35,7 +35,7 @@ public class EvaluationService {
 
     @Transactional
     public Page<Evaluation> search(String searchText, Pageable pageable) {
-        return evaluationRepository.findByLectureSubjectContaining(searchText, pageable);
+        return evaluationRepository.findBySearchText(searchText, pageable);
     }
 
     @Transactional
