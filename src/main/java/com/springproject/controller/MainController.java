@@ -23,14 +23,12 @@ public class MainController {
     @Autowired
     private EvaluationService evaluationService;
 
-    @RequestMapping("/")
+    @GetMapping("/")
     public String index(@PageableDefault(size = 4) Pageable pageable, Model model, HttpSession session) {
         User user = (User) session.getAttribute("loginUser");
-        Long userNumber = null;
-        String userId = null;
         if (user != null) {
-            userNumber = user.getUserNumber();
-            userId = user.getUserId();
+            Long userNumber = user.getUserNumber();
+            model.addAttribute("userNumber", userNumber);
         }
 
         Page<Evaluation> evaluationList = evaluationService.getListAllByPage(pageable);
@@ -43,7 +41,6 @@ public class MainController {
         model.addAttribute("evaluationListSize",totalItems);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
-        model.addAttribute("userId", userId);
 
         return "index";
     }
@@ -52,9 +49,15 @@ public class MainController {
     public String search(@PageableDefault(size = 4) Pageable pageable,
                          @RequestParam(required = false) String searchTextTop,
                          Model model, HttpSession session) {
+        User user = (User) session.getAttribute("loginUser");
+        if (user != null) {
+            Long userNumber = user.getUserNumber();
+            model.addAttribute("userNumber", userNumber);
+        }
+
         Page<Evaluation> evaluationList = null;
 
-        if (searchTextTop == null) {
+        if (searchTextTop.isEmpty()) {
             evaluationList = evaluationService.getListAllByPage(pageable);
 
         } else {
@@ -68,8 +71,7 @@ public class MainController {
         model.addAttribute("evaluationListSize",totalItems);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
-
-        log.info("검색어 : " + searchTextTop);
+        model.addAttribute("searchTextTop", searchTextTop);
 
         return "index";
     }
@@ -78,14 +80,14 @@ public class MainController {
     public String searchByType(@RequestParam(required = false) String searchType,
                                @RequestParam(required = false, defaultValue = "") String searchText,
                                @PageableDefault(size = 4) Pageable pageable, Model model, HttpSession session) {
-        Page<Evaluation> evaluationList = null;
-
-        if (searchText == null) {
-            evaluationList = evaluationService.getListAllByPage(pageable);
-
-        } else {
-            evaluationList = evaluationService.getList(searchType, searchText, pageable);
+        User user = (User) session.getAttribute("loginUser");
+        if (user != null) {
+            Long userNumber = user.getUserNumber();
+            model.addAttribute("userNumber", userNumber);
         }
+
+        Page<Evaluation> evaluationList = evaluationService.getList(searchType, searchText, pageable);
+
         int startPage = Math.max(1, evaluationList.getPageable().getPageNumber() - 4);
         int endPage = Math.min(evaluationList.getTotalPages(), evaluationList.getPageable().getPageNumber() + 4);
         long totalItems = evaluationList.getTotalElements(); // 총 항목 수
@@ -101,113 +103,4 @@ public class MainController {
 
         return "index";
     }
-
-//    @RequestMapping("/")
-//    public String index(Model model, HttpSession session,
-//                        @RequestParam(required = false) String lectureDivide,
-//                        @RequestParam(required = false) String searchType,
-//                        @RequestParam(required = false) String search,
-//                        @PageableDefault(size = 3) Pageable pageable,
-//                        @RequestParam(required = false, defaultValue = "") String searchText) {
-//        User loginUser = (User) session.getAttribute("loginUser");
-//
-////        if (loginUser != null) {
-////            String userEmail = userService.getUserEmail(loginUser.getUserNumber());
-////
-////            boolean emailChecked = userService.getUserEmailChecked(loginUser.getUserId());
-////            if(!emailChecked){
-////                return "emailSendConfirm";
-////            }
-//
-//            Page<Evaluation> evaluationList = evaluationService.getListPaging(pageable, searchText);
-//            int startPage = Math.max(1, evaluationList.getPageable().getPageNumber() - 4);
-//            int endPage = Math.min(evaluationList.getTotalPages(), evaluationList.getPageable().getPageNumber() + 4);
-//
-//            long totalItems = evaluationList.getTotalElements(); // 총 항목 수
-//
-//            int pageSize = 5; // 페이지 당 항목 수
-//
-//            model.addAttribute("loginUser", session.getAttribute("loginUser"));
-//            model.addAttribute("evaluationList",evaluationList);
-//            model.addAttribute("evaluationListSize",totalItems);
-//
-//            model.addAttribute("startPage", startPage);
-//            model.addAttribute("endPage", endPage);
-//
-////        }
-////        else {
-////            String alertScript = "<script>alert('로그인을 해주세요.'); location.href='/login';</script>";
-////            model.addAttribute("alertScript", alertScript);
-////            return "login";
-////        }
-//        return "index";
-//    }
-
-
-
-//    @RequestMapping("/search")
-//    public String search(Model model, HttpSession session,
-//                         @RequestParam(required = false, defaultValue = "") String searchText,
-//                         @PageableDefault(size = 3) Pageable pageable) {
-//        User loginUser = (User) session.getAttribute("loginUser");
-//
-//        if (loginUser != null) {
-//            String userEmail = userService.getUserEmail(loginUser.getUserNumber());
-//
-//            boolean emailChecked = userService.getUserEmailChecked(loginUser.getUserId());
-//            if(!emailChecked){
-//                return "emailSendConfirm";
-//            }
-//
-//            Page<xEvaluation> evaluationList = evaluationService.getListPaging(pageable, searchText);
-//            int startPage = Math.max(1, evaluationList.getPageable().getPageNumber() - 4);
-//            int endPage = Math.min(evaluationList.getTotalPages(), evaluationList.getPageable().getPageNumber() + 4);
-//
-//            long totalItems = evaluationList.getTotalElements(); // 총 항목 수
-//
-//            int pageSize = 5; // 페이지 당 항목 수
-//
-//            model.addAttribute("loginUser", session.getAttribute("loginUser"));
-//            model.addAttribute("evaluationList",evaluationList);
-//            model.addAttribute("evaluationListSize",totalItems);
-//
-//            model.addAttribute("startPage", startPage);
-//            model.addAttribute("endPage", endPage);
-//        } else {
-//            String alertScript = "<script>alert('로그인을 해주세요.'); location.href='/login';</script>";
-//            model.addAttribute("alertScript", alertScript);
-//        }
-//        return "index";
-//    }
-//
-//    @RequestMapping("/searchByType")
-//    public String searchByType(Model model, HttpSession session,
-//                         @RequestParam(required = false) String lectureDivide,
-//                         @RequestParam(required = false) String searchType,
-//                         @RequestParam(required = false) String search,
-//                         @RequestParam(defaultValue = "0") Integer pageNumber) {
-//        User loginUser = (User) session.getAttribute("loginUser");
-//
-//        if (loginUser != null) {
-//            String userEmail = userService.getUserEmail(loginUser.getUserId());
-//
-//            boolean emailChecked = userService.getUserEmailChecked(loginUser.getUserId());
-//            if(!emailChecked){
-//                return "emailSendConfirm";
-//            }
-//            int pageSize = 6; // 페이지 당 항목 수
-//
-//            Page<Evaluation> evaluationList = evaluationService.getList(lectureDivide, searchType, search, pageNumber, pageSize);
-//            int totalPages = (int) Math.ceil((double) evaluationList.getContent().size() / pageSize);
-//
-//            model.addAttribute("loginUser", session.getAttribute("loginUser"));
-//            model.addAttribute("evaluationList",evaluationList.getContent());
-//            model.addAttribute("evaluationListSize",evaluationList.getContent().size());
-//            model.addAttribute("pageNumber", pageNumber);
-//        } else {
-//            String alertScript = "<script>alert('로그인을 해주세요.'); location.href='/login';</script>";
-//            model.addAttribute("alertScript", alertScript);
-//        }
-//        return "index";
-//    }
 }
