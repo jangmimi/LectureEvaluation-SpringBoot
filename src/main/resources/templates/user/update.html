@@ -9,7 +9,7 @@
 <th:block th:object="${loginUser}">
 <div th:replace="~{fragments/header :: headerFragment}"></div>
     <section class="container mt-3" style="max-width: 400px;">
-        <h2 class="mb-3 mt-3" style="text-align: center;">회원정보수정</h2>
+        <h2 class="body-title mb-3 mt-3">회원정보수정</h2>
 <!--        <form th:action="@{'/update/' + *{userNumber}}" method="post" onsubmit="return updateCheck()">-->
             <div class="form-group">
                 <input type="hidden" name="userNumber" id="userNumber" th:value="*{userNumber}" class="form-control mb-3">

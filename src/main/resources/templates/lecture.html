@@ -10,7 +10,7 @@
 <th:block th:object="${loginUser}">
 <div th:replace="~{fragments/header :: headerFragment}"></div>
     <section class="container mt-3 mb-3" style="max-width: 1200px;">
-        <h2 class="mb-3 mt-3" style="text-align: center;">강의 목록</h2>
+        <h2 class="body-title mb-3 mt-3">강의 목록</h2>
         <form method="get" th:action="@{/searchByType}" class="form-inline mt-3">
             <div style="display: flex;">
                 <select name="lectureDivide" class="form-select mx-1 mt-2" style="width: 100px;">
