@@ -6,11 +6,10 @@
     <th:block th:replace="~{fragments/config :: configFragment}"></th:block>
 </head>
 <body class="d-flex flex-column min-vh-100">
-<th:block th:utext="${alertScript}"></th:block>
 <th:block th:object="${loginUser}">
 <div th:replace="~{fragments/header :: headerFragment}"></div>
     <section class="container mt-3 mb-3" style="max-width: 1200px;">
-        <h2 class="mb-3 mt-3" style="text-align: center;">강의평가 목록</h2>
+        <h2 class="body-title mb-3 mt-3">강의평가 목록</h2>
         <form method="get" th:action="@{/searchByType}" class="form-inline mt-3">
             <div style="display: flex;">
                 <select name="searchType" class="form-select mx-1 mt-2" style="width: 100px;">
@@ -39,33 +38,37 @@
                             <p class="cart-text" th:text="${list.evaluationContent}"></p>
                             <div class="row" style="justify-content: flex-end;">
                                 <div class="col-3 text-right" style="display: flex; justify-content: flex-end; width: 100%; align-items: center;">
-                                    <img width="40px" th:src="@{img/like-icon.png}">
-                                    <span style="margin-right: auto; color: darkseagreen;" th:text="${'추천 : ' + list.likeCount}"></span>
                                     <th:block th:if="${loginUser != null}">
-                                        <form th:action="@{/likeyAction/__${evaluationID}__}" method="POST" onsubmit="return likeyCheck()">
-                                            <input type="hidden" th:name="evaluationID" th:value="${list.id}">
-                                            <input type="submit" class="btn btn-outline-success" th:disabled="${userNumber == list.user.userNumber}" value="추천" />
-                                        </form>
                                         <th:block th:if="${userNumber == list.user.userNumber}">
-                                            <input type="button" class="btn btn-outline-success"
+                                            <input type="button" class="btn btn-outline-dark" value="수정" style="margin-left:5px;"
                                                    data-bs-toggle="modal" data-bs-target="#registerModal"
                                                    th:attr="data-target=${'#registerModal'+ list.id},
                                                     data-id=${list.id},
                                                     data-lecturesubject=${list.lectureSubject},
                                                     data-lectureinfo=${list.lectureInfo},
                                                     data-title=${list.evaluationTitle},
-                                                    data-content=${list.evaluationContent}"
-                                                   value="수정" style="margin-left:5px;">
+                                                    data-content=${list.evaluationContent}">
                                             <form th:action="@{/deleteAction/__${id}__}" method="POST" onsubmit="return deleteCheck()">
                                                 <input type="hidden" th:name="id" th:value="${list.id}">
-                                                <input type="submit" class="btn btn-outline-secondary" value="삭제" style="margin-left:5px;"/>
+                                                <input type="submit" class="btn btn-outline-dark" value="삭제" style="margin-left:5px;" />
                                             </form>
                                         </th:block>
                                     </th:block>
-                                    <div style="width: 130px;">
-                                        <button class="btn btn-success" th:attr="onclick=|window.open('${list.lectureURL}', '_blank')|" style="margin-left:5px;">강의보러가기</button>
-                                    </div>
+                                    <input type="button" class="btn btn-outline-success" value="보기" style="margin-left:5px;" />
                                 </div>
+                            </div>
+                        </div>
+                        <div class="card-footer" style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="display: flex;">
+                                <span th:text="${'추천 : ' + list.likeCount}" style="margin: auto; color: darkseagreen;"></span>
+                                <form th:action="@{/likeyAction/__${evaluationID}__}" method="POST" onsubmit="return likeyCheck()">
+                                    <input type="hidden" th:name="evaluationID" th:value="${list.id}">
+                                    <input type="image" id="likey-Btn" width="40px" th:src="@{img/like-icon.png}" alt="Submit"
+                                           th:disabled="${loginUser == null || userNumber == list.user.userNumber}">
+                                </form>
+                            </div>
+                            <div>
+                                <button class="btn btn-success" th:attr="onclick=|window.open('${list.lectureURL}', '_blank')|">강의보러가기</button>
                             </div>
                         </div>
                     </div>
