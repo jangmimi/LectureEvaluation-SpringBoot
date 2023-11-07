@@ -30,7 +30,9 @@ public class UserService {
      */
     @Transactional
     public Long join(User user) {
-        user.setUserEmailHash(SHA256.getSHA256(user.getUserEmail()));
+        if (user.getUserEmail() != null) {
+            user.setUserEmailHash(SHA256.getSHA256(user.getUserEmail()));
+        }
 
         // 중복 회원 검증
         String errorMsg = validateDuplicateUser(user);
@@ -41,7 +43,10 @@ public class UserService {
         }
 
         userRepository.save(user);
-        sendEmail(user.getUserNumber());
+
+        if (user.getUserNumber() != null) {
+            sendEmail(user.getUserNumber());
+        }
 
         return user.getUserNumber();
     }
@@ -78,11 +83,6 @@ public class UserService {
 
     public void logout(SessionStatus sessionStatus) {
         sessionStatus.setComplete();;
-    }
-
-    public User findUser(Long userNumber) {
-        Optional<User> find = userRepository.findByUserNumber(userNumber);
-        return find.orElse(null);
     }
 
     public String getUserEmail(Long userNumber) {

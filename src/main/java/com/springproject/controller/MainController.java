@@ -42,6 +42,9 @@ public class MainController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
 
+        log.info("시작 : " + startPage);
+        log.info("끝 : " + endPage);
+
         return "index";
     }
 
