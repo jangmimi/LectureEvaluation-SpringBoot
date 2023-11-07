@@ -17,12 +17,10 @@ public class Likey {
     private Long id;
 
     @Column
-    private Long userNumber;
-
-    @Column
     private Long evaluationId;
 
-    @Column(length = 50)
-    private String userIp;
-
+    // userNumber를 외래 키로 설정
+    @ManyToOne
+    @JoinColumn(name = "userNumber")
+    private User user;
 }
