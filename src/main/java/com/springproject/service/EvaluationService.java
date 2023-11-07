@@ -78,6 +78,20 @@ public class EvaluationService {
         return false;
     }
 
+    @Transactional
+    public boolean likeyCountMinus(Long evaluationID) {
+        Optional<Evaluation> find = evaluationRepository.findById(evaluationID);
+        log.info("추천 취소~");
+        if(find.isPresent()) {
+            Evaluation evaluation = find.get();
+            int count = evaluation.getLikeCount() - 1;
+            evaluation.setLikeCount(count);
+            evaluationRepository.save(evaluation);
+            return true;
+        }
+        return false;
+    }
+
 //    public Page<xEvaluation> getListPaging(Pageable pageable, String searchText) {
 ////        return evaluationRepository.findAll(pageable);
 //        return evaluationRepository.findByEvaluationTitleContainingOrEvaluationContentContaining(searchText, searchText, pageable);
