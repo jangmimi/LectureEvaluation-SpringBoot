@@ -103,7 +103,7 @@ function deleteCheck() {
     return confirmed;
 }
 
-// 강의 평가 수정
+// 강의 평가 등록
 function registerCheck() {
     let lectureId = $('#lectureId').val();
     let url = $('#url').val();

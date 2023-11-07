@@ -11,6 +11,10 @@ body {
 	font-family: 'Nanum Gothic';
 }
 
+.body-title {
+    text-align: center;
+}
+
 #my-infobox {
     color: cornflowerblue;
     background-color: lavender;
@@ -35,7 +39,6 @@ body {
 
 #card-tt {
     line-height: 1.5em;
-    height: 3rem;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -62,4 +65,19 @@ body {
 .user-link a {
     text-decoration: none;
     color: green;
+}
+
+/*login.html*/
+.sns-login-btn {
+    text-align: center;
+}
+
+.sns-login-btn a {
+    display: inline-block;
+    margin: 20px 10px;
+}
+
+#likey-Btn {
+    margin-left: 10px;
+    vertical-align: middle;
 }
