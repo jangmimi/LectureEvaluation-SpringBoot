@@ -26,7 +26,7 @@ public class LectureController {
     private LectureService lectureService;
 
     @GetMapping("/lectures")
-    public String lectures(@PageableDefault(page = 0, size = 12, direction = Sort.Direction.DESC) Pageable pageable, Model model) throws Exception {
+    public String lectures(@PageableDefault(page = 0, size = 12, direction = Sort.Direction.DESC) Pageable pageable, Model model) {
         Page<Lecture> lectureList = lectureService.getLectureDataByPage(pageable.getPageNumber(), pageable);
 
         int totalPages = lectureList.getTotalPages();
@@ -45,26 +45,4 @@ public class LectureController {
 
         return "lecture";
     }
-
-//    public String lectures(Model model,
-//                            @PageableDefault(page = 0, size = 24, direction = Sort.Direction.DESC) Pageable pageable) throws Exception {
-//        Page<Lecture> lectureList = lectureService.getLectureDataByPage(pageable);
-////        model.addAttribute("loginUser", session.getAttribute("loginUser"));
-//        model.addAttribute("lectures", lectureList);
-//        model.addAttribute("page", lectureList);
-//        model.addAttribute("previous", lectureList.hasPrevious() ? lectureList.previousPageable().getPageNumber() : -1);
-//        model.addAttribute("next", lectureList.hasNext() ? lectureList.nextPageable().getPageNumber() : lectureList.getTotalPages());
-//        model.addAttribute("startPage", lectureList.getNumber() / 10 * 10);
-//        model.addAttribute("endPage", Math.min(lectureList.getNumber() / 10 * 10 + 9, lectureList.getTotalPages() - 1));
-//
-//        log.info("전체페이지수 : " + lectureList.getTotalPages());
-//
-//        return "lecture";
-//    }
-//    public String lectures(Model model, HttpSession session) throws Exception {
-//        List<Lecture> lectureList = lectureService.getLectureData();
-//        model.addAttribute("loginUser", session.getAttribute("loginUser"));
-//        model.addAttribute("lectures", lectureList);
-//        return "lecture";
-//    }
 }

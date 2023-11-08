@@ -14,16 +14,27 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Service
 public class LectureService {
     // 크롤링 대상 URL
     public static final String BASIC_URL = "https://nomadcoders.co/courses";
-    public int productIdCounter = 0;   // productId를 위한 카운터 변수
+
+    // 크롤링 데이터를 캐싱할 맵 -> 성능 향상을 위해 캐싱 작업 추가 (중복 크롤링 방지, 대상 사이트 변경 있을 경우에 캐시 업데이트)
+    private ConcurrentHashMap<Integer, List<Lecture>> cachedLectureData = new ConcurrentHashMap<>();
+
+    // 크롤링 데이터 가져오기
+    private List<Lecture> getCachedLectureData(int pageNumber, int pageSize) {
+        return cachedLectureData.computeIfAbsent(pageNumber, this::crawlLectureData);
+    }
+
+    // productId를 위한 카운터 변수
+    public int productIdCounter = 0;
 
     // 크롤링 데이터 처리
-    public List<Lecture> crawlLectureData() {
+    public List<Lecture> crawlLectureData(int pageNumber) {
         // 크롤링 데이터를 담을 리스트 생성
         List<Lecture> lectureList = new ArrayList<>();
 
@@ -44,6 +55,7 @@ public class LectureService {
                 lectureList.add(lectures);
             }
             log.info(lectureList.toString());
+
         } catch (IOException e) {
             log.error("데이터 크롤링 오류 발생 : " + e.getMessage());
         }
@@ -69,7 +81,7 @@ public class LectureService {
 
     // 페이지네이션
     public Page<Lecture> getLectureDataByPage(int pageNumber, Pageable pageable) {
-        List<Lecture> lectureList = crawlLectureData();
+        List<Lecture> lectureList = crawlLectureData(pageNumber);
 
         int pageSize = pageable.getPageSize();
         int startItem = pageNumber * pageSize;
