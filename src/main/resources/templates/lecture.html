@@ -49,43 +49,7 @@
                 </div>
             </div>
         </div>
-        <!-- 평가 등록 -->
-        <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title fs-5" id="modal">강의평가 등록</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <input type="hidden" name="lectureId" id="lectureId" class="form-control">
-                        <input type="hidden" name="url" id="url" class="form-control">
-                        <div class="form-group">
-                            <label>강의제목</label>
-                            <input type="text" name="lectureSubject" id="lectureSubject" class="form-control" maxlength="20" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label>강의정보</label>
-                            <input type="text" name="lectureInfo" id="lectureInfo" class="form-control" maxlength="20" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label>제목</label>
-                            <input type="text" name="evaluationTitle" id="evaluationTitle" class="form-control" maxlength="30">
-                        </div>
-                        <div class="form-group mb-3">
-                            <label>내용</label>
-                            <textarea name="evaluationContent" id="evaluationContent" class="form-control" maxlength="2048" style="height: 180px;"></textarea>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="registerCheck()">등록하기</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div th:replace="fragments/modal/registerModal :: #registerModal"></div>    <!-- 강의평가 등록 모달 -->
         <!-- 페이지네이션 -->
         <nav aria-label="Page navigation" class="mt-5 mb-3 m-auto">
             <ul class="pagination justify-content-center">
@@ -100,7 +64,6 @@
                         <a th:href="@{/lectures(page=${pageNumber - 1})}" class="page-link" th:text="${pageNumber}"></a>
                     </li>
                 </th:block>
-
                 <!-- 다음 페이지로 이동 -->
                 <li th:class="${next > endPage} ? 'page-item disabled' : 'page-item'">
                     <a th:href="@{/lectures(page=${next})}" class="page-link">></a>

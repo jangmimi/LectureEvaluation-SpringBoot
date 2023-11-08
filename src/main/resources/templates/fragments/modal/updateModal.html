@@ -1,0 +1,35 @@
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fs-5" id="modal">강의평가 수정</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="id" id="id" class="form-control">
+                <div class="form-group">
+                    <label>강의제목</label>
+                    <input type="text" name="lectureSubject" id="lectureSubject" class="form-control" maxlength="20" readonly>
+                </div>
+                <div class="form-group">
+                    <label>강의정보</label>
+                    <input type="text" name="lectureInfo" id="lectureInfo" class="form-control" maxlength="20" readonly>
+                </div>
+                <div class="form-group">
+                    <label>제목</label>
+                    <input type="text" name="evaluationTitle" id="evaluationTitle" class="form-control" maxlength="30">
+                </div>
+                <div class="form-group mb-3">
+                    <label>내용</label>
+                    <textarea name="evaluationContent" id="evaluationContent" class="form-control" maxlength="2048" style="height: 180px;"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="updateCheck()">수정하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

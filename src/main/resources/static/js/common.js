@@ -147,7 +147,7 @@ $(document).ready(function () {
     var lectureInfoInput = $('#lectureInfo');
     var evaluationTitleInput = $('#evaluationTitle');
     var evaluationContentInput = $('#evaluationContent');
-    var modalTriggerButtons = $('[data-bs-target="#registerModal"]');
+    var modalTriggerButtons = $('[data-bs-target="#updateModal"]');
 
     // 모달창에 데이터 가져오기 (HTML에서 data-속성은 대소문자를 구분하며, 소문자로 가져와야함)
     modalTriggerButtons.each(function (index, button) {
