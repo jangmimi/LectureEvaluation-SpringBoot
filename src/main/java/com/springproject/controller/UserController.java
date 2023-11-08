@@ -9,6 +9,7 @@ import com.springproject.service.SocialLoginService;
 import com.springproject.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,11 @@ import java.util.Map;
 @Slf4j
 @Controller
 public class UserController {
+    @Value("${github.client.id}")
+    private String clientId;
+
+    @Value("${github.client.secret}")
+    private String clientSecret;
 
     @Autowired
     private UserService userService;
@@ -69,13 +75,6 @@ public class UserController {
         }
     }
 
-//    @GetMapping("/auth/github/callback")
-//    public String getCode2(@RequestParam String code, RedirectAttributes redirectAttributes) {
-//        String responseData = socialLoginService.getAccessTokenAndUserData(code, redirectAttributes);
-//        log.info("responseData : " + responseData);
-//        return "redirect:/";
-//    }
-
     @GetMapping("/auth/github/callback")
     public String getCode(@RequestParam String code, RedirectAttributes redirectAttributes, HttpSession session) throws IOException {
         URL url = new URL("https://github.com/login/oauth/access_token");
@@ -88,7 +87,7 @@ public class UserController {
         conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36");
 
         try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()))) {
-            bw.write("client_id=Iv1.3a84c6d29e6bb326&client_secret=637f265d53cbad00624cef25569ef0516757495e&code=" + code);
+            bw.write("client_id=" + clientId + "&client_secret=" + clientSecret + "&code=" + code);
             bw.flush();
         }
         int responseCode = conn.getResponseCode();
