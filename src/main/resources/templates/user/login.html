@@ -11,11 +11,11 @@
         <h2 class="body-title mb-3 mt-3">로그인</h2>
         <div class="form-group">
             <label for="userId">아이디</label>
-            <input type="text" name="userId" id="userId" placeholder="아이디를 입력해주세요." class="form-control mb-3 mt-1" />
+            <input type="text" class="form-control mb-3 mt-1" name="userId" id="userId" placeholder="아이디를 입력해주세요." />
         </div>
         <div class="form-group">
             <label for="userPw">비밀번호</label>
-            <input type="password" name="userPw" id="userPw" placeholder="비밀번호를 입력해주세요." class="form-control mb-3 mt-1" />
+            <input type="password" class="form-control mb-3 mt-1" name="userPw" id="userPw" placeholder="비밀번호를 입력해주세요." />
         </div>
         <div class="user-link">
             아직 회원이 아니신가요? <a th:href="@{/join}">회원가입</a>
@@ -24,18 +24,21 @@
             <button type="button" class="btn btn-success w-100 mt-3" th:onclick="loginCheck()">로그인</button>
         </div>
         <div class="sns-login-btn">
+            <!-- 카카오 로그인 -->
             <a th:href="@{https://github.com/login/oauth/authorize?client_id=Iv1.3a84c6d29e6bb326&redirect_uri=http://localhost:8080/auth/github/callback}">
                 <img th:src="@{img/kakaoLogin.png}" width="50px">
             </a>
+            <!-- 네이버 로그인 -->
             <a th:href="@{https://github.com/login/oauth/authorize?client_id=Iv1.3a84c6d29e6bb326&redirect_uri=http://localhost:8080/auth/github/callback}">
                 <img th:src="@{img/naverLogin.png}" width="50px">
             </a>
+            <!-- 깃허브 로그인 -->
             <a th:href="@{https://github.com/login/oauth/authorize?client_id=Iv1.3a84c6d29e6bb326&redirect_uri=http://localhost:8080/auth/github/callback}">
                 <img th:src="@{img/githubLogin.png}" width="50px">
             </a>
         </div>
     </section>
 <div th:replace="~{fragments/footer :: footerFragment}"></div>
-<script th:src="@{js/common.js}"></script>
+<script th:src="@{js/user/login.js}"></script>
 </body>
 </html>
