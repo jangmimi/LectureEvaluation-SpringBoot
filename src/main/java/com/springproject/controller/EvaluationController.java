@@ -30,9 +30,9 @@ public class EvaluationController {
     @ResponseBody
     public boolean evaluationRegisterAction(@ModelAttribute Evaluation evaluation, HttpSession session) {
     User user = (User) session.getAttribute("loginUser");
-    Long userNumber = user.getUserNumber();
 
     Evaluation registered = evaluationService.write(evaluation, user);
+
     return registered != null;
 }
 
@@ -63,10 +63,12 @@ public class EvaluationController {
     }
 
     @PostMapping("/reportAction")
-    public String reportAction(@RequestParam(required = false) String reportTitle,
-                               @RequestParam(required = false) String reportContent, HttpSession session) {
+    public String reportAction(@RequestParam(required = false) String targetid,
+                               @RequestParam(required = false) String reportTitle,
+                               @RequestParam(required = false) String reportContent,
+                               HttpSession session) {
         String userId = ((User) session.getAttribute("loginUser")).getUserId();
-        userService.reportEmail(reportTitle, reportContent, userId);
+        userService.reportEmail(targetid, reportTitle, reportContent, userId);
 
         return "redirect:/";
     }
