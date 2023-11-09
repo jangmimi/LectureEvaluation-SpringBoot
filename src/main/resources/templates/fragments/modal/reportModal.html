@@ -10,8 +10,12 @@
             <div class="modal-body">
                 <form th:action="@{/reportAction}" method="post">
                     <div class="form-group">
+                        <label>게시글 번호</label>
+                        <input type="text" name="targetid" id="targetid" class="form-control" />
+                    </div>
+                    <div class="form-group">
                         <label>신고 제목</label>
-                        <input type="text" name="reportTitle" class="form-control" maxlength="30">
+                        <input type="text" name="reportTitle" class="form-control" maxlength="30" />
                     </div>
                     <div class="form-group mb-3">
                         <label>신고 내용</label>
