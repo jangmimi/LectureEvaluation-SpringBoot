@@ -85,6 +85,34 @@ public class UserService {
         sessionStatus.setComplete();;
     }
 
+    /**
+     * 회원탈퇴
+     * */
+    @Transactional
+    public void leave(Long userNumber, SessionStatus sessionStatus) {
+        userRepository.deleteByUserNumber(userNumber);
+        logout(sessionStatus);
+    }
+
+    /**
+     * 회원정보수정
+     * */
+    @Transactional
+    public User update(Long userNumber, String userId, String userPw) {
+        Optional<User> find = userRepository.findByUserNumber(userNumber);
+
+        if (find.isPresent()) {
+            log.info("UserService find : " + find);
+            User updated = find.get();
+            updated.setUserId(userId);
+            updated.setUserPw(userPw);
+            userRepository.save(updated);
+            log.info("UserService updated : " + updated);
+            return updated;
+        }
+        return null;
+    }
+
     public String getUserEmail(Long userNumber) {
         Optional<User> findUser = userRepository.findByUserNumber(userNumber);
         return findUser.map(User::getUserEmail).orElse(null);
@@ -116,74 +144,14 @@ public class UserService {
         emailService.sendEmail(to, subject, content);
     }
 
-    public void reportEmail(String reportTitle, String reportContent, String userId) {
+    public void reportEmail(String targetid, String reportTitle, String reportContent, String userId) {
         String to = "alwkd920101@naver.com";
         String subject ="강의평가 사이트에서 접수된 신고 메일입니다.";
         String content = "신고자 : " + userId +
-                        "<br>제목: " + reportTitle +
-                        "<br>내용: " + reportContent;
+                "<br>신고 게시글 번호: " + targetid +
+                "<br>제목: " + reportTitle +
+                "<br>내용: " + reportContent;
 
         emailService.reportEmail(to, subject, content);
     }
-
-//    public void reportAction(String reportTitle, String reportContent, String userId) {
-//        String host = "http://localhost:8080/";
-//        String from = "alwkd920101@naver.com";
-//        String to = "alwkd920101@naver.com";
-//        String subject = "강의평가 사이트에서 접수된 신고 메일입니다.";
-//        String content = "신고자 : " + userId +
-//                "<br>제목: " + reportTitle +
-//                "<br>내용: " + reportContent;
-//
-//        Properties p = new Properties();
-//        p.put("mail.smtp.starttls.enable", "true");     // gmail은 true 고정
-//        p.put("mail.smtp.host", "smtp.naver.com");      // smtp 서버 주소
-//        p.put("mail.smtp.auth","true");                 // gmail은 true 고정
-//        p.put("mail.smtp.port", "587");                 // 네이버 포트
-//
-//        try {
-//            Authenticator auth = new Nmail();
-//            Session ses = Session.getInstance(p, auth);
-//            ses.setDebug(true);
-//            MimeMessage msg = new MimeMessage(ses);
-//            msg.setSubject(subject);
-//            Address fromAddr = new InternetAddress(from);
-//            msg.setFrom(fromAddr);
-//            Address toAddr = new InternetAddress(to);
-//            msg.addRecipient(Message.RecipientType.TO, toAddr);
-//            msg.setContent(content,"text/html;charset=UTF-8");
-//            Transport.send(msg);
-//        } catch(Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-    /**
-     * 회원탈퇴
-     * */
-    @Transactional
-    public void leave(Long userNumber, SessionStatus sessionStatus) {
-        userRepository.deleteByUserNumber(userNumber);
-        logout(sessionStatus);
-    }
-
-    /**
-     * 회원정보수정
-     * */
-    @Transactional
-    public User update(Long userNumber, String userId, String userPw) {
-        Optional<User> find = userRepository.findByUserNumber(userNumber);
-
-        if (find.isPresent()) {
-            log.info("UserService find : " + find);
-            User updated = find.get();
-            updated.setUserId(userId);
-            updated.setUserPw(userPw);
-            userRepository.save(updated);
-            log.info("UserService updated : " + updated);
-            return updated;
-        }
-        return null;
-    }
-
 }
