@@ -24,7 +24,7 @@ class UserServiceTest {
     @Test
     void 회원가입() {
         // given 데이터가 주어지면
-        User user = new User(1L, "test", "1234", "test@test.com", "test@test.com", 0);
+        User user = new User(1L, "test", "1234", "test@test.com", "test@test.com", 0, null);
 
         // when 실행부
         userService.validateDuplicateUser(user);
@@ -37,8 +37,8 @@ class UserServiceTest {
     @Test
     public void 중복체크() {
         // given
-        User user1 = new User(1L, "test", "1234", "test@test.com", "test@test.com", 0);
-        User user2 = new User(2L, "test", "0000", "test@test.com", "test@test.com", 0);
+        User user1 = new User(1L, "test", "1234", "test@test.com", "test@test.com", 0, null);
+        User user2 = new User(2L, "test", "0000", "test@test.com", "test@test.com", 0, null);
 
         // when
         userService.join(user1);
@@ -52,7 +52,7 @@ class UserServiceTest {
     @Test
     void login() {
         // given
-        User user1 = new User(1L, "test", "1234", "test@test.com", "test@test.com", 0);
+        User user1 = new User(1L, "test", "1234", "test@test.com", "test@test.com", 0, null);
 
         // when
         userService.validateDuplicateUser(user1);
