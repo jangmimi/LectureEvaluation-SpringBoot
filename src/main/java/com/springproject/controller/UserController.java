@@ -36,9 +36,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private SocialLoginService socialLoginService;
-
     @RequestMapping("/join")
     public String join() {
         return "user/join";

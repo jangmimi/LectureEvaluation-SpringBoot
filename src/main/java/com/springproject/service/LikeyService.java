@@ -19,7 +19,7 @@ public class LikeyService {
     private LikeyRepository likeyRepository;
 
     public Likey like(Long evaluationID, User user) {
-        // 추천 여부 체크
+        // 추천 여부를 먼저 체크
         Likey exist = checkLiked(evaluationID, user);
 
         if (exist == null) {
@@ -35,6 +35,7 @@ public class LikeyService {
         }
     }
 
+    // 추천 여부 체크 메서드
     public Likey checkLiked(Long evaluationID, User user) {
         return likeyRepository.findByEvaluationIdAndUserUserNumber(evaluationID, user.getUserNumber());
     }
