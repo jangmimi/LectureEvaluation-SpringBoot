@@ -13,8 +13,8 @@ spring:
   # Database 설정
   datasource:
     url: jdbc:mysql://jm-login-lecture.c76qu43qb6xb.ap-northeast-2.rds.amazonaws.com:3306/lecture_evaluation #jdbc:mysql://3.39.231.97:3306/jm-login-lecture #ENC(zQVsiPgBkSc0hJ2pb/Gjf6D9xTou+FFqEE6Eb6hvWy9fJ3jO6LisA2hjK9LB52cL7LbZCs+EJqk=) #개인 DB jdbc:mysql://3.39.231.97:3306/lecture_evaluation #
-    username: admin #ENC(yc/9dYuj6thDEZmI5/N5iA==) #DB 정보 암호화 admin #
-    password: alwkd1127! #ENC(8HxW/0iGqW6VJtzhVoX3qw==) #DB 정보 암호화 alwkd1127! #
+    username: ENC(JNw+5mekbzb7mryaRf9LuQ==) #DB 정보 암호화
+    password: ENC(5clORvRL+f5iugG5ET+K40pVwNcGx4pl) #DB 정보 암호화
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   # Thymeleaf 설정
@@ -48,5 +48,5 @@ admin:
 
 github:
   client:
-    id: ENC(AwN0gUsONOrHeKbtevQ++9SgFAlQLdYD/zji+s1RRBE=) #Iv1.3a84c6d29e6bb326
+    id: ENC(AwN0gUsONOrHeKbtevQ++9SgFAlQLdYD/zji+s1RRBE=)
     secret: ENC(CevosbXyrehJplKn7d8ShGKDbqLubA8CZ7BkNYgCijIXHVO6aoAa55iESDYimsq0HFvx/tC3luY=)
