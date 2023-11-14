@@ -93,31 +93,33 @@ function likey() {
 }
 
 // 강의 평가 조회 모달창 데이터 전달
-//$(document).ready(function () {
-//    var idInput = $('#id');
-//    var lectureSubjectInput = $('#lectureSubject');
-//    var lectureInfoInput = $('#lectureInfo');
-//    var evaluationTitleInput = $('#evaluationTitle');
-//    var evaluationContentInput = $('#evaluationContent');
-//    var modalTriggerButtons = $('[data-bs-target="#detailModal"]');
-//
-//    // 모달창에 데이터 가져오기 (HTML에서 data-속성은 대소문자를 구분하며, 소문자로 가져와야함)
-//    modalTriggerButtons.each(function (index, button) {
-//        $(button).on('click', function () {
-//            var id = $(button).data('id');
-//            var subject = $(button).data('lecturesubject');
-//            var professor = $(button).data('lectureinfo');
-//            var title = $(button).data('title');
-//            var content = $(button).data('content');
-//
-//            idInput.val(id);
-//            lectureSubjectInput.val(subject);
-//            lectureInfoInput.val(professor);
-//            evaluationTitleInput.val(title);
-//            evaluationContentInput.val(content);
-//        });
-//    });
-//});
+$(document).ready(function () {
+    var idInput = $('#d-id');
+    var lectureSubjectInput = $('#d-lectureSubject');
+    var lectureInfoInput = $('#d-lectureInfo');
+    var userIdInput = $('#d-userId');
+    var evaluationTitleInput = $('#d-evaluationTitle');
+    var evaluationContentInput = $('#d-evaluationContent');
+    var modalTriggerButtons = $('[data-bs-target="#detailModal"]');
+
+    modalTriggerButtons.each(function (index, button) {
+        $(button).on('click', function () {
+            var id = $(button).data('detailid');
+            var subject = $(button).data('detaillecturesubject');
+            var professor = $(button).data('detaillectureinfo');
+            var userId = $(button).data('detailuserid');
+            var title = $(button).data('detailtitle');
+            var content = $(button).data('detailcontent');
+
+            idInput.val(id);
+            lectureSubjectInput.val(subject);
+            lectureInfoInput.val(professor);
+            userIdInput.val(userId);
+            evaluationTitleInput.val(title);
+            evaluationContentInput.val(content);
+        });
+    });
+});
 
 function likeyCheck() {
     var confirmed = confirm('추천하시겠습니까?');
