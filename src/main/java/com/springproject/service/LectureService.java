@@ -54,7 +54,7 @@ public class LectureService {
                 Lecture lectures = buildLectureFromElement(content, imageUrl);
                 lectureList.add(lectures);
             }
-            log.info(lectureList.toString());
+//            log.info(lectureList.toString());
 
         } catch (IOException e) {
             log.error("데이터 크롤링 오류 발생 : " + e.getMessage());
