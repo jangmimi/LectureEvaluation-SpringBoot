@@ -29,13 +29,19 @@ public class SocialLoginService {
     @Autowired
     private UserService userService;
 
-    public void handleGitHubCallback(String code, RedirectAttributes redirectAttributes, HttpSession session) throws IOException {
-        String responseData = requestGitHubAccessToken(code);
-        processGitHubResponse(responseData, redirectAttributes, session);
-        log.info("GitHub API response data: " + responseData);
+    public void handleGitHubCallback(String code, RedirectAttributes redirectAttributes, HttpSession session) {
+        // GitHub 콜백 처리 로직
+        try {
+            String responseData = requestGitHubAccessToken(code);
+            processGitHubResponse(responseData, redirectAttributes, session);
+            log.info("GitHub API response data: " + responseData);
+        } catch (IOException e) {
+            log.error("GitHub callback 처리 중 에러 발생", e);
+        }
     }
 
     private String requestGitHubAccessToken(String code) throws IOException {
+        // GitHub Access Token 요청
         URL url = new URL("https://github.com/login/oauth/access_token");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setDoInput(true);
@@ -94,6 +100,7 @@ public class SocialLoginService {
     }
 
     private String getResponse(HttpURLConnection conn, int responseCode) throws IOException {
+        // HTTP 응답 처리
         StringBuilder sb = new StringBuilder();
         if (responseCode == 200) {
             try (InputStream is = conn.getInputStream();
