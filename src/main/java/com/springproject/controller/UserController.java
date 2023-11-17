@@ -100,8 +100,6 @@ public class UserController {
         User updated = userService.update(userNumber, userId, userPw);
 
         if (updated != null) {
-            log.info("updated : " + updated);
-            log.info("updated id : " + updated.getUserId());
             model.addAttribute("loginUser", updated);
             return true;
         } else {
