@@ -106,7 +106,7 @@ public class UserController {
             return false;
         }
     }
-
+d
     @RequestMapping("/emailSendAction")
     public String emailSendAction(HttpSession session, Model model, HttpServletResponse response) {
         User loginUser = (User) session.getAttribute("loginUser");
