@@ -4,6 +4,7 @@ package com.springproject.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Table(name="user") // DB 테이블 이름 지정
@@ -18,6 +19,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 자동 증가
     private Long userNumber;
 
+    @NotBlank(message = "아이디는 필수 입력 값입니다.")
     @Column
     private String userId;
 

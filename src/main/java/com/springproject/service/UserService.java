@@ -7,11 +7,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.support.SessionStatus;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 
@@ -153,5 +157,15 @@ public class UserService {
                 "<br>내용: " + reportContent;
 
         emailService.reportEmail(to, subject, content);
+    }
+
+    public Map<String, String> validateHandling(Errors errors) {
+        Map<String, String> validateResult = new HashMap<>();
+
+        for (FieldError error : errors.getFieldErrors()) {
+            String validKeyName = String.format("valid_%s", error.getField());
+            validateResult.put(validKeyName, error.getDefaultMessage());
+        }
+        return validateResult;
     }
 }
