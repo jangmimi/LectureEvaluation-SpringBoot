@@ -2,6 +2,7 @@
 function loginCheck() {
     let userId = $('#userId').val().trim();
     let userPw = $('#userPw').val().trim();
+    let saveId = $('#saveId').val().trim();
     let errorMessage = '';
 
     if(userId === '') {
@@ -16,7 +17,8 @@ function loginCheck() {
 
     let data = {
         userId: userId,
-        userPw: userPw
+        userPw: userPw,
+        saveId: saveId
     };
 
     $.ajax({

@@ -10,6 +10,7 @@ import com.springproject.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -47,13 +50,18 @@ public class UserController {
     }
 
     @RequestMapping("/login")
-    public String login() {
+    public String login(@CookieValue(value = "rememberedId", required = false) String rememberedId, Model model) {
+        model.addAttribute("rememberedId", rememberedId); // 쿠키가 있는 경우, 저장 이메일 표시
+
         return "user/login";
     }
 
     @PostMapping("/loginAction")
     @ResponseBody
-    public int loginAction(@Valid User imuser, Errors errors, @RequestParam String userId, @RequestParam String userPw, HttpSession session, Model model) {
+    public int loginAction(@Valid User imuser, Errors errors,
+                           @RequestParam String userId, @RequestParam String userPw,
+                           @RequestParam(required = false) boolean saveId, HttpServletResponse response, HttpServletRequest request,
+                           HttpSession session, Model model) {
 //    public int loginAction(@RequestParam String userId, @RequestParam String userPw, HttpSession session) {
         if (errors.hasErrors()) {
             model.addAttribute("user", imuser);
@@ -67,7 +75,31 @@ public class UserController {
 
         if (user != null) {
             session.setAttribute("loginUser", user);
+
+            // 쿠키 작업
+            if (saveId) {
+                // 아이디를 저장할 쿠키 생성
+                Cookie cookie = new Cookie("rememberedId", userId);
+                cookie.setMaxAge(30 * 24 * 60 * 60); // 30일 동안 유지
+                cookie.setPath("/"); // 모든 경로에 쿠키 설정
+                response.addCookie(cookie);
+            } else {
+                // 아이디 저장을 원치 않는 경우 쿠키 제거
+                Cookie[] cookies = request.getCookies();
+                if (cookies != null) {
+                    for (Cookie cookie : cookies) {
+                        if ("rememberedId".equals(cookie.getName())) {
+                            cookie.setValue(null);
+                            cookie.setMaxAge(0);
+                            cookie.setPath("/");
+                            response.addCookie(cookie);
+                            break;
+                        }
+                    }
+                }
+            }
             return 1;
+
         } else {
             return 0;
         }
