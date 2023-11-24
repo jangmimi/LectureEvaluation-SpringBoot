@@ -62,8 +62,9 @@
                                                     data-detailuserid=${list.user.userId},
                                                     data-detailtitle=${list.evaluationTitle},
                                                     data-detailcontent=${list.evaluationContent}">
+                                    <!-- 비로그인, 본인일 경우 신고 버튼 미노출 -->
                                     <input type="button" class="btn btn-outline-danger" id="reportBtn" value="신고" style="margin-left:5px;"
-                                           th:disabled="${loginUser == null}"
+                                           th:if="${loginUser != null && userNumber != list.user.userNumber}"
                                            data-bs-toggle="modal" data-bs-target="#reportModal"
                                            th:attr="data-target=${'#reportModal'+ list.id},
                                                     data-targetid=${list.id}">
