@@ -12,9 +12,9 @@ spring:
 
   # Database 설정
   datasource:
-    url: jdbc:mysql://jm-login-lecture.c76qu43qb6xb.ap-northeast-2.rds.amazonaws.com:3306/lecture_evaluation #jdbc:mysql://3.39.231.97:3306/jm-login-lecture #ENC(zQVsiPgBkSc0hJ2pb/Gjf6D9xTou+FFqEE6Eb6hvWy9fJ3jO6LisA2hjK9LB52cL7LbZCs+EJqk=) #개인 DB jdbc:mysql://3.39.231.97:3306/lecture_evaluation #
-    username: ENC(JNw+5mekbzb7mryaRf9LuQ==) #DB 정보 암호화
-    password: ENC(5clORvRL+f5iugG5ET+K40pVwNcGx4pl) #DB 정보 암호화
+    url: ENC(zQVsiPgBkSc0hJ2pb/Gjf6D9xTou+FFqEE6Eb6hvWy9fJ3jO6LisA2hjK9LB52cL7LbZCs+EJqk=) #jdbc:mysql://jm-login-lecture.c76qu43qb6xb.ap-northeast-2.rds.amazonaws.com:3306/lecture_evaluation
+    username: ENC(yc/9dYuj6thDEZmI5/N5iA==) #ENC(JNw+5mekbzb7mryaRf9LuQ==) #DB 정보 암호화
+    password: ENC(8HxW/0iGqW6VJtzhVoX3qw==) #ENC(5clORvRL+f5iugG5ET+K40pVwNcGx4pl) #DB 정보 암호화
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   # Thymeleaf 설정
@@ -46,6 +46,7 @@ spring:
 admin:
   email: ENC(JPoQv1YWj6d8qhMCdilfc3jAkuNmncl2x/uVFezs0mg=)
 
+# Github 설정
 github:
   client:
     id: ENC(AwN0gUsONOrHeKbtevQ++9SgFAlQLdYD/zji+s1RRBE=)
