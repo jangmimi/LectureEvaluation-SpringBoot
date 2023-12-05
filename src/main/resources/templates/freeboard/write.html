@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>강의평가 웹 사이트</title>
+    <th:block th:replace="~{fragments/config :: configFragment}"></th:block>
+</head>
+<body class="d-flex flex-column min-vh-100">
+<th:block th:object="${loginUser}">
+    <div th:replace="~{fragments/header :: headerFragment}"></div>
+    <section class="container mt-3 mb-3" style="max-width: 800px;">
+        <form>
+            <h2 class="body-title mb-3 mt-3">글쓰기</h2>
+            <div class="mb-3">
+                <label for="fb-writer" class="form-label">작성자</label>
+
+                <input type="text" class="form-control" id="fb-writer" placeholder="Example input placeholder">
+            </div>
+            <div class="mb-3">
+                <label for="fb-title" class="form-label">제목</label>
+                <input type="text" class="form-control" id="fb-title" placeholder="Another input placeholder">
+            </div>
+            <div class="mb-3">
+                <label for="fb-content">Comments</label>
+                <textarea class="form-control" placeholder="Leave a comment here" id="fb-content" style="height: 100px"></textarea>
+            </div>
+            <button class="btn btn-primary" onclick="register()">등록</button>
+            <button class="btn btn-primary">취소</button>
+        </form>
+    </section>
+    <div th:replace="~{fragments/footer :: footerFragment}"></div>
+</th:block>
+<script th:src="@{js/common.js}"></script>
+<script th:src="@{js/evaluation.js}"></script>
+<script>
+
+</script>
+</body>
+</html>
