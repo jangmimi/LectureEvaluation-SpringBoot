@@ -9,31 +9,24 @@
 <th:block th:object="${loginUser}">
     <div th:replace="~{fragments/header :: headerFragment}"></div>
     <section class="container mt-3 mb-3" style="max-width: 800px;">
-        <form>
-            <h2 class="body-title mb-3 mt-3">글쓰기</h2>
-            <div class="mb-3">
-                <label for="fb-writer" class="form-label">작성자</label>
-
-                <input type="text" class="form-control" id="fb-writer" placeholder="Example input placeholder">
-            </div>
-            <div class="mb-3">
-                <label for="fb-title" class="form-label">제목</label>
-                <input type="text" class="form-control" id="fb-title" placeholder="Another input placeholder">
-            </div>
-            <div class="mb-3">
-                <label for="fb-content">Comments</label>
-                <textarea class="form-control" placeholder="Leave a comment here" id="fb-content" style="height: 100px"></textarea>
-            </div>
-            <button class="btn btn-primary" onclick="register()">등록</button>
-            <button class="btn btn-primary">취소</button>
-        </form>
+        <h2 class="body-title mb-3 mt-3">글쓰기</h2>
+        <div class="mb-3">
+            <label for="userId" class="form-label">작성자</label>
+            <input type="text" class="form-control" id="userId" name="userId" placeholder="Example input placeholder">
+        </div>
+        <div class="mb-3">
+            <label for="title" class="form-label">제목</label>
+            <input type="text" class="form-control" id="title" name="title" placeholder="Another input placeholder">
+        </div>
+        <div class="mb-3">
+            <label for="content">Comments</label>
+            <textarea class="form-control" placeholder="Leave a comment here" id="content" name="content" style="height: 100px"></textarea>
+        </div>
+        <button type="button" class="btn btn-success" th:onclick="loginCheck()">로그인</button>
+        <button type="button" class="btn btn-primary">취소</button>
     </section>
     <div th:replace="~{fragments/footer :: footerFragment}"></div>
 </th:block>
-<script th:src="@{js/common.js}"></script>
-<script th:src="@{js/evaluation.js}"></script>
-<script>
-
-</script>
+<script th:src="@{js/write.js}"></script>
 </body>
 </html>

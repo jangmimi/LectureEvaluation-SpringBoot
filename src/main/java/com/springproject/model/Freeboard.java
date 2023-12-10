@@ -4,10 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Table(name="freeboard") // DB 테이블 이름 지정
+@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -20,14 +25,17 @@ public class Freeboard {
     private Long id;
 
     @Column
-    private String userId;
-
-    @Column
     private String title;
 
     @Column
     private String content;
 
     @Column
-    private String regDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd/HH:mm:ss")
+    private LocalDateTime regDate;
+
+    // userNumber를 외래 키로 설정
+    @ManyToOne
+    @JoinColumn(name = "userNumber")
+    private User user;
 }

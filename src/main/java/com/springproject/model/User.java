@@ -38,4 +38,7 @@ public class User {
     // Evaluation table과 일대다 관계 매핑
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Evaluation> evaluations;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Freeboard> freeboards;
 }
