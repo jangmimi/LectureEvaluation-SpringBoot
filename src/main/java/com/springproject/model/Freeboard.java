@@ -1,9 +1,6 @@
 package com.springproject.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -18,6 +15,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
+@ToString
 public class Freeboard {
 
     @Id
@@ -31,7 +29,8 @@ public class Freeboard {
     private String content;
 
     @Column
-    @DateTimeFormat(pattern = "yyyy-MM-dd/HH:mm:ss")
+    @CreatedDate
+    //@DateTimeFormat(pattern = "yyyy-MM-dd/HH:mm:ss")
     private LocalDateTime regDate;
 
     // userNumber를 외래 키로 설정

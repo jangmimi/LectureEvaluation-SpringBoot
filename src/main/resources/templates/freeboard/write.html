@@ -12,7 +12,7 @@
         <h2 class="body-title mb-3 mt-3">글쓰기</h2>
         <div class="mb-3">
             <label for="userId" class="form-label">작성자</label>
-            <input type="text" class="form-control" id="userId" name="userId" placeholder="Example input placeholder">
+            <input type="text" class="form-control" id="userId" th:value="*{userId}" disabled>
         </div>
         <div class="mb-3">
             <label for="title" class="form-label">제목</label>

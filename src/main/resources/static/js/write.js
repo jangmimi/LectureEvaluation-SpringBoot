@@ -25,11 +25,11 @@ function loginCheck() {
         data: data, // 데이터 객체를 전달
         success: function(response) {
             if(response == 1) { // 로그인 성공 시
-                alert('등록!');
-               //window.location.href = '/';
+                alert('게시글 등록 완료!');
+               window.location.href = '/freeBoard';
 
             } else if(response == 0) {  // 로그인 실패 시
-                alert('아이디 또는 비밀번호를 다시 확인해주세요.');
+                alert('게시글 등록에 실패했습니다.');
             }
         },
         error:function() {
