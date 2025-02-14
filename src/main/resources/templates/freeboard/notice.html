@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>강의평가 웹 사이트</title>
+    <th:block th:replace="~{fragments/config :: configFragment}"></th:block>
+</head>
+<body class="d-flex flex-column min-vh-100">
+<th:block th:object="${loginUser}">
+<div th:replace="~{fragments/header :: headerFragment}"></div>
+    <section class="container mt-3 mb-3" style="max-width: 1200px;">
+        <h2 class="body-title mb-3 mt-3" style="margin-top: 20px;">공지사항</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">번호</th>
+                <th scope="col">작성자</th>
+                <th scope="col">제목</th>
+                <th scope="col">작성일</th>
+            </tr>
+            </thead>
+            <!--<th:block th:if="${userNumber == list.user.userNumber}">-->
+            <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td colspan="2">Larry the Bird</td>
+                <td>@twitter</td>
+            </tr>
+            </tbody>
+        </table>
+
+    </section>
+    <!-- 페이지네이션 -->
+   <!-- <nav aria-label="Page navigation" class="mt-3 mb-3 m-auto">
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${1 == evaluationList.pageable.pageNumber + 1} ? 'disabled'">
+                <a class="page-link" th:href="@{/searchByType(searchType=${param.searchType}, page=${evaluationList.pageable.pageNumber - 1}, searchText=${param.searchText})}"><</a>
+            </li>
+            <li class="page-item" th:classappend="${i == evaluationList.pageable.pageNumber + 1} ? 'disabled'" th:each="i : ${#numbers.sequence(startPage, endPage)}">
+                <a class="page-link" th:href="@{/searchByType(searchType=${param.searchType}, page=${i - 1}, searchText=${param.searchText})}" th:text="${i}"></a>  &lt;!&ndash; index 넘기는 것에 주의 &ndash;&gt;
+            </li>
+            <li class="page-item" th:classappend="${evaluationList.totalPages == evaluationList.pageable.pageNumber + 1} ? 'disabled'">
+                <a class="page-link" th:href="@{/searchByType(searchType=${param.searchType}, page=${evaluationList.pageable.pageNumber + 1}, searchText=${param.searchText})}">></a>
+            </li>
+        </ul>
+    </nav>-->
+    <div th:replace="~{fragments/footer :: footerFragment}"></div>
+</th:block>
+</body>
+</html>
