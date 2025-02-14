@@ -43,7 +43,7 @@ public class LectureService {
             Document document = Jsoup.connect(BASIC_URL).get();
 
             // 원하는 데이터 선택 및 추출
-            Elements contents = document.select("div.sc-f4fbfce1-0");
+            Elements contents = document.select("div.sc-a383ce7a-0");
 
             productIdCounter = 0;
 
@@ -55,7 +55,7 @@ public class LectureService {
                 lectureList.add(lectures);
             }
 //            log.info(lectureList.toString());
-
+//            log.info("크롤링한 HTML: " + document.html());
         } catch (IOException e) {
             log.error("데이터 크롤링 오류 발생 : " + e.getMessage());
         }
